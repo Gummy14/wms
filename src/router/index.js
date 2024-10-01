@@ -1,5 +1,6 @@
 import Menu from '@/components/Menu.vue'
 import Putaway from '@/components/Putaway.vue'
+import Pick from '@/components/Pick.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -19,6 +20,11 @@ const router = createRouter({
       path: '/putaway',
       name: 'putaway',
       component: Putaway
+    },
+    {
+      path: '/pick',
+      name: 'pick',
+      component: Pick
     }
   ]
 })

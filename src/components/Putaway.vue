@@ -14,7 +14,8 @@ export default {
     return {
       itemData: {
         name: '',
-        description: ''
+        description: '',
+        quantity: 1
       }
     }
   },
