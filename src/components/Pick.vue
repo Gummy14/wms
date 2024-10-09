@@ -4,8 +4,7 @@
       v-for="item in allItems"
       :key="item.id"
       :title="item.name"
-      :subtitle="itemQuantity(item.quantity)"
-      :text="item.description"
+      :subtitle="item.description"
       variant="tonal"
     >
       <v-card-actions>
@@ -28,9 +27,6 @@ export default {
     pickItemFromInventory(item) {
       axios.post('https://localhost:7187/Item/PickItem', item)
       .then(response => console.log(response))
-    },
-    itemQuantity (itemQuantity) {
-        return "Item Quantity: " + (itemQuantity)
     },
     getAllItemData() {
       axios.get('https://localhost:7187/Item/GetAllItems')
