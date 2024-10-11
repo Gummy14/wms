@@ -1,11 +1,17 @@
 <template>
   <div>
-    <v-card v-for="item in itemsToPutaway" :key="item.Id">
-      <v-text-field label="Item Name" v-model="item.name"></v-text-field>
-      <v-text-field label="Item Description" v-model="item.description"></v-text-field>
+    <v-card
+      v-for="item in allItems"
+      :key="item.id"
+      :title="item.name"
+      :subtitle="item.description"
+      :text="putawayLocation(item.putawayLocation)"
+      variant="tonal"
+    >
+      <v-card-actions>
+        <v-btn @click="putawayItem(item)">Putaway</v-btn>
+      </v-card-actions>
     </v-card>
-    <v-btn @click="addItemsToPutaway">Add Another Item to Putaway Queue</v-btn>
-    <v-btn @click="addItemDataToDatabase">Putaway All in Queue</v-btn>
   </div>
 </template>
 
@@ -15,27 +21,20 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      itemsToPutaway: []
+      allItems: {}
     }
   },
   methods: {
-    addItemDataToDatabase() {
-      axios.post('https://localhost:7187/Item/AddItemData', this.itemsToPutaway)
-      .then(response => console.log(response))
-      .then(this.itemsToPutaway = [])
+    getAllItemData() {
+      axios.get('https://localhost:7187/Item/GetAllItems')
+      .then(response => this.allItems = response.data)
     },
-    addItemsToPutaway() {
-      var itemData = {
-        name: "",
-        description: ""
-      }
-
-      this.itemsToPutaway.push(itemData)
+    putawayLocation(itemPutawayLocation) {
+      return "Putaway in Location: " + itemPutawayLocation
     }
   },
   mounted() {
-    axios.get('https://localhost:7187/Item/GetAllItems')
-    .then(response => console.log(response))
+    this.getAllItemData()
   }
 }
 </script>
