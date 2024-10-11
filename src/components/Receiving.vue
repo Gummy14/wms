@@ -1,11 +1,10 @@
 <template>
   <div>
-    <v-card v-for="item in itemsToReceive" :key="item.Id">
-      <v-text-field label="Item Name" v-model="item.name"></v-text-field>
-      <v-text-field label="Item Description" v-model="item.description"></v-text-field>
+    <v-card>
+      <v-text-field label="Item Name" v-model="itemToReceive.name"></v-text-field>
+      <v-text-field label="Item Description" v-model="itemToReceive.description"></v-text-field>
     </v-card>
-    <v-btn @click="addItems">Add Item to Receiving Batch</v-btn>
-    <v-btn @click="addItemDataToDatabase">Receive Items</v-btn>
+    <v-btn @click="addReceivedItemToDatabase">Receive Item</v-btn>
   </div>
 </template>
 
@@ -15,24 +14,22 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      itemsToReceive: [],
-      putawayDialog: false
+      itemToReceive: {
+        name: "",
+        description: ""
+      }
     }
   },
   methods: {
-    addItemDataToDatabase() {
-      axios.post('https://localhost:7187/Item/AddItemData', this.itemsToReceive)
+    addReceivedItemToDatabase() {
+      axios.post('https://localhost:7187/Item/ReceiveItem', this.itemToReceive)
       .then(response => console.log(response))
-      .then(this.itemsToReceive = [])
+      .then(this.clearItemToReceiveData)
     },
-    addItems() {
-      var itemData = {
-        name: "",
-        description: "",
-        status: ""
+    clearItemToReceiveData () {
+      for (var prop in this.itemToReceive) {
+        this.itemToReceive[prop] = "";
       }
-
-      this.itemsToReceive.push(itemData)
     }
   }
 }

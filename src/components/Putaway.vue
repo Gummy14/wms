@@ -29,9 +29,14 @@ export default {
       axios.get('https://localhost:7187/Item/GetAllItems')
       .then(response => this.allItems = response.data)
     },
+    putawayItem(itemToPutaway) {
+      console.log("test", itemToPutaway)
+      axios.post('https://localhost:7187/Item/PutawayItem', itemToPutaway)
+      .then(response => console.log(response))
+    },
     putawayLocation(itemPutawayLocation) {
       return "Putaway in Location: " + itemPutawayLocation
-    }
+    },
   },
   mounted() {
     this.getAllItemData()
