@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn @click="openReceiving">Receiving</v-btn>
+    <v-btn @click="openReceiving">Register</v-btn>
     <v-btn @click="openPutaway">Putaway</v-btn>
     <v-btn @click="openPick">Pick</v-btn>
   </div>
@@ -10,7 +10,7 @@
 export default {
   methods: {
     openReceiving() {
-        this.$router.replace('/receiving')
+        this.$router.replace('/register')
     },
     openPutaway() {
         this.$router.replace('/putaway')

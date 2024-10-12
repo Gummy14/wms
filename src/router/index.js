@@ -1,5 +1,5 @@
 import Menu from '@/components/Menu.vue'
-import Receiving from '@/components/Receiving.vue'
+import Register from '@/components/Register.vue'
 import Pick from '@/components/Pick.vue'
 import Putaway from '@/components/Putaway.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -18,9 +18,9 @@ const router = createRouter({
       component: Menu
     },
     {
-      path: '/receiving',
-      name: 'receiving',
-      component: Receiving
+      path: '/register',
+      name: 'register',
+      component: Register
     },
     {
       path: '/pick',
