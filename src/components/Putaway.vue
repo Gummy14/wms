@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card
-      v-for="item in allItems"
+      v-for="item in allRegisteredItems"
       :key="item.id"
       :title="item.name"
       :subtitle="item.description"
@@ -21,13 +21,13 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      allItems: {}
+      allRegisteredItems: {}
     }
   },
   methods: {
     getAllItemData() {
-      axios.get('https://localhost:7187/Item/GetAllItems')
-      .then(response => this.allItems = response.data)
+      axios.get('https://localhost:7187/Item/GetAllRegisteredItems')
+      .then(response => this.allRegisteredItems = response.data)
     },
     putawayItem(itemToPutaway) {
       console.log("test", itemToPutaway)
