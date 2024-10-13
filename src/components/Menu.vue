@@ -1,6 +1,7 @@
 <template>
   <div>
-    <v-btn @click="openReceiving">Register</v-btn>
+    <v-btn @click="openRegisterItem">Register Item</v-btn>
+    <v-btn @click="openRegisterContainer">Register Container</v-btn>
     <v-btn @click="openPutaway">Putaway</v-btn>
     <v-btn @click="openPick">Pick</v-btn>
   </div>
@@ -9,8 +10,11 @@
 <script>
 export default {
   methods: {
-    openReceiving() {
-        this.$router.replace('/register')
+    openRegisterItem() {
+        this.$router.replace('/register-item')
+    },
+    openRegisterContainer() {
+        this.$router.replace('/register-container')
     },
     openPutaway() {
         this.$router.replace('/putaway')

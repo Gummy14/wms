@@ -1,5 +1,6 @@
 import Menu from '@/components/Menu.vue'
-import Register from '@/components/Register.vue'
+import RegisterItem from '@/components/RegisterItem.vue'
+import RegisterContainer from '@/components/RegisterContainer.vue'
 import Pick from '@/components/Pick.vue'
 import Putaway from '@/components/Putaway.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -18,9 +19,14 @@ const router = createRouter({
       component: Menu
     },
     {
-      path: '/register',
-      name: 'register',
-      component: Register
+      path: '/register-item',
+      name: 'register-item',
+      component: RegisterItem
+    },
+    {
+      path: '/register-container',
+      name: 'register-container',
+      component: RegisterContainer
     },
     {
       path: '/pick',
