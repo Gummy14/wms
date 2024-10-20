@@ -1,17 +1,31 @@
 <template>
   <div>
-    <v-card
-      v-for="item in allRegisteredItems"
-      :key="item.id"
-      :title="item.name"
-      :subtitle="item.description"
-      :text="putawayLocation(item.putawayLocation)"
-      variant="tonal"
-    >
-      <v-card-actions>
-        <v-btn @click="putawayItem(item)">Putaway</v-btn>
-      </v-card-actions>
-    </v-card>
+    <div>
+      <v-card>
+        <v-text-field label="Item Id" v-model="itemToPutawayId"></v-text-field>
+      </v-card>
+      <v-btn @click="getItemById">Find Item</v-btn>
+    </div>
+    <div>
+      <v-dialog
+        v-model="openPutawayDialog"
+        width="auto"
+      >
+        <v-card
+          max-width="400"
+          :text="putawayItemData.description"
+          :title="putawayItemData.name"
+        >
+        <div v-if="foundPutawayLocation == 0">
+          <v-btn @click="getPutawayLocationForItem">Get Putaway Location</v-btn>
+        </div>
+        <div v-else>
+          Putaway In Location: {{ foundPutawayLocation }}
+          <v-btn @click="putawayItem">Putaway</v-btn>
+        </div>
+        </v-card>
+      </v-dialog>
+    </div>
   </div>
 </template>
 
@@ -21,25 +35,34 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      allRegisteredItems: {}
+      itemToPutawayId: 0,
+      foundPutawayLocation: 0,
+      openPutawayDialog: false,
+      putawayItemData: {}
     }
   },
   methods: {
-    getAllItemData() {
-      axios.get('https://localhost:7187/Item/GetAllRegisteredItems')
-      .then(response => this.allRegisteredItems = response.data)
+    getItemById() {
+      axios.get('https://localhost:7187/Item/GetItemById/' + this.itemToPutawayId)
+      .then(response => this.putawayItemData = response.data)
+      .then(this.openPutawayDialog = true)
     },
-    putawayItem(itemToPutaway) {
-      console.log("test", itemToPutaway)
-      axios.post('https://localhost:7187/Item/PutawayItem', itemToPutaway)
-      .then(response => console.log(response))
+    getPutawayLocationForItem() {
+      axios.get('https://localhost:7187/Item/GetPutawayLocation')
+      .then(response => this.foundPutawayLocation = response.data.id)
     },
-    putawayLocation(itemPutawayLocation) {
-      return "Putaway in Location: " + itemPutawayLocation
+    putawayItem() {
+      axios.post('https://localhost:7187/Item/PutawayItem', this.putawayItemData)
+      .then(this.resetAllPutawayData())
     },
+    resetAllPutawayData() {
+      this.itemToPutawayId = 0
+      this.foundPutawayLocation = 0
+      this.openPutawayDialog = false
+      this.putawayItemData = {}
+    }
   },
   mounted() {
-    this.getAllItemData()
   }
 }
 </script>
