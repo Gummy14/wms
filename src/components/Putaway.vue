@@ -38,7 +38,11 @@ export default {
       itemToPutawayId: 0,
       foundPutawayLocation: 0,
       openPutawayDialog: false,
-      putawayItemData: {}
+      putawayItemData: {},
+      putawayEvent: {
+        itemId: 0,
+        containerId: 0
+      }
     }
   },
   methods: {
@@ -52,7 +56,9 @@ export default {
       .then(response => this.foundPutawayLocation = response.data.id)
     },
     putawayItem() {
-      axios.post('https://localhost:7187/Item/PutawayItem', this.putawayItemData)
+      this.putawayEvent.itemId = this.itemToPutawayId
+      this.putawayEvent.containerId = this.foundPutawayLocation
+      axios.post('https://localhost:7187/Item/PutawayItem', this.putawayEvent)
       .then(this.resetAllPutawayData())
     },
     resetAllPutawayData() {
@@ -60,6 +66,10 @@ export default {
       this.foundPutawayLocation = 0
       this.openPutawayDialog = false
       this.putawayItemData = {}
+      this.putawayEvent = {
+        itemId: 0,
+        containerId: 0
+      }
     }
   },
   mounted() {
