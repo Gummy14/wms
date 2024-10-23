@@ -1,16 +1,11 @@
 <template>
   <div>
-    <v-card
-      v-for="item in allItems"
-      :key="item.id"
-      :title="item.name"
-      :subtitle="item.description"
-      variant="tonal"
-    >
-      <v-card-actions>
-        <v-btn @click="pickItemFromInventory(item)">Pick</v-btn>
-      </v-card-actions>
-    </v-card>
+    <div>
+      <v-card>
+        <v-text-field label="Container Id" v-model="containerToPickFrom"></v-text-field>
+      </v-card>
+      <v-btn @click="getItemById">Find Container</v-btn>
+    </div>
   </div>
 </template>
 
@@ -20,21 +15,12 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      allItems: {}
+      containerToPickFrom: 0
     }
   },
   methods: {
-    pickItemFromInventory(item) {
-      axios.post('https://localhost:7187/Item/PickItem', item)
-      .then(response => console.log(response))
-    },
-    getAllItemData() {
-      axios.get('https://localhost:7187/Item/GetAllItems')
-      .then(response => this.allItems = response.data)
-    }
   },
   mounted() {
-    this.getAllItemData()
   }
 }
 </script>
