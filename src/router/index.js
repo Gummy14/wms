@@ -1,7 +1,7 @@
 import Menu from '@/components/Menu.vue'
 import RegisterItem from '@/components/RegisterItem.vue'
 import RegisterContainer from '@/components/RegisterContainer.vue'
-import Pick from '@/components/Pick.vue'
+import PickByContainer from '@/components/PickByContainer.vue'
 import Putaway from '@/components/Putaway.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -29,9 +29,9 @@ const router = createRouter({
       component: RegisterContainer
     },
     {
-      path: '/pick',
-      name: 'pick',
-      component: Pick
+      path: '/pick-by-container',
+      name: 'pick-by-container',
+      component: PickByContainer
     },
     {
       path: '/putaway',
