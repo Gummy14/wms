@@ -20,7 +20,7 @@
           <v-btn @click="getPutawayLocationForItem">Get Putaway Location</v-btn>
         </div>
         <div v-else>
-          Putaway In Location: {{ putawayContainer.id }}
+          Putaway In Location: {{ putawayContainer.name }}
           <v-btn @click="putItemInContainer">Putaway</v-btn>
         </div>
         </v-card>
@@ -35,7 +35,7 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      itemToPutawayId: 0,
+      itemToPutawayId: "",
       openPutawayDialog: false,
       putawayContainer: null,
       putawayItem: null,

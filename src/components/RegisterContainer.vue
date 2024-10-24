@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card>
-      <v-text-field label="Container Id" v-model="containerId"></v-text-field>
+      <v-text-field label="Container Name" v-model="containerToRegister.name"></v-text-field>
     </v-card>
     <v-btn @click="addContainerToDatabase">Register Container</v-btn>
   </div>
@@ -13,14 +13,16 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      containerId: 0
+      containerToRegister: {
+        name: ""
+      }
     }
   },
   methods: {
     addContainerToDatabase() {
-      axios.post('https://localhost:7187/Item/RegisterContainer', this.containerId)
+      axios.post('https://localhost:7187/Item/RegisterContainer', this.containerToRegister)
       .then(response => console.log(response))
-      .then(this.containerId = "")
+      .then(this.containerToRegister = "")
     }
   }
 }
