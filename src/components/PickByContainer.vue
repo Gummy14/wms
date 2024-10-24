@@ -31,7 +31,11 @@ export default {
     return {
       containerToPickFrom: 0,
       openContainerContentsDialog: false,
-      itemInContainer: null
+      itemInContainer: null,
+      pickAction: {
+        containerId: null,
+        itemId: null
+      }
     }
   },
   methods: {
@@ -41,7 +45,20 @@ export default {
       .then(this.openContainerContentsDialog = true)
     },
     pickItemFromContainer() {
-      
+      this.pickAction.containerId = this.containerToPickFrom;
+      this.pickAction.itemId = this.itemInContainer.id;
+      axios.post('https://localhost:7187/Item/PickItem/', this.pickAction)
+      .then(response => this.itemInContainer = response.data)
+      .then(this.openContainerContentsDialog = true)
+    },
+    resetAllPutawayData() {
+      this.containerToPickFrom = 0,
+      this.openContainerContentsDialog = false,
+      this.itemInContainer = null,
+      this.pickAction = {
+        containerId: null,
+        itemId: null
+      }
     }
   },
   mounted() {

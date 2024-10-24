@@ -40,8 +40,8 @@ export default {
       putawayContainer: null,
       putawayItem: null,
       putawayAction: {
-        item: null,
-        container: null
+        itemId: null,
+        containerId: null
       }
     }
   },
@@ -56,8 +56,8 @@ export default {
       .then(response => this.putawayContainer = response.data)
     },
     putItemInContainer() {
-      this.putawayAction.item = this.putawayItem;
-      this.putawayAction.container = this.putawayContainer;
+      this.putawayAction.itemId = this.putawayItem.id;
+      this.putawayAction.containerId = this.putawayContainer.id;
       axios.post('https://localhost:7187/Item/PutawayItem', this.putawayAction)
       .then(this.resetAllPutawayData())
     },
@@ -67,8 +67,8 @@ export default {
       this.putawayContainer = null,
       this.putawayItem = null,
       this.putawayAction = {
-        item: null,
-        container: null
+        itemId: null,
+        containerId: null
       }
     }
   }
