@@ -22,7 +22,12 @@ export default {
     addContainerToDatabase() {
       axios.post('https://localhost:7187/Item/RegisterContainer', this.containerToRegister)
       .then(response => console.log(response))
-      .then(this.containerToRegister = "")
+      .then(this.resetFields())
+    },
+    resetFields() {
+      this.containerToRegister = {
+        name: ""
+      }
     }
   }
 }
