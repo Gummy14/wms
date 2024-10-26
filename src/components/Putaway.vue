@@ -45,7 +45,7 @@ export default {
     getItemById() {
       console.log("TEST")
       axios.get('https://localhost:7187/Item/GetItemById/' + this.itemToPutawayId)
-      .then(response => console.log(response.data))
+      .then(response => this.putawayItem = response.data)
       .then(this.openPutawayDialog = true)
     },
     getPutawayLocationForItem() {

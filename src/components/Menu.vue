@@ -39,8 +39,7 @@
             <template v-slot:activator="{ props }">
               <v-list-item v-bind="props" title="Picking" ref="pickItem" @mouseover="autoClick(4)"></v-list-item>
             </template>
-            <v-list-item><v-btn @click="openPickByContainer">Pick By Container ID</v-btn></v-list-item>
-            <v-list-item><v-btn @click="openPickByItem">Pick By Item ID</v-btn></v-list-item>
+            <v-list-item><v-btn @click="openPick">Pick</v-btn></v-list-item>
           </v-list-group>
 
         </v-list>
@@ -69,10 +68,7 @@ export default {
         this.$router.replace('/orders')
     },
     openPickByContainer() {
-        this.$router.replace('/pick-by-container')
-    },
-    openPickByItem() {
-        this.$router.replace('/pick-by-item')
+        this.$router.replace('/pick')
     },
     autoClick(num) {
       switch(num) {
