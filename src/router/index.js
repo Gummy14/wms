@@ -4,6 +4,7 @@ import RegisterContainer from '@/components/RegisterContainer.vue'
 import PickByContainerId from '@/components/PickByContainerId.vue'
 import PickByItemId from '@/components/PickByItemId.vue'
 import Putaway from '@/components/Putaway.vue'
+import Orders from '@/components/Orders.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -33,6 +34,11 @@ const router = createRouter({
       path: '/putaway',
       name: 'putaway',
       component: Putaway
+    },
+    {
+      path: '/orders',
+      name: 'orders',
+      component: Orders
     },
     {
       path: '/pick-by-container',
