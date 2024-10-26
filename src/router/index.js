@@ -1,8 +1,10 @@
 import Menu from '@/components/Menu.vue'
 import RegisterItem from '@/components/RegisterItem.vue'
 import RegisterContainer from '@/components/RegisterContainer.vue'
-import PickByContainer from '@/components/PickByContainer.vue'
+import PickByContainerId from '@/components/PickByContainerId.vue'
+import PickByItemId from '@/components/PickByItemId.vue'
 import Putaway from '@/components/Putaway.vue'
+import Orders from '@/components/Orders.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -29,14 +31,24 @@ const router = createRouter({
       component: RegisterContainer
     },
     {
-      path: '/pick-by-container',
-      name: 'pick-by-container',
-      component: PickByContainer
-    },
-    {
       path: '/putaway',
       name: 'putaway',
       component: Putaway
+    },
+    {
+      path: '/orders',
+      name: 'orders',
+      component: Orders
+    },
+    {
+      path: '/pick-by-container',
+      name: 'pick-by-container',
+      component: PickByContainerId
+    },
+    {
+      path: '/pick-by-item',
+      name: 'pick-by-item',
+      component: PickByItemId
     }
   ]
 })
