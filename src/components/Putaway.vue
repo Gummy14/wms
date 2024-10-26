@@ -35,20 +35,17 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      itemToPutawayId: "",
+      itemToPutawayId: '',
       openPutawayDialog: false,
       putawayContainer: null,
-      putawayItem: null,
-      putawayAction: {
-        itemId: null,
-        containerId: null
-      }
+      putawayItem: null
     }
   },
   methods: {
     getItemById() {
+      console.log("TEST")
       axios.get('https://localhost:7187/Item/GetItemById/' + this.itemToPutawayId)
-      .then(response => this.putawayItem = response.data)
+      .then(response => console.log(response.data))
       .then(this.openPutawayDialog = true)
     },
     getPutawayLocationForItem() {
@@ -56,20 +53,15 @@ export default {
       .then(response => this.putawayContainer = response.data)
     },
     putItemInContainer() {
-      this.putawayAction.itemId = this.putawayItem.id;
-      this.putawayAction.containerId = this.putawayContainer.id;
-      axios.post('https://localhost:7187/Item/PutawayItem', this.putawayAction)
+      this.putawayContainer.item = this.putawayItem
+      axios.post('https://localhost:7187/Item/PutawayItem', this.putawayContainer)
       .then(this.resetAllPutawayData())
     },
     resetAllPutawayData() {
-      this.itemToPutawayId = 0,
+      this.itemToPutawayId = '',
       this.openPutawayDialog = false,
       this.putawayContainer = null,
-      this.putawayItem = null,
-      this.putawayAction = {
-        itemId: null,
-        containerId: null
-      }
+      this.putawayItem = null
     }
   }
 }
