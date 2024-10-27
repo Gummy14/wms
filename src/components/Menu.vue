@@ -4,43 +4,37 @@
       <v-navigation-drawer expand-on-hover rail>
         <v-list>
           <v-list-item title="wms"></v-list-item>
-
           <v-divider></v-divider>
 
-          <v-list-group>
-            <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" title="Warehouse Configuration" ref="warehouseConfigItem" @mouseover="autoClick(0)"></v-list-item>
+          <v-list-item @click="openRegisterContainer" title="Warehouse Configuration">
+            <template v-slot:prepend>
+              <svg-icon type="mdi" :path="warehouseConfigurationIconPath"></svg-icon>
             </template>
-            <v-list-item><v-btn @click="openRegisterContainer">Register Container</v-btn></v-list-item>
-          </v-list-group>
+          </v-list-item>
 
-          <v-list-group>
-            <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" title="Receiving" ref="registrationItem" @mouseover="autoClick(1)"></v-list-item>
+          <v-list-item icon="mdi-home" @click="openRegisterItem" title="Receiving">
+            <template v-slot:prepend>
+              <svg-icon type="mdi" :path="receivingIconPath"></svg-icon>
             </template>
-            <v-list-item><v-btn @click="openRegisterItem">Register Item</v-btn></v-list-item>
-          </v-list-group>
+          </v-list-item>
 
-          <v-list-group>
-            <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" title="Putaway" ref="putawayItem" @mouseover="autoClick(2)"></v-list-item>
+          <v-list-item icon="mdi-home" @click="openPutaway" title="Putaway">
+            <template v-slot:prepend>
+              <svg-icon type="mdi" :path="putawayIconPath"></svg-icon>
             </template>
-            <v-list-item><v-btn @click="openPutaway">Putaway</v-btn></v-list-item>
-          </v-list-group>
+          </v-list-item>
 
-          <v-list-group>
-            <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" title="Orders" ref="orderItem" @mouseover="autoClick(3)"></v-list-item>
+          <v-list-item icon="mdi-home" @click="openOrders" title="Orders">
+            <template v-slot:prepend>
+              <svg-icon type="mdi" :path="ordersIconPath"></svg-icon>
             </template>
-            <v-list-item><v-btn @click="openOrders">Orders</v-btn></v-list-item>
-          </v-list-group>
+          </v-list-item>
 
-          <v-list-group>
-            <template v-slot:activator="{ props }">
-              <v-list-item v-bind="props" title="Picking" ref="pickItem" @mouseover="autoClick(4)"></v-list-item>
+          <v-list-item icon="mdi-home" @click="openPick" title="Picking">
+            <template v-slot:prepend>
+              <svg-icon type="mdi" :path="pickingIconPath"></svg-icon>
             </template>
-            <v-list-item><v-btn @click="openPick">Pick</v-btn></v-list-item>
-          </v-list-group>
+          </v-list-item>
 
         </v-list>
       </v-navigation-drawer>
@@ -49,10 +43,21 @@
 </template>
 
 <script>
+import SvgIcon from '@jamescoyle/vue-icon';
+import { mdiWarehouse, mdiTruckFastOutline, mdiHumanDolly, mdiInvoiceTextEditOutline, mdiCartArrowDown } from '@mdi/js';
+
 export default {
   data() {
     return {
+      warehouseConfigurationIconPath: mdiWarehouse,
+      receivingIconPath: mdiTruckFastOutline,
+      putawayIconPath: mdiHumanDolly,
+      ordersIconPath: mdiInvoiceTextEditOutline,
+      pickingIconPath: mdiCartArrowDown
     }
+  },
+  components: {
+    SvgIcon
   },
   methods: {
     openRegisterItem() {
@@ -67,28 +72,8 @@ export default {
     openOrders() {
         this.$router.replace('/orders')
     },
-    openPickByContainer() {
+    openPick() {
         this.$router.replace('/pick')
-    },
-    autoClick(num) {
-      switch(num) {
-        case 0:
-          this.$refs.warehouseConfigItem.$el.click()
-          break
-        case 1:
-          this.$refs.registrationItem.$el.click()
-          break
-        case 2:
-          this.$refs.putawayItem.$el.click()
-          break
-        case 3:
-          this.$refs.orderItem.$el.click()
-          break
-        case 4:
-          this.$refs.pickItem.$el.click()
-          break
-      }
-
     }
   }
 }
