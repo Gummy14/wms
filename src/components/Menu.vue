@@ -12,27 +12,39 @@
             </template>
           </v-list-item>
 
-          <v-list-item icon="mdi-home" @click="openRegisterItem" title="Receiving">
+          <v-list-item @click="openRegisterItem" title="Receiving">
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="receivingIconPath"></svg-icon>
             </template>
           </v-list-item>
 
-          <v-list-item icon="mdi-home" @click="openPutaway" title="Putaway">
+          <v-list-item @click="openPutaway" title="Putaway">
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="putawayIconPath"></svg-icon>
             </template>
           </v-list-item>
 
-          <v-list-item icon="mdi-home" @click="openOrders" title="Orders">
+          <v-list-item @click="openOrders" title="Orders">
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="ordersIconPath"></svg-icon>
             </template>
           </v-list-item>
 
-          <v-list-item icon="mdi-home" @click="openPick" title="Picking">
+          <v-list-item @click="openPick" title="Picking">
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="pickingIconPath"></svg-icon>
+            </template>
+          </v-list-item>
+
+          <v-list-item title="Packaging">
+            <template v-slot:prepend>
+              <svg-icon type="mdi" :path="packagingIconPath"></svg-icon>
+            </template>
+          </v-list-item>
+
+          <v-list-item title="Shipping">
+            <template v-slot:prepend>
+              <svg-icon type="mdi" :path="shippingIconPath"></svg-icon>
             </template>
           </v-list-item>
 
@@ -44,7 +56,15 @@
 
 <script>
 import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiWarehouse, mdiTruckFastOutline, mdiHumanDolly, mdiInvoiceTextEditOutline, mdiCartArrowDown } from '@mdi/js';
+import { 
+  mdiWarehouse, 
+  mdiTruckFastOutline, 
+  mdiHumanDolly, 
+  mdiInvoiceTextEditOutline, 
+  mdiButtonPointer,
+  mdiPackageVariant,
+  mdiTruckFast
+} from '@mdi/js';
 
 export default {
   data() {
@@ -53,7 +73,9 @@ export default {
       receivingIconPath: mdiTruckFastOutline,
       putawayIconPath: mdiHumanDolly,
       ordersIconPath: mdiInvoiceTextEditOutline,
-      pickingIconPath: mdiCartArrowDown
+      pickingIconPath: mdiButtonPointer,
+      packagingIconPath: mdiPackageVariant,
+      shippingIconPath: mdiTruckFastOutline
     }
   },
   components: {

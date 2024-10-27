@@ -45,7 +45,7 @@ export default {
       .then(this.resetAllPutawayData())
     },
     resetAllPutawayData() {
-      this.containerToPickFrom = 0,
+      this.genericId = 0,
       this.containerData = null
     }
   }
