@@ -47,11 +47,10 @@ export default {
     },
     createNewOrder() {
       axios.post('https://localhost:7187/WMS/CreateOrder/', this.newOrderItems)
-      .then(response => console.log(response))
+      .then(this.allItems = null)
     },
     addItemToOrder(item) {
       this.newOrderItems.push(item)
-      console.log(this.newOrderItems)
     },
     orderIdTitle(orderId) {
       return "Order Id: " + orderId

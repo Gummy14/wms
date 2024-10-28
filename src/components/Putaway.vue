@@ -8,7 +8,7 @@
     </div>
     <div>
       <v-dialog
-        v-model="openPutawayDialog"
+        v-model="putawayItem"
         width="auto"
       >
         <v-card v-if="putawayItem"
@@ -36,7 +36,6 @@ export default {
   data() {
     return {
       itemToPutawayId: '',
-      openPutawayDialog: false,
       putawayContainer: null,
       putawayItem: null
     }
@@ -46,7 +45,6 @@ export default {
       console.log("TEST")
       axios.get('https://localhost:7187/WMS/GetItemById/' + this.itemToPutawayId)
       .then(response => this.putawayItem = response.data)
-      .then(this.openPutawayDialog = true)
     },
     getPutawayLocationForItem() {
       axios.get('https://localhost:7187/WMS/GetPutawayLocation')
@@ -59,7 +57,6 @@ export default {
     },
     resetAllPutawayData() {
       this.itemToPutawayId = '',
-      this.openPutawayDialog = false,
       this.putawayContainer = null,
       this.putawayItem = null
     }
