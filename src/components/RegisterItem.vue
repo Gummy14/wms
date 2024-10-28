@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     addReceivedItemToDatabase() {
-      axios.post('https://localhost:7187/Item/RegisterItem', this.itemToRegister)
+      axios.post('https://localhost:7187/WMS/RegisterItem', this.itemToRegister)
       .then(response => console.log(response))
       .then(this.clearitemToRegisterData)
     },

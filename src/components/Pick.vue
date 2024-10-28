@@ -37,11 +37,11 @@ export default {
   },
   methods: {
     getItemContainerRelationship() {
-      axios.get('https://localhost:7187/Item/GetItemContainerRelationship/' + this.genericId)
+      axios.get('https://localhost:7187/WMS/GetItemContainerRelationship/' + this.genericId)
       .then(response => this.containerData = response.data)
     },
     pickItemFromContainer() {
-      axios.post('https://localhost:7187/Item/PickItem/', this.containerData)
+      axios.post('https://localhost:7187/WMS/PickItem/', this.containerData)
       .then(this.resetAllPutawayData())
     },
     resetAllPutawayData() {

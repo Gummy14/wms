@@ -44,17 +44,17 @@ export default {
   methods: {
     getItemById() {
       console.log("TEST")
-      axios.get('https://localhost:7187/Item/GetItemById/' + this.itemToPutawayId)
+      axios.get('https://localhost:7187/WMS/GetItemById/' + this.itemToPutawayId)
       .then(response => this.putawayItem = response.data)
       .then(this.openPutawayDialog = true)
     },
     getPutawayLocationForItem() {
-      axios.get('https://localhost:7187/Item/GetPutawayLocation')
+      axios.get('https://localhost:7187/WMS/GetPutawayLocation')
       .then(response => this.putawayContainer = response.data)
     },
     putItemInContainer() {
       this.putawayContainer.item = this.putawayItem
-      axios.post('https://localhost:7187/Item/PutawayItem', this.putawayContainer)
+      axios.post('https://localhost:7187/WMS/PutawayItem', this.putawayContainer)
       .then(this.resetAllPutawayData())
     },
     resetAllPutawayData() {

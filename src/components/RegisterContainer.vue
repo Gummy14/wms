@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     addContainerToDatabase() {
-      axios.post('https://localhost:7187/Item/RegisterContainer', this.containerToRegister)
+      axios.post('https://localhost:7187/WMS/RegisterContainer', this.containerToRegister)
       .then(response => console.log(response))
       .then(this.resetFields())
     },
