@@ -17,7 +17,7 @@
           <template v-slot:activator="{ props }">
             <v-list-item v-bind="props" :title="orderIdTitle(order.id)"></v-list-item>
           </template>
-          <v-list-item v-for="item in order.orderItems" :key="item.id" :title="item.name"></v-list-item>
+          <v-list-item v-for="item in order.items" :key="item.id" :title="item.name"></v-list-item>
         </v-list-group>
       </v-list>
 

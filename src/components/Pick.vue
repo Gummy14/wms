@@ -11,7 +11,7 @@
           <template v-slot:activator="{ props }">
             <v-list-item v-bind="props" :title="orderIdTitle(order.id)"></v-list-item>
           </template>
-          <v-list-item v-for="item in order.orderItems" :key="item.id" :title="item.name" @click="getItemContainerRelationship(item.id)"></v-list-item>
+          <v-list-item v-for="item in order.items" :key="item.id" :title="item.name" @click="getItemContainerRelationship(item.id)"></v-list-item>
         </v-list-group>
       </v-list>
     </div>
@@ -25,7 +25,7 @@
           :text="containerData.item.description"
           :title="containerData.item.name"
         >
-          Container Id: {{ containerData.id }}
+          Container Id: {{ containerData.containerId }}
           Container Name: {{ containerData.name }}
           <v-btn @click="pickItemFromContainer">Pick</v-btn>
         </v-card>
