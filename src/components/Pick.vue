@@ -17,16 +17,16 @@
     </div>
     <div>
       <v-dialog
-        v-model="containerData"
+        v-model="itemContainerData"
         width="auto"
       >
-        <v-card v-if="containerData"
+        <v-card v-if="itemContainerData"
           max-width="400"
-          :text="containerData.item.description"
-          :title="containerData.item.name"
+          :text="itemContainerData.item.description"
+          :title="itemContainerData.item.name"
         >
-          Container Id: {{ containerData.containerId }}
-          Container Name: {{ containerData.name }}
+          Container Id: {{ itemContainerData.container.containerId }}
+          Container Name: {{ itemContainerData.container.name }}
           <v-btn @click="pickItemFromContainer">Pick</v-btn>
         </v-card>
       </v-dialog>
@@ -41,17 +41,17 @@ export default {
   data() {
     return {
       genericId: 0,
-      containerData: null,
+      itemContainerData: null,
       allOrders: null
     }
   },
   methods: {
     getItemContainerRelationship(idToSearch) {
       axios.get('https://localhost:7187/WMS/GetItemContainerRelationship/' + idToSearch)
-      .then(response => this.containerData = response.data)
+      .then(response => this.itemContainerData = response.data)
     },
     pickItemFromContainer() {
-      axios.post('https://localhost:7187/WMS/PickItem/', this.containerData)
+      axios.post('https://localhost:7187/WMS/PickItem/', this.itemContainerData.container)
       .then(this.resetAllPutawayData())
     },
     getAllOrders() {
@@ -60,7 +60,7 @@ export default {
     },
     resetAllPutawayData() {
       this.genericId = 0,
-      this.containerData = null
+      this.itemContainerData = null
     },
     orderIdTitle(orderId) {
       return "Order Id: " + orderId
