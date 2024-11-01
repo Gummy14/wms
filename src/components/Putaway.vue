@@ -42,7 +42,6 @@ export default {
   },
   methods: {
     getItemById() {
-      console.log("TEST")
       axios.get('https://localhost:7187/WMS/GetItemById/' + this.itemToPutawayId)
       .then(response => this.putawayItem = response.data)
     },
@@ -51,7 +50,7 @@ export default {
       .then(response => this.putawayContainer = response.data)
     },
     putItemInContainer() {
-      this.putawayContainer.item = this.putawayItem
+      this.putawayContainer.itemEventId = this.putawayItem.itemEventId
       axios.post('https://localhost:7187/WMS/PutawayItem', this.putawayContainer)
       .then(this.resetAllPutawayData())
     },
