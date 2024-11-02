@@ -9,7 +9,7 @@
       <v-list>
         <v-list-group v-for="order in allOrders" :key="order.id">
           <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" :title="orderIdTitle(order.id)"></v-list-item>
+            <v-list-item v-bind="props" :title="orderIdTitle(order)"></v-list-item>
           </template>
           <v-list-item v-for="item in order.items" :key="item.id" :title="item.name" @click="getItemContainerRelationship(item.id)"></v-list-item>
         </v-list-group>
@@ -62,8 +62,8 @@ export default {
       this.genericId = 0,
       this.itemContainerData = null
     },
-    orderIdTitle(orderId) {
-      return "Order Id: " + orderId
+    orderIdTitle(order) {
+      return "Order: " + order.eventDateTime + " --- " + order.orderId
     }
   },
   mounted() {

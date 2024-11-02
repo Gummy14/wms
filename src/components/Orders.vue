@@ -13,11 +13,11 @@
       </v-dialog>
 
       <v-list>
-        <v-list-group v-for="order in allOrders" :key="order.id">
+        <v-list-group v-for="orderItems in allOrderItems" :key="orderItems.order.orderId">
           <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" :title="orderIdTitle(order.id)"></v-list-item>
+            <v-list-item v-bind="props" :title="orderIdTitle(orderItems.order)" @click="getItemsForOrder(orderItems.order.orderId)"></v-list-item>
           </template>
-          <v-list-item v-for="item in order.items" :key="item.id" :title="item.name"></v-list-item>
+          <v-list-item v-for="item in orderItems.items" :key="item.id" :title="item.name"></v-list-item>
         </v-list-group>
       </v-list>
 
@@ -31,19 +31,25 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      allOrders: null,
+      allOrderItems: null,
       allItems: null,
       newOrderItems: [],
     }
   },
   methods: {
     getAllItems() {
-      axios.get('https://localhost:7187/WMS/GetAllItems/')
+      axios.get('https://localhost:7187/WMS/GetAllCurrentItems/')
       .then(response => this.allItems = response.data)
     },
-    getAllOrders() {
-      axios.get('https://localhost:7187/WMS/GetAllOrders/')
-      .then(response => this.allOrders = response.data)
+    getAllOrderItems() {
+      axios.get('https://localhost:7187/WMS/GetAllCurrentOrdersWithOutItems/')
+      .then(response => this.allOrderItems = response.data)
+    },
+    getItemsForOrder(orderId) {
+      if(!this.allOrderItems.find(x => x.order.orderId === orderId).items) {
+        axios.get('https://localhost:7187/WMS/GetOrderItems/' + orderId)
+        .then(response => this.addItemsToOrderItems(orderId, response.data))
+      }
     },
     createNewOrder() {
       axios.post('https://localhost:7187/WMS/CreateOrder/', this.newOrderItems)
@@ -52,12 +58,16 @@ export default {
     addItemToOrder(item) {
       this.newOrderItems.push(item)
     },
-    orderIdTitle(orderId) {
-      return "Order Id: " + orderId
+    orderIdTitle(order) {
+      return "Order: " + order.eventDateTime + " --- " + order.orderId
+    },
+    addItemsToOrderItems(orderId, items) {
+      this.allOrderItems.find(x => x.order.orderId === orderId).items = items
+      console.log("this.allOrderItems", this.allOrderItems)
     }
   },
   mounted() {
-    this.getAllOrders()
+    this.getAllOrderItems()
   }
 }
 </script>
