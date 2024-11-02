@@ -7,11 +7,15 @@
       <v-btn @click="getItemContainerRelationship(genericId)">Search</v-btn>
       
       <v-list>
-        <v-list-group v-for="order in allOrders" :key="order.id">
+        <v-list-group v-for="orderItems in allOrderItems" :key="orderItems.order.orderId">
           <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" :title="orderIdTitle(order)"></v-list-item>
+            <v-list-item v-bind="props" :title="orderIdTitle(orderItems.order)" @click="getItemsForOrder(orderItems.order.orderId)"></v-list-item>
           </template>
-          <v-list-item v-for="item in order.items" :key="item.id" :title="item.name" @click="getItemContainerRelationship(item.id)"></v-list-item>
+          <v-list-item v-for="item in orderItems.items" :key="item.id" :title="item.name" @click="getItemContainerRelationship(item.itemId)">
+            <template v-slot:append>
+              <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
+            </template>
+          </v-list-item>
         </v-list-group>
       </v-list>
     </div>
@@ -36,14 +40,20 @@
 
 <script>
 import axios from 'axios'
+import SvgIcon from '@jamescoyle/vue-icon';
+import { mdiCheckCircleOutline } from '@mdi/js';
 
 export default {
   data() {
     return {
+      allOrderItems: null,
       genericId: 0,
       itemContainerData: null,
-      allOrders: null
+      mdiCheckCircleOutline: mdiCheckCircleOutline
     }
+  },
+  components: {
+    SvgIcon
   },
   methods: {
     getItemContainerRelationship(idToSearch) {
@@ -51,12 +61,23 @@ export default {
       .then(response => this.itemContainerData = response.data)
     },
     pickItemFromContainer() {
-      axios.post('https://localhost:7187/WMS/PickItem/', this.itemContainerData.container)
-      .then(this.resetAllPutawayData())
+      console.log(this.itemContainerData)
+      axios.post('https://localhost:7187/WMS/PickItem/', this.itemContainerData)
+      .then(this.checkoffPickedItem())
     },
-    getAllOrders() {
-      axios.get('https://localhost:7187/WMS/GetAllOrders/')
-      .then(response => this.allOrders = response.data)
+    getAllOrderWithoutItems() {
+      axios.get('https://localhost:7187/WMS/GetAllCurrentOrdersWithOutItems/')
+      .then(response => this.allOrderItems = response.data)
+    },
+    getItemsForOrder(orderId) {
+      if(!this.allOrderItems.find(x => x.order.orderId === orderId).items) {
+        axios.get('https://localhost:7187/WMS/GetOrderItems/' + orderId)
+        .then(response => this.addItemsToOrderItems(orderId, response.data))
+      }
+    },
+    checkoffPickedItem() {
+
+      this.resetAllPutawayData()
     },
     resetAllPutawayData() {
       this.genericId = 0,
@@ -64,10 +85,13 @@ export default {
     },
     orderIdTitle(order) {
       return "Order: " + order.eventDateTime + " --- " + order.orderId
+    },
+    addItemsToOrderItems(orderId, items) {
+      this.allOrderItems.find(x => x.order.orderId === orderId).items = items
     }
   },
   mounted() {
-    this.getAllOrders()
+    this.getAllOrderWithoutItems()
   }
 }
 </script>

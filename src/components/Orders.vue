@@ -41,7 +41,7 @@ export default {
       axios.get('https://localhost:7187/WMS/GetAllCurrentItems/')
       .then(response => this.allItems = response.data)
     },
-    getAllOrderItems() {
+    getAllOrderWithoutItems() {
       axios.get('https://localhost:7187/WMS/GetAllCurrentOrdersWithOutItems/')
       .then(response => this.allOrderItems = response.data)
     },
@@ -63,11 +63,10 @@ export default {
     },
     addItemsToOrderItems(orderId, items) {
       this.allOrderItems.find(x => x.order.orderId === orderId).items = items
-      console.log("this.allOrderItems", this.allOrderItems)
     }
   },
   mounted() {
-    this.getAllOrderItems()
+    this.getAllOrderWithoutItems()
   }
 }
 </script>
