@@ -12,7 +12,7 @@
             <v-list-item v-bind="props" :title="orderIdTitle(order.id)"></v-list-item>
           </template>
           <v-list-item v-for="item in order.items" :key="item.itemId" :title="item.name" @click="getItemContainerRelationship(item.itemId)">
-            <template v-slot:append>
+            <template v-slot:append v-if="item.eventType == 5">
               <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
             </template>
           </v-list-item>
@@ -71,6 +71,7 @@ export default {
     resetAllPutawayData() {
       this.genericId = 0,
       this.itemContainerData = null
+      this.getAllOrders()
     },
     orderIdTitle(orderId) {
       return "Order Id: " + orderId
