@@ -50,7 +50,7 @@ export default {
       .then(response => this.putawayContainer = response.data)
     },
     putItemInContainer() {
-      this.putawayContainer.itemEventId = this.putawayItem.itemEventId
+      this.putawayContainer.itemId = this.putawayItem.itemId
       axios.post('https://localhost:7187/WMS/PutawayItem', this.putawayContainer)
       .then(this.resetAllPutawayData())
     },

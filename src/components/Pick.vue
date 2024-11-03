@@ -11,7 +11,11 @@
           <template v-slot:activator="{ props }">
             <v-list-item v-bind="props" :title="orderIdTitle(order.id)"></v-list-item>
           </template>
-          <v-list-item v-for="item in order.items" :key="item.id" :title="item.name" @click="getItemContainerRelationship(item.id)"></v-list-item>
+          <v-list-item v-for="item in order.items" :key="item.itemId" :title="item.name" @click="getItemContainerRelationship(item.itemId)">
+            <template v-slot:append>
+              <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
+            </template>
+          </v-list-item>
         </v-list-group>
       </v-list>
     </div>
@@ -36,14 +40,20 @@
 
 <script>
 import axios from 'axios'
+import SvgIcon from '@jamescoyle/vue-icon';
+import { mdiCheckCircleOutline  } from '@mdi/js';
 
 export default {
   data() {
     return {
       genericId: 0,
       itemContainerData: null,
-      allOrders: null
+      allOrders: null,
+      mdiCheckCircleOutline : mdiCheckCircleOutline ,
     }
+  },
+  components: {
+    SvgIcon
   },
   methods: {
     getItemContainerRelationship(idToSearch) {
