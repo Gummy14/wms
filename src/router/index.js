@@ -4,6 +4,7 @@ import RegisterContainer from '@/components/RegisterContainer.vue'
 import Pick from '@/components/Pick.vue'
 import Putaway from '@/components/Putaway.vue'
 import Orders from '@/components/Orders.vue'
+// import NavigationPage from '@/components/NavigationPage.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -43,7 +44,12 @@ const router = createRouter({
       path: '/pick',
       name: 'pick',
       component: Pick
-    }
+    },
+    // {
+    //   path: '/navigation-page',
+    //   name: 'navigation-page',
+    //   component: NavigationPage
+    // }
   ]
 })
 

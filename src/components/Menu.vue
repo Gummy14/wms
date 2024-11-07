@@ -6,31 +6,31 @@
           <v-list-item title="wms"></v-list-item>
           <v-divider></v-divider>
 
-          <v-list-item @click="openRegisterContainer" title="Warehouse Configuration">
+          <v-list-item @click="setCurrentRoute('/register-container')" title="Warehouse Configuration">
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="warehouseConfigurationIconPath"></svg-icon>
             </template>
           </v-list-item>
 
-          <v-list-item @click="openRegisterItem" title="Receiving">
+          <v-list-item @click="setCurrentRoute('/register-item')" title="Receiving">
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="receivingIconPath"></svg-icon>
             </template>
           </v-list-item>
 
-          <v-list-item @click="openPutaway" title="Putaway">
+          <v-list-item @click="setCurrentRoute('/putaway')" title="Putaway">
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="putawayIconPath"></svg-icon>
             </template>
           </v-list-item>
 
-          <v-list-item @click="openOrders" title="Orders">
+          <v-list-item @click="setCurrentRoute('/orders')" title="Orders">
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="ordersIconPath"></svg-icon>
             </template>
           </v-list-item>
 
-          <v-list-item @click="openPick" title="Picking">
+          <v-list-item @click="setCurrentRoute('/pick')" title="Picking">
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="pickingIconPath"></svg-icon>
             </template>
@@ -50,11 +50,16 @@
 
         </v-list>
       </v-navigation-drawer>
+
+      <v-main>
+        <RouterView />
+      </v-main>
+
     </v-layout>
   </div>
 </template>
 
-<script>
+<script setup>
 import SvgIcon from '@jamescoyle/vue-icon';
 import { 
   mdiWarehouse, 
@@ -65,39 +70,21 @@ import {
   mdiPackageVariant,
   mdiTruckFast
 } from '@mdi/js';
+import { RouterView }  from 'vue-router'
+import { useRouter } from 'vue-router'
 
-export default {
-  data() {
-    return {
-      warehouseConfigurationIconPath: mdiWarehouse,
-      receivingIconPath: mdiTruckFastOutline,
-      putawayIconPath: mdiHumanDolly,
-      ordersIconPath: mdiInvoiceTextEditOutline,
-      pickingIconPath: mdiButtonPointer,
-      packagingIconPath: mdiPackageVariant,
-      shippingIconPath: mdiTruckFastOutline
-    }
-  },
-  components: {
-    SvgIcon
-  },
-  methods: {
-    openRegisterItem() {
-        this.$router.replace('/register-item')
-    },
-    openRegisterContainer() {
-        this.$router.replace('/register-container')
-    },
-    openPutaway() {
-        this.$router.replace('/putaway')
-    },
-    openOrders() {
-        this.$router.replace('/orders')
-    },
-    openPick() {
-        this.$router.replace('/pick')
-    }
-  }
+const router = useRouter()
+
+var warehouseConfigurationIconPath = mdiWarehouse
+var receivingIconPath = mdiTruckFastOutline
+var putawayIconPath = mdiHumanDolly
+var ordersIconPath = mdiInvoiceTextEditOutline
+var pickingIconPath = mdiButtonPointer
+var packagingIconPath = mdiPackageVariant
+var shippingIconPath = mdiTruckFastOutline
+
+function setCurrentRoute(route) {
+  router.push(route)
 }
 </script>
 

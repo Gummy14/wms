@@ -1,10 +1,11 @@
 <template>
   <div>
-    <router-view/>
+    <Menu />
   </div>
 </template>
 
-<script>
+<script setup>
+import Menu from './components/Menu.vue'
 </script>
 
 <style scoped>
