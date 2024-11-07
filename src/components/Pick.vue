@@ -31,56 +31,46 @@
         >
           Container Id: {{ itemContainerData.container.containerId }}
           Container Name: {{ itemContainerData.container.name }}
-          <v-btn @click="pickItemFromContainer">Pick</v-btn>
+          <v-btn @click="pickItemFromContainer()">Pick</v-btn>
         </v-card>
       </v-dialog>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
 import axios from 'axios'
 import SvgIcon from '@jamescoyle/vue-icon';
 import { mdiCheckCircleOutline  } from '@mdi/js';
 
-export default {
-  data() {
-    return {
-      genericId: 0,
-      itemContainerData: null,
-      allOrders: null,
-      mdiCheckCircleOutline : mdiCheckCircleOutline ,
-    }
-  },
-  components: {
-    SvgIcon
-  },
-  methods: {
-    getItemContainerRelationship(idToSearch) {
-      axios.get('https://localhost:7187/WMS/GetItemContainerRelationship/' + idToSearch)
-      .then(response => this.itemContainerData = response.data)
-    },
-    pickItemFromContainer() {
-      axios.post('https://localhost:7187/WMS/PickItem/', this.itemContainerData.container)
-      .then(this.resetAllPutawayData())
-    },
-    getAllOrders() {
-      axios.get('https://localhost:7187/WMS/GetAllOrders/')
-      .then(response => this.allOrders = response.data)
-    },
-    resetAllPutawayData() {
-      this.genericId = 0,
-      this.itemContainerData = null
-      this.getAllOrders()
-    },
-    orderIdTitle(orderId) {
-      return "Order Id: " + orderId
-    }
-  },
-  mounted() {
-    this.getAllOrders()
-  }
+var genericId = 0
+var itemContainerData = null
+var allOrders = null
+
+function getItemContainerRelationship(idToSearch) {
+  axios.get('https://localhost:7187/WMS/GetItemContainerRelationship/' + idToSearch)
+  .then(response => itemContainerData = response.data)
 }
+function pickItemFromContainer() {
+  axios.post('https://localhost:7187/WMS/PickItem/', itemContainerData.container)
+  .then(resetAllPutawayData())
+}
+function getAllOrders() {
+  axios.get('https://localhost:7187/WMS/GetAllOrders/')
+  .then(response => allOrders = response.data)
+}
+function resetAllPutawayData() {
+  genericId = 0,
+  itemContainerData = null
+  getAllOrders()
+}
+function orderIdTitle(orderId) {
+  return "Order Id: " + orderId
+}
+
+onMounted(() => {
+  getAllOrders()
+})
 </script>
 
 <style scoped>

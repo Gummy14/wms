@@ -8,43 +8,43 @@
 
           <v-list-item @click="setCurrentRoute('/register-container')" title="Warehouse Configuration">
             <template v-slot:prepend>
-              <svg-icon type="mdi" :path="warehouseConfigurationIconPath"></svg-icon>
+              <svg-icon type="mdi" :path="mdiWarehouse"></svg-icon>
             </template>
           </v-list-item>
 
           <v-list-item @click="setCurrentRoute('/register-item')" title="Receiving">
             <template v-slot:prepend>
-              <svg-icon type="mdi" :path="receivingIconPath"></svg-icon>
+              <svg-icon type="mdi" :path="mdiTruckFastOutline"></svg-icon>
             </template>
           </v-list-item>
 
           <v-list-item @click="setCurrentRoute('/putaway')" title="Putaway">
             <template v-slot:prepend>
-              <svg-icon type="mdi" :path="putawayIconPath"></svg-icon>
+              <svg-icon type="mdi" :path="mdiHumanDolly"></svg-icon>
             </template>
           </v-list-item>
 
           <v-list-item @click="setCurrentRoute('/orders')" title="Orders">
             <template v-slot:prepend>
-              <svg-icon type="mdi" :path="ordersIconPath"></svg-icon>
+              <svg-icon type="mdi" :path="mdiInvoiceTextEditOutline"></svg-icon>
             </template>
           </v-list-item>
 
           <v-list-item @click="setCurrentRoute('/pick')" title="Picking">
             <template v-slot:prepend>
-              <svg-icon type="mdi" :path="pickingIconPath"></svg-icon>
+              <svg-icon type="mdi" :path="mdiButtonPointer"></svg-icon>
             </template>
           </v-list-item>
 
           <v-list-item title="Packaging">
             <template v-slot:prepend>
-              <svg-icon type="mdi" :path="packagingIconPath"></svg-icon>
+              <svg-icon type="mdi" :path="mdiPackageVariant"></svg-icon>
             </template>
           </v-list-item>
 
           <v-list-item title="Shipping">
             <template v-slot:prepend>
-              <svg-icon type="mdi" :path="shippingIconPath"></svg-icon>
+              <svg-icon type="mdi" :path="mdiTruckFastOutline"></svg-icon>
             </template>
           </v-list-item>
 
@@ -68,20 +68,11 @@ import {
   mdiInvoiceTextEditOutline, 
   mdiButtonPointer,
   mdiPackageVariant,
-  mdiTruckFast
 } from '@mdi/js';
 import { RouterView }  from 'vue-router'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-
-var warehouseConfigurationIconPath = mdiWarehouse
-var receivingIconPath = mdiTruckFastOutline
-var putawayIconPath = mdiHumanDolly
-var ordersIconPath = mdiInvoiceTextEditOutline
-var pickingIconPath = mdiButtonPointer
-var packagingIconPath = mdiPackageVariant
-var shippingIconPath = mdiTruckFastOutline
 
 function setCurrentRoute(route) {
   router.push(route)
