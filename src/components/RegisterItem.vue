@@ -10,19 +10,21 @@
 
 <script setup>
 import axios from 'axios'
+import { ref } from 'vue'
 
-const itemToRegister = {
-  name: "",
-  description: ""
-}
+var itemToRegister = ref({
+  name: '',
+  description: ''
+})
 
 function addReceivedItemToDatabase() {
-  axios.post('https://localhost:7187/WMS/RegisterItem', itemToRegister)
+  axios.post('https://localhost:7187/WMS/RegisterItem', itemToRegister.value)
   .then(clearitemToRegisterData())
 }
 function clearitemToRegisterData() {
-  for (var prop in itemToRegister) {
-    itemToRegister[prop] = ""
+  itemToRegister.value = {
+    name: '',
+    description: ''
   }
 }
 </script>

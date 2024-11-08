@@ -9,17 +9,18 @@
 
 <script setup>
 import axios from 'axios'
+import { ref } from 'vue'
 
-var containerToRegister = {
+var containerToRegister = ref({
   name: ""
-}
+})
 
 function addContainerToDatabase() {
-  axios.post('https://localhost:7187/WMS/RegisterContainer', containerToRegister)
+  axios.post('https://localhost:7187/WMS/RegisterContainer', containerToRegister.value)
   .then(resetFields())
 }
 function resetFields() {
-  containerToRegister = {
+  containerToRegister.value = {
     name: ""
   }
 }

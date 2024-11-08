@@ -40,28 +40,29 @@
 
 <script setup>
 import axios from 'axios'
-import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiCheckCircleOutline  } from '@mdi/js';
+import { ref, onMounted } from 'vue'
+import SvgIcon from '@jamescoyle/vue-icon'
+import { mdiCheckCircleOutline  } from '@mdi/js'
 
-var genericId = 0
-var itemContainerData = null
-var allOrders = null
+var genericId = ref(0)
+var itemContainerData = ref(null)
+var allOrders = ref(null)
 
 function getItemContainerRelationship(idToSearch) {
   axios.get('https://localhost:7187/WMS/GetItemContainerRelationship/' + idToSearch)
-  .then(response => itemContainerData = response.data)
+  .then(response => itemContainerData.value = response.data)
 }
 function pickItemFromContainer() {
-  axios.post('https://localhost:7187/WMS/PickItem/', itemContainerData.container)
+  axios.post('https://localhost:7187/WMS/PickItem/', itemContainerData.value.container)
   .then(resetAllPutawayData())
 }
 function getAllOrders() {
   axios.get('https://localhost:7187/WMS/GetAllOrders/')
-  .then(response => allOrders = response.data)
+  .then(response => allOrders.value = response.data)
 }
 function resetAllPutawayData() {
-  genericId = 0,
-  itemContainerData = null
+  genericId.value = 0,
+  itemContainerData.value = null
   getAllOrders()
 }
 function orderIdTitle(orderId) {

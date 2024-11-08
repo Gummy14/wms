@@ -27,26 +27,27 @@
   
 <script setup>
 import axios from 'axios'
+import { ref, onMounted } from 'vue'
 
 
-var allOrders = null
-var allItems = null
-var newOrderItems = []
+var allOrders = ref(null)
+var allItems = ref(null)
+var newOrderItems = ref([])
 
 function getAllItems() {
   axios.get('https://localhost:7187/WMS/GetAllItems/')
-  .then(response => allItems = response.data)
+  .then(response => allItems.value = response.data)
 }
 function getAllOrders() {
   axios.get('https://localhost:7187/WMS/GetAllOrders/')
-  .then(response => allOrders = response.data)
+  .then(response => allOrders.value = response.data)
 }
 function createNewOrder() {
-  axios.post('https://localhost:7187/WMS/CreateOrder/', newOrderItems)
-  .then(allItems = null)
+  axios.post('https://localhost:7187/WMS/CreateOrder/', newOrderItems.value)
+  .then(allItems.value = null)
 }
 function addItemToOrder(item) {
-  newOrderItems.push(item)
+  newOrderItems.value.push(item)
 }
 function orderIdTitle(orderId) {
   return "Order Id: " + orderId

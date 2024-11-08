@@ -31,28 +31,29 @@
 
 <script setup>
 import axios from 'axios'
+import { ref } from 'vue'
 
-var itemToPutawayId = ''
-var putawayContainer = null
-var putawayItem = null
+var itemToPutawayId = ref('')
+var putawayContainer = ref(null)
+var putawayItem = ref(null)
 
 function getItemById() {
-  axios.get('https://localhost:7187/WMS/GetItemById/' + itemToPutawayId)
-  .then(response => putawayItem = response.data)
+  axios.get('https://localhost:7187/WMS/GetItemById/' + itemToPutawayId.value)
+  .then(response => putawayItem.value = response.data)
 }
 function getPutawayLocationForItem() {
   axios.get('https://localhost:7187/WMS/GetPutawayLocation')
-  .then(response => putawayContainer = response.data)
+  .then(response => putawayContainer.value = response.data)
 }
 function putItemInContainer() {
-  putawayContainer.itemId = putawayItem.itemId
-  axios.post('https://localhost:7187/WMS/PutawayItem', putawayContainer)
+  putawayContainer.value.itemId = putawayItem.value.itemId
+  axios.post('https://localhost:7187/WMS/PutawayItem', putawayContainer.value)
   .then(resetAllPutawayData())
 }
 function resetAllPutawayData() {
-  itemToPutawayId = '',
-  putawayContainer = null,
-  putawayItem = null
+  itemToPutawayId.value = '',
+  putawayContainer.value = null,
+  putawayItem.value = null
 }
 
 </script>
