@@ -13,9 +13,9 @@
       </v-dialog>
 
       <v-list>
-        <v-list-group v-for="order in allOrders" :key="order.id">
+        <v-list-group v-for="order in allOrders" :key="order.orderId">
           <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" :title="orderIdTitle(order.id)"></v-list-item>
+            <v-list-item v-bind="props" :title="orderIdTitle(order.orderId)" :subtitle="orderStatusText(order.orderStatus)"></v-list-item>
           </template>
           <v-list-item v-for="item in order.items" :key="item.id" :title="item.name"></v-list-item>
         </v-list-group>
@@ -51,6 +51,14 @@ function addItemToOrder(item) {
 }
 function orderIdTitle(orderId) {
   return "Order Id: " + orderId
+}
+function orderStatusText(orderStatus) {
+  switch(orderStatus) {
+    case 7:
+      return "Order Awaiting Action"
+    case 8:
+      return "Order Items Picking In Progress"
+  }
 }
 
 onMounted(() => {

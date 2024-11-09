@@ -7,9 +7,9 @@
       <v-btn @click="getItemContainerRelationship(genericId)">Search</v-btn>
       
       <v-list>
-        <v-list-group v-for="order in allOrders" :key="order.id">
+        <v-list-group v-for="order in allOrders" :key="order.orderId">
           <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" :title="orderIdTitle(order.id)"></v-list-item>
+            <v-list-item v-bind="props" :title="orderIdTitle(order.orderId)"></v-list-item>
           </template>
           <v-list-item v-for="item in order.items" :key="item.itemId" :title="item.name" @click="getItemContainerRelationship(item.itemId)">
             <template v-slot:append v-if="item.eventType == 5">

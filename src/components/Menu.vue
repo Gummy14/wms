@@ -48,6 +48,14 @@
             </template>
           </v-list-item>
 
+          <v-divider></v-divider>
+
+          <v-list-item @click="setCurrentRoute('/history')" title="Warehouse History">
+            <template v-slot:prepend>
+              <svg-icon type="mdi" :path="mdiClipboardTextClockOutline"></svg-icon>
+            </template>
+          </v-list-item>
+
         </v-list>
       </v-navigation-drawer>
 
@@ -68,6 +76,7 @@ import {
   mdiInvoiceTextEditOutline, 
   mdiButtonPointer,
   mdiPackageVariant,
+  mdiClipboardTextClockOutline
 } from '@mdi/js';
 import { RouterView }  from 'vue-router'
 import { useRouter } from 'vue-router'
