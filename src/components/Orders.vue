@@ -13,11 +13,11 @@
       </v-dialog>
 
       <v-list>
-        <v-list-group v-for="order in allOrders" :key="order.orderId">
+        <v-list-group v-for="orderItems in allOrders" :key="orderItems.order.orderEventId">
           <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" :title="orderIdTitle(order.orderId)" :subtitle="orderStatusText(order.orderStatus)"></v-list-item>
+            <v-list-item v-bind="props" :title="orderIdTitle(orderItems.order.orderId)" :subtitle="orderStatusText(orderItems.order.orderStatus)"></v-list-item>
           </template>
-          <v-list-item v-for="item in order.items" :key="item.id" :title="item.name"></v-list-item>
+          <v-list-item v-for="item in orderItems.items" :key="item.id" :title="item.name"></v-list-item>
         </v-list-group>
       </v-list>
 
@@ -55,9 +55,9 @@ function orderIdTitle(orderId) {
 function orderStatusText(orderStatus) {
   switch(orderStatus) {
     case 7:
-      return "Order Awaiting Action"
+      return "Unacknowledged"
     case 8:
-      return "Order Items Picking In Progress"
+      return "Picking In Progress"
   }
 }
 

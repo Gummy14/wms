@@ -6,18 +6,40 @@
       </v-card>
       <v-btn @click="getItemContainerRelationship(genericId)">Search</v-btn>
       
-      <v-list>
-        <v-list-group v-for="order in allOrders" :key="order.orderId">
+      <v-btn @click="getNextUnacknowledgedOrder()">Pick By Next Unacknowledged Order</v-btn>
+      <div>
+        <v-dialog
+          v-model="unacknowledgedOrder"
+          width="auto"
+        >
+          <v-card v-if="unacknowledgedOrder"
+            max-width="400"
+            :title="orderIdTitle(unacknowledgedOrder.order.orderId)"
+            :subtitle="orderDateTimeSubtitle(unacknowledgedOrder.order.orderStatusDateTime)"
+          >
+            <v-list>
+              <v-list-item v-for="item in unacknowledgedOrder.items" :key="item.itemId" :title="item.name"></v-list-item>
+            </v-list>
+            <v-btn @click="acknowledgeOrder()">Begin Picking</v-btn>
+          </v-card>
+        </v-dialog>
+      </div>
+
+      <v-list v-if="orderToPickFrom">
+        <v-list-group>
           <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" :title="orderIdTitle(order.orderId)"></v-list-item>
+            <v-list-item v-bind="props" :title="orderIdTitle(orderToPickFrom.order.orderId)"></v-list-item>
           </template>
-          <v-list-item v-for="item in order.items" :key="item.itemId" :title="item.name" @click="getItemContainerRelationship(item.itemId)">
+
+          <v-list-item v-for="item in orderToPickFrom.items" :key="item.itemId" :title="item.name" @click="getItemContainerRelationship(item.itemId)">
             <template v-slot:append v-if="item.eventType == 5">
               <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
             </template>
           </v-list-item>
+          
         </v-list-group>
       </v-list>
+
     </div>
     <div>
       <v-dialog
@@ -46,7 +68,8 @@ import { mdiCheckCircleOutline  } from '@mdi/js'
 
 var genericId = ref(0)
 var itemContainerData = ref(null)
-var allOrders = ref(null)
+var unacknowledgedOrder = ref(null)
+var orderToPickFrom = ref(null)
 
 function getItemContainerRelationship(idToSearch) {
   axios.get('https://localhost:7187/WMS/GetItemContainerRelationship/' + idToSearch)
@@ -54,24 +77,31 @@ function getItemContainerRelationship(idToSearch) {
 }
 function pickItemFromContainer() {
   axios.post('https://localhost:7187/WMS/PickItem/', itemContainerData.value.container)
-  .then(resetAllPutawayData())
+  .then(resetAllPickData())
 }
-function getAllOrders() {
-  axios.get('https://localhost:7187/WMS/GetAllOrders/')
-  .then(response => allOrders.value = response.data)
+function getNextUnacknowledgedOrder() {
+  axios.get('https://localhost:7187/WMS/GetNextUnacknowledgedOrder/')
+  .then(response => unacknowledgedOrder.value = response.data)
 }
-function resetAllPutawayData() {
+function acknowledgeOrder() {
+  console.log(unacknowledgedOrder.value)
+  axios.post('https://localhost:7187/WMS/AcknowledgeOrder/', unacknowledgedOrder.value)
+  .then(getOrderById(unacknowledgedOrder.value.order.orderId))
+}
+function getOrderById(orderId) {
+  axios.get('https://localhost:7187/WMS/GetOrderById/' + orderId)
+  .then(response => orderToPickFrom.value = response.data)
+}
+function resetAllPickData() {
   genericId.value = 0,
   itemContainerData.value = null
-  getAllOrders()
 }
 function orderIdTitle(orderId) {
   return "Order Id: " + orderId
 }
-
-onMounted(() => {
-  getAllOrders()
-})
+function orderDateTimeSubtitle(orderEventDateTime) {
+  return "Order Received: " + orderEventDateTime
+}
 </script>
 
 <style scoped>
