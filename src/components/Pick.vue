@@ -25,14 +25,14 @@
         </v-dialog>
       </div>
 
-      <v-list v-if="orderToPickFrom">
+      <v-list v-if="orderItemsToPickFrom">
         <v-list-group>
           <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" :title="orderIdTitle(orderToPickFrom.order.orderId)"></v-list-item>
+            <v-list-item v-bind="props" :title="orderIdTitle(orderItemsToPickFrom.order.orderId)"></v-list-item>
           </template>
 
-          <v-list-item v-for="item in orderToPickFrom.items" :key="item.itemId" :title="item.name" @click="getItemContainerRelationship(item.itemId)">
-            <template v-slot:append v-if="item.eventType == 5">
+          <v-list-item v-for="item in orderItemsToPickFrom.items" :key="item.itemId" :title="item.name" @click="getItemContainerRelationship(item.itemId)">
+            <template v-slot:append v-if="item.eventType == 6">
               <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
             </template>
           </v-list-item>
@@ -69,7 +69,7 @@ import { mdiCheckCircleOutline  } from '@mdi/js'
 var genericId = ref(0)
 var itemContainerData = ref(null)
 var unacknowledgedOrder = ref(null)
-var orderToPickFrom = ref(null)
+var orderItemsToPickFrom = ref(null)
 
 function getItemContainerRelationship(idToSearch) {
   axios.get('https://localhost:7187/WMS/GetItemContainerRelationship/' + idToSearch)
@@ -77,24 +77,26 @@ function getItemContainerRelationship(idToSearch) {
 }
 function pickItemFromContainer() {
   axios.post('https://localhost:7187/WMS/PickItem/', itemContainerData.value.container)
-  .then(resetAllPickData())
+  .then(response => resetAllPickData(response.data))
 }
 function getNextUnacknowledgedOrder() {
   axios.get('https://localhost:7187/WMS/GetNextUnacknowledgedOrder/')
   .then(response => unacknowledgedOrder.value = response.data)
 }
 function acknowledgeOrder() {
-  console.log(unacknowledgedOrder.value)
-  axios.post('https://localhost:7187/WMS/AcknowledgeOrder/', unacknowledgedOrder.value)
-  .then(getOrderById(unacknowledgedOrder.value.order.orderId))
+  axios.post('https://localhost:7187/WMS/AcknowledgeOrder/', unacknowledgedOrder.value.order)
+  .then(response => setOrderAcknowledgementData(response.data))
 }
-function getOrderById(orderId) {
-  axios.get('https://localhost:7187/WMS/GetOrderById/' + orderId)
-  .then(response => orderToPickFrom.value = response.data)
+function setOrderAcknowledgementData(responseData) {
+  unacknowledgedOrder.value = null
+  orderItemsToPickFrom.value = responseData
 }
-function resetAllPickData() {
+function resetAllPickData(responseData) {
   genericId.value = 0,
   itemContainerData.value = null
+  
+  var itemIndexToUpdate = orderItemsToPickFrom.value.items.findIndex(x => x.itemId == responseData.itemId)
+  orderItemsToPickFrom.value.items[itemIndexToUpdate] = responseData
 }
 function orderIdTitle(orderId) {
   return "Order Id: " + orderId
