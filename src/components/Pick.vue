@@ -57,7 +57,7 @@
         </v-card>
       </v-dialog>
 
-      <v-btn>All Items Picked</v-btn>
+      <v-btn @click="completePicking()">All Items Picked, Move Order To Packaging</v-btn>
     </div>
   </div>
 </template>
@@ -86,10 +86,17 @@ function getNextUnacknowledgedOrder() {
   axios.get('https://localhost:7187/WMS/GetNextUnacknowledgedOrder/')
   .then(response => setOrderToPickFromDialog(response.data))
 }
+function updateOrderDetail(orderDetailToUpdate) {
+  axios.post('https://localhost:7187/WMS/UpdateOrderDetail/', orderDetailToUpdate)
+  .then(response => setOrderAcknowledgementData(response.data))
+}
 function acknowledgeOrder() {
   orderToPickFrom.value.orderDetail.orderStatus = 8
-  axios.post('https://localhost:7187/WMS/UpdateOrderDetail/', orderToPickFrom.value.orderDetail)
-  .then(response => setOrderAcknowledgementData(response.data))
+  updateOrderDetail(orderToPickFrom.value.orderDetail)
+}
+function completePicking() {
+  orderToPickFrom.value.orderDetail.orderStatus = 9
+  updateOrderDetail(orderToPickFrom.value.orderDetail)
 }
 function setOrderToPickFromDialog(responseData) {
   orderToPickFrom.value = responseData
