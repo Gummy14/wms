@@ -13,11 +13,11 @@
       </v-dialog>
 
       <v-list>
-        <v-list-group v-for="orderItems in allOrders" :key="orderItems.order.orderEventId">
+        <v-list-group v-for="order in allOrders" :key="order.orderDetail.orderEventId">
           <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" :title="orderIdTitle(orderItems.order.orderId)" :subtitle="orderStatusText(orderItems.order.orderStatus)"></v-list-item>
+            <v-list-item v-bind="props" :title="orderIdTitle(order.orderDetail.orderId)" :subtitle="orderStatusText(order.orderDetail.orderStatus)"></v-list-item>
           </template>
-          <v-list-item v-for="item in orderItems.items" :key="item.id" :title="item.name"></v-list-item>
+          <v-list-item v-for="item in order.items" :key="item.id" :title="item.name"></v-list-item>
         </v-list-group>
       </v-list>
 
@@ -33,6 +33,7 @@ import { ref, onMounted } from 'vue'
 var allOrders = ref(null)
 var allItems = ref(null)
 var newOrderItems = ref([])
+var eventTypes = ref(null)
 
 function getAllItems() {
   axios.get('https://localhost:7187/WMS/GetAllItems/')
@@ -41,6 +42,10 @@ function getAllItems() {
 function getAllOrders() {
   axios.get('https://localhost:7187/WMS/GetAllOrders/')
   .then(response => allOrders.value = response.data)
+}
+function getAllEventTypes() {
+  axios.get('https://localhost:7187/WMS/GetAllEventTypes/')
+  .then(response => eventTypes.value = response.data)
 }
 function createNewOrder() {
   axios.post('https://localhost:7187/WMS/CreateOrder/', newOrderItems.value)
@@ -53,16 +58,16 @@ function orderIdTitle(orderId) {
   return "Order Id: " + orderId
 }
 function orderStatusText(orderStatus) {
-  switch(orderStatus) {
-    case 7:
-      return "Unacknowledged"
-    case 8:
-      return "Picking In Progress"
-  }
+  // if(orderStatus && eventTypes.value) {
+  //   return eventTypes.value.find(x => x.Id === orderStatus).eventTypeDescription
+  // } else {
+  //   return 'Fetching Order Status'
+  // }
 }
 
 onMounted(() => {
   getAllOrders()
+  getAllEventTypes()
 })
 </script>
 
