@@ -24,7 +24,7 @@ var genericId = ref('')
 var warehouseItemHistory = ref()
 
 function getObjectHistory() {
-  axios.get('https://localhost:7187/WMS/GetObjectHistory/' + genericId.value)
+  axios.get('https://localhost:7187/History/GetObjectHistory/' + genericId.value)
   .then(response => warehouseItemHistory.value = response.data)
 }
 function orderHistoryEntry(warehouseObject) {
