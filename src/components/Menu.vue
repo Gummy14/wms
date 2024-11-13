@@ -36,13 +36,13 @@
             </template>
           </v-list-item>
 
-          <v-list-item title="Packaging">
+          <v-list-item @click="setCurrentRoute('/packaging')" title="Packaging">
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="mdiPackageVariant"></svg-icon>
             </template>
           </v-list-item>
 
-          <v-list-item title="Shipping">
+          <v-list-item @click="setCurrentRoute('/shipping')" title="Shipping">
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="mdiTruckFastOutline"></svg-icon>
             </template>
