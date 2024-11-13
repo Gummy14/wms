@@ -16,7 +16,7 @@ var containerToRegister = ref({
 })
 
 function addContainerToDatabase() {
-  axios.post('https://localhost:7187/WMS/RegisterContainer', containerToRegister.value)
+  axios.post('https://localhost:7187/Container/RegisterContainer', containerToRegister.value)
   .then(resetFields())
 }
 function resetFields() {

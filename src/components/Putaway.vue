@@ -38,16 +38,16 @@ var putawayContainer = ref(null)
 var putawayItem = ref(null)
 
 function getItemById() {
-  axios.get('https://localhost:7187/WMS/GetItemById/' + itemToPutawayId.value)
+  axios.get('https://localhost:7187/Item/GetItemById/' + itemToPutawayId.value)
   .then(response => putawayItem.value = response.data)
 }
 function getPutawayLocationForItem() {
-  axios.get('https://localhost:7187/WMS/GetPutawayLocation')
+  axios.get('https://localhost:7187/Putaway/GetPutawayLocation')
   .then(response => putawayContainer.value = response.data)
 }
 function putItemInContainer() {
   putawayContainer.value.itemId = putawayItem.value.itemId
-  axios.post('https://localhost:7187/WMS/PutawayItem', putawayContainer.value)
+  axios.post('https://localhost:7187/Putaway/PutawayItem', putawayContainer.value)
   .then(resetAllPutawayData())
 }
 function resetAllPutawayData() {

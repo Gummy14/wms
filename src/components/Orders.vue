@@ -36,19 +36,19 @@ var newOrderItems = ref([])
 var eventTypes = ref(null)
 
 function getAllItems() {
-  axios.get('https://localhost:7187/WMS/GetAllItems/')
+  axios.get('https://localhost:7187/Item/GetAllItems/')
   .then(response => allItems.value = response.data)
 }
 function getAllOrders() {
-  axios.get('https://localhost:7187/WMS/GetAllOrders/')
+  axios.get('https://localhost:7187/Order/GetAllOrders/')
   .then(response => allOrders.value = response.data)
 }
 function getAllEventTypes() {
-  axios.get('https://localhost:7187/WMS/GetAllEventTypes/')
+  axios.get('https://localhost:7187/EventTypes/GetAllEventTypes/')
   .then(response => eventTypes.value = response.data)
 }
 function createNewOrder() {
-  axios.post('https://localhost:7187/WMS/CreateOrder/', newOrderItems.value)
+  axios.post('https://localhost:7187/Order/RegisterOrder/', newOrderItems.value)
   .then(allItems.value = null)
 }
 function addItemToOrder(item) {

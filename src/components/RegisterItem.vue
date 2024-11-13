@@ -18,7 +18,7 @@ var itemToRegister = ref({
 })
 
 function addReceivedItemToDatabase() {
-  axios.post('https://localhost:7187/WMS/RegisterItem', itemToRegister.value)
+  axios.post('https://localhost:7187/Item/RegisterItem', itemToRegister.value)
   .then(clearitemToRegisterData())
 }
 function clearitemToRegisterData() {

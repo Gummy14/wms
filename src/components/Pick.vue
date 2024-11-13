@@ -79,15 +79,15 @@ function getItemContainerRelationship(idToSearch) {
   .then(response => itemContainerData.value = response.data)
 }
 function pickItemFromContainer() {
-  axios.post('https://localhost:7187/WMS/PickItem/', itemContainerData.value.container)
+  axios.post('https://localhost:7187/Pick/PickItem/', itemContainerData.value.container)
   .then(response => resetAllPickData(response.data))
 }
 function getNextUnacknowledgedOrder() {
-  axios.get('https://localhost:7187/WMS/GetNextUnacknowledgedOrder/')
+  axios.get('https://localhost:7187/Order/GetNextUnacknowledgedOrder/')
   .then(response => setOrderToPickFromDialog(response.data))
 }
 function updateOrderDetail(orderDetailToUpdate) {
-  axios.post('https://localhost:7187/WMS/UpdateOrderDetail/', orderDetailToUpdate)
+  axios.post('https://localhost:7187/Order/UpdateOrderDetail/', orderDetailToUpdate)
   .then(response => setOrderAcknowledgementData(response.data))
 }
 function acknowledgeOrder() {
