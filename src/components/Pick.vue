@@ -57,14 +57,14 @@
         </v-card>
       </v-dialog>
 
-      <v-btn @click="completePicking()">All Items Picked, Move Order To Packaging</v-btn>
+      <v-btn :disabled="!areAllItemsPicked" @click="completePicking">All Items Picked, Move Order To Packaging Queue</v-btn>
     </div>
   </div>
 </template>
 
 <script setup>
 import axios from 'axios'
-import { ref, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiCheckCircleOutline  } from '@mdi/js'
 
@@ -72,7 +72,20 @@ var genericId = ref(0)
 var itemContainerData = ref(null)
 var orderToPickFrom = ref(null)
 var unacknowledgedOrderDialog = ref(false)
-var moveToPackaging = ref(false)
+
+const areAllItemsPicked = computed(() => {
+  if(orderToPickFrom.value) {
+    var allItemsPicked = true
+    orderToPickFrom.value.items.forEach(item => {
+      if(item.eventType != 6) {
+        allItemsPicked = false
+      }
+    })
+    return allItemsPicked
+  } else {
+    return false
+  }
+})
 
 function getItemContainerRelationship(idToSearch) {
   axios.get('https://localhost:7187/WMS/GetItemContainerRelationship/' + idToSearch)
