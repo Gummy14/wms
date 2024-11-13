@@ -77,7 +77,7 @@ const areAllItemsPicked = computed(() => {
   if(orderToPickFrom.value) {
     var allItemsPicked = true
     orderToPickFrom.value.items.forEach(item => {
-      if(item.eventType != 6) {
+      if(item.eventType != 7) {
         allItemsPicked = false
       }
     })
