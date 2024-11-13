@@ -17,7 +17,7 @@
           :title="putawayItem.name"
         >
         <div v-if="putawayContainer == null">
-          <v-btn @click="getPutawayLocationForItem()">Get Putaway Location</v-btn>
+          <v-btn @click="beginPutaway()">Begin Putaway</v-btn>
         </div>
         <div v-else>
           Putaway In Location: {{ putawayContainer.name }}
@@ -40,6 +40,10 @@ var putawayItem = ref(null)
 function getItemById() {
   axios.get('https://localhost:7187/Item/GetItemById/' + itemToPutawayId.value)
   .then(response => putawayItem.value = response.data)
+}
+function beginPutaway() {
+  axios.post('https://localhost:7187/Putaway/BeginPutaway', putawayItem.value)
+  .then(getPutawayLocationForItem())
 }
 function getPutawayLocationForItem() {
   axios.get('https://localhost:7187/Putaway/GetPutawayLocation')

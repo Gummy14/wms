@@ -32,7 +32,7 @@
           </template>
 
           <v-list-item v-for="item in orderToPickFrom.items" :key="item.itemId" :title="item.name" @click="getItemContainerRelationship(item.itemId)">
-            <template v-slot:append v-if="item.eventType == 6">
+            <template v-slot:append v-if="item.eventType == 7">
               <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
             </template>
           </v-list-item>
@@ -104,11 +104,11 @@ function updateOrderDetail(orderDetailToUpdate) {
   .then(response => setOrderAcknowledgementData(response.data))
 }
 function acknowledgeOrder() {
-  orderToPickFrom.value.orderDetail.orderStatus = 8
+  orderToPickFrom.value.orderDetail.orderStatus = 9
   updateOrderDetail(orderToPickFrom.value.orderDetail)
 }
 function completePicking() {
-  orderToPickFrom.value.orderDetail.orderStatus = 9
+  orderToPickFrom.value.orderDetail.orderStatus = 10
   updateOrderDetail(orderToPickFrom.value.orderDetail)
 }
 function setOrderToPickFromDialog(responseData) {

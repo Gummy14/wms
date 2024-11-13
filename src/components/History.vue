@@ -22,29 +22,25 @@ import { ref, computed, onMounted } from 'vue'
 
 var genericId = ref('')
 var warehouseItemHistory = ref()
+var eventTypes = ref(null)
 
 function getObjectHistory() {
   axios.get('https://localhost:7187/History/GetObjectHistory/' + genericId.value)
   .then(response => warehouseItemHistory.value = response.data)
 }
 function orderHistoryEntry(warehouseObject) {
-  switch(warehouseObject.eventType) {
-    case 1:
-      return 'Item Registered'
-    case 2:
-      return 'Container Registered'
-    case 3:
-      return 'Item Putaway Into Container ID: ' + warehouseObject.containerId
-    case 4:
-      return 'Item Added To Order ID: ' + warehouseObject.orderId
-    case 5:
-      return 'Item Picked From Container ID: ' + warehouseObject.containerId
-    case 6:
-      return 'Item Picked From Container ID ' + warehouseObject.containerId
-    default:
-      return ''
+  if(eventTypes != null) {
+    return eventTypes.value.find(x => x.id === warehouseObject.eventType).eventTypeDescription
   }
 }
+function getAllEventTypes() {
+  axios.get('https://localhost:7187/EventTypes/GetAllEventTypes/')
+  .then(response => eventTypes.value = response.data)
+}
+
+onMounted(() => {
+  getAllEventTypes()
+})
 </script>
 
 <style scoped>
