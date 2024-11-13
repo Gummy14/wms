@@ -56,7 +56,7 @@ const router = createRouter({
       path: '/shipping',
       name: 'shipping',
       component: Shipping
-    }
+    },
     {
       path: '/history',
       name: 'history',
