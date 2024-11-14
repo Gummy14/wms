@@ -32,7 +32,7 @@
           </template>
 
           <v-list-item v-for="item in orderToPickFrom.items" :key="item.itemId" :title="item.name" @click="getItemContainerRelationship(item.itemId)">
-            <template v-slot:append v-if="item.eventType == 7">
+            <template v-slot:append v-if="item.eventType == 422">
               <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
             </template>
           </v-list-item>
@@ -57,7 +57,7 @@
         </v-card>
       </v-dialog>
 
-      <v-btn :disabled="!areAllItemsPicked" @click="completePicking">All Items Picked, Move Order To Packaging Queue</v-btn>
+      <v-btn :disabled="!areAllItemsPicked" @click="completePicking()">All Items Picked, Move Order To Packaging</v-btn>
     </div>
   </div>
 </template>
@@ -77,7 +77,7 @@ const areAllItemsPicked = computed(() => {
   if(orderToPickFrom.value) {
     var allItemsPicked = true
     orderToPickFrom.value.items.forEach(item => {
-      if(item.eventType != 7) {
+      if(item.eventType != 422) {
         allItemsPicked = false
       }
     })
@@ -96,7 +96,7 @@ function pickItemFromContainer() {
   .then(response => resetAllPickData(response.data))
 }
 function getNextUnacknowledgedOrder() {
-  axios.get('https://localhost:7187/Order/GetNextUnacknowledgedOrder/')
+  axios.get('https://localhost:7187/Order/GetNextOrderByStatus/' + 410)
   .then(response => setOrderToPickFromDialog(response.data))
 }
 function updateOrderDetail(orderDetailToUpdate) {
@@ -104,11 +104,11 @@ function updateOrderDetail(orderDetailToUpdate) {
   .then(response => setOrderAcknowledgementData(response.data))
 }
 function acknowledgeOrder() {
-  orderToPickFrom.value.orderDetail.orderStatus = 9
+  orderToPickFrom.value.orderDetail.orderStatus = 420
   updateOrderDetail(orderToPickFrom.value.orderDetail)
 }
 function completePicking() {
-  orderToPickFrom.value.orderDetail.orderStatus = 10
+  orderToPickFrom.value.orderDetail.orderStatus = 510
   updateOrderDetail(orderToPickFrom.value.orderDetail)
 }
 function setOrderToPickFromDialog(responseData) {
