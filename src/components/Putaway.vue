@@ -17,7 +17,7 @@
           :title="putawayItem.name"
         >
         <div v-if="putawayContainer == null">
-          <v-btn @click="beginPutaway()">Begin Putaway</v-btn>
+          <v-btn @click="selectForPutaway()">Select For Putaway</v-btn>
         </div>
         <div v-else>
           Putaway In Location: {{ putawayContainer.name }}
@@ -41,8 +41,9 @@ function getItemById() {
   axios.get('https://localhost:7187/Item/GetItemById/' + itemToPutawayId.value)
   .then(response => putawayItem.value = response.data)
 }
-function beginPutaway() {
-  axios.post('https://localhost:7187/Putaway/BeginPutaway', putawayItem.value)
+function selectForPutaway() {
+  putawayItem.value.eventType = 220
+  axios.post('https://localhost:7187/Item/UpdateItem', putawayItem.value)
   .then(getPutawayLocationForItem())
 }
 function getPutawayLocationForItem() {
@@ -50,8 +51,9 @@ function getPutawayLocationForItem() {
   .then(response => putawayContainer.value = response.data)
 }
 function putItemInContainer() {
-  putawayContainer.value.itemId = putawayItem.value.itemId
-  axios.post('https://localhost:7187/Putaway/PutawayItem', putawayContainer.value)
+  putawayItem.value.containerId = putawayContainer.value.containerId
+  putawayItem.value.eventType = 310
+  axios.post('https://localhost:7187/Item/UpdateItem', putawayItem.value)
   .then(resetAllPutawayData())
 }
 function resetAllPutawayData() {
