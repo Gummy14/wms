@@ -112,6 +112,7 @@ function acknowledgeOrder() {
 }
 function completePicking() {
   orderToPickFrom.value.orderDetail.orderStatus = 510
+  orderToPickFrom.value.orderDetail.containerIdOrderItemsHeldIn = containerIdToPickInto
   updateOrderDetail(orderToPickFrom.value.orderDetail)
 }
 function setOrderToPickFromDialog(responseData) {
