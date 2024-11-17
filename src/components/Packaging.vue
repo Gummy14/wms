@@ -29,9 +29,9 @@
 import { ref } from 'vue'
 import { GetOrderByContainerId, UpdateOrderDetail } from '@/functions/functions'
 
-var orderToPackage = ref(null)
 var containerId = ref(null)
 var unselectedOrderToPackageDialog = ref(false)
+var orderToPackage = ref(null)
 
 function getContainerById() {
   GetOrderByContainerId(containerId.value)

@@ -31,6 +31,9 @@ export async function RegisterContainer(containerToRegister) {
 export async function GetAllOrders() {
     return await axios.get(baseUrl + 'Order/GetAllOrders/')
 }
+export async function GetOrderById(orderId) {
+    return await axios.get(baseUrl + 'Order/GetOrderById/' + orderId)
+}
 export async function GetNextOrderByStatus(orderStatus) {
     return await axios.get(baseUrl + 'Order/GetNextOrderByStatus/' + orderStatus)
 }
