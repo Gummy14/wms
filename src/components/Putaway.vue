@@ -30,31 +30,39 @@
 </template>
 
 <script setup>
-import axios from 'axios'
 import { ref } from 'vue'
+import { GetItemById, UpdateItem, GetPutawayLocation } from '@/functions/functions'
 
 var itemToPutawayId = ref('')
 var putawayContainer = ref(null)
 var putawayItem = ref(null)
 
 function getItemById() {
-  axios.get('https://localhost:7187/Item/GetItemById/' + itemToPutawayId.value)
-  .then(response => putawayItem.value = response.data)
+  GetItemById(itemToPutawayId.value)
+  .then(response => {
+    putawayItem.value = response.data
+  })
 }
 function selectForPutaway() {
   putawayItem.value.eventType = 220
-  axios.post('https://localhost:7187/Item/UpdateItem', putawayItem.value)
-  .then(getPutawayLocationForItem())
+  UpdateItem(putawayItem.value)
+  .then(() => {
+    getPutawayLocation()
+  })
 }
-function getPutawayLocationForItem() {
-  axios.get('https://localhost:7187/Putaway/GetPutawayLocation')
-  .then(response => putawayContainer.value = response.data)
+function getPutawayLocation() {
+  GetPutawayLocation()
+  .then(response => {
+    putawayContainer.value = response.data
+  })
 }
 function putItemInContainer() {
   putawayItem.value.containerId = putawayContainer.value.containerId
   putawayItem.value.eventType = 310
-  axios.post('https://localhost:7187/Item/UpdateItem', putawayItem.value)
-  .then(resetAllPutawayData())
+  UpdateItem(putawayItem.value)
+  .then(() => {
+    resetAllPutawayData()
+  })
 }
 function resetAllPutawayData() {
   itemToPutawayId.value = '',

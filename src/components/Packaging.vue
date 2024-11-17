@@ -26,20 +26,24 @@
 </template>
 
 <script setup>
-import axios from 'axios'
 import { ref } from 'vue'
+import { GetOrderByContainerId, UpdateOrderDetail } from '@/functions/functions'
 
 var orderToPackage = ref(null)
 var containerId = ref(null)
 var unselectedOrderToPackageDialog = ref(false)
 
 function getContainerById() {
-  axios.get('https://localhost:7187/Order/GetOrderByContainerId/' + containerId.value)
-  .then(response => openSelectionDialog(response.data))
+  GetOrderByContainerId(containerId.value)
+  .then(response => {
+    openSelectionDialog(response.data)
+  })
 }
 function updateOrderDetail(orderDetail) {
-  axios.post('https://localhost:7187/Order/UpdateOrderDetail/', orderDetail)
-  .then(response => beginPackagingProcess(response.data))
+  UpdateOrderDetail(orderDetail)
+  .then(response => {
+    beginPackagingProcess(response.data)
+  })
 }
 function selectForPackaging() {
   orderToPackage.value.orderDetail.orderStatus = 520

@@ -8,7 +8,7 @@
           <v-list>
             <v-list-item v-for="item in allItems" :key="item.id" :title="item.name"><v-btn @click="addItemToOrder(item)">Add To Order</v-btn></v-list-item>
           </v-list>
-          <v-btn @click="createNewOrder()">Create New Order</v-btn>
+          <v-btn @click="registerOrder()">Create New Order</v-btn>
         </v-card>
       </v-dialog>
 
@@ -26,8 +26,8 @@
 </template>
   
 <script setup>
-import axios from 'axios'
 import { ref, onMounted } from 'vue'
+import { GetAllItems, GetAllOrders, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
 
 
 var allOrders = ref(null)
@@ -36,20 +36,28 @@ var newOrderItems = ref([])
 var eventTypes = ref(null)
 
 function getAllItems() {
-  axios.get('https://localhost:7187/Item/GetAllItems/')
-  .then(response => allItems.value = response.data)
+  GetAllItems()
+  .then(response => {
+    allItems.value = response.data
+  })
 }
 function getAllOrders() {
-  axios.get('https://localhost:7187/Order/GetAllOrders/')
-  .then(response => allOrders.value = response.data)
+  GetAllOrders()
+  .then(response => {
+    allOrders.value = response.data
+  })
 }
 function getAllEventTypes() {
-  axios.get('https://localhost:7187/EventTypes/GetAllEventTypes/')
-  .then(response => eventTypes.value = response.data)
+  GetAllEventTypes()
+  .then(response => {
+    eventTypes.value = response.data
+  })
 }
-function createNewOrder() {
-  axios.post('https://localhost:7187/Order/RegisterOrder/', newOrderItems.value)
-  .then(allItems.value = null)
+function registerOrder() {
+  RegisterOrder(newOrderItems.value)
+  .then(() => {
+    allItems.value = null
+  })
 }
 function addItemToOrder(item) {
   newOrderItems.value.push(item)

@@ -1,13 +1,13 @@
 <template>
   <div>
-    <v-btn @click="getNextUnacknowledgedOrder()">Pick By Next Unacknowledged Order</v-btn>
+    <v-btn @click="getNextOrderByStatus()">Pick By Next Unacknowledged Order</v-btn>
 
     <v-list v-if="orderToPickFrom && !unacknowledgedOrderDialog">
       <v-list-group>
         <template v-slot:activator="{ props }">
           <v-list-item v-bind="props" :title="orderIdTitle(orderToPickFrom.orderDetail.orderId)"></v-list-item>
         </template>
-        <v-list-item v-for="item in orderToPickFrom.items" :key="item.itemId" :title="item.name" @click="getContainerDetail(item)">
+        <v-list-item v-for="item in orderToPickFrom.items" :key="item.itemId" :title="item.name" @click="getContainerDetailById(item)">
           <template v-slot:append v-if="item.eventType == 422">
             <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
           </template>
@@ -38,7 +38,7 @@
       <v-card>
         <v-text-field label="Container Id To Pick Into" v-model="containerIdToPickInto"></v-text-field>
       </v-card>
-      <v-btn @click="selectContainer()">Select Container</v-btn>
+      <v-btn @click="getContainerById()">Select Container</v-btn>
     </v-dialog>
 
     <v-dialog
@@ -50,7 +50,7 @@
         :title="containerDetailData.name"
         :subtitle="containerDetailData.containerId"
       >
-        <v-btn @click="pickItemFromContainer()">Pick</v-btn>
+        <v-btn @click="pickItem()">Pick</v-btn>
       </v-card>
     </v-dialog>
     <v-btn :disabled="!areAllItemsPicked" @click="completePicking()">All Items Picked, Move Order To Packaging</v-btn>
@@ -58,10 +58,10 @@
 </template>
 
 <script setup>
-import axios from 'axios'
 import { ref, computed } from 'vue'
 import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiCheckCircleOutline  } from '@mdi/js'
+import { GetNextOrderByStatus, GetContainerDetailById, UpdateOrderDetail, GetContainerById, PickItem } from '@/functions/functions'
 
 var genericId = ref(0)
 var activeItem = ref(null)
@@ -84,27 +84,39 @@ const areAllItemsPicked = computed(() => {
     return false
   }
 })
-function getNextUnacknowledgedOrder() {
-  axios.get('https://localhost:7187/Order/GetNextOrderByStatus/' + 410)
-  .then(response => setOrderToPickFromDialog(response.data))
+
+function getNextOrderByStatus() {
+  GetNextOrderByStatus(410)
+  .then(response => {
+    orderToPickFrom.value = response.data
+    unacknowledgedOrderDialog.value = true
+  })
+}
+function getContainerDetailById(item) {
+  activeItem.value = item
+  GetContainerDetailById(item.containerId)
+  .then(response => {
+    containerDetailData.value = response.data
+  })
 }
 function updateOrderDetail(orderDetailToUpdate) {
-  axios.post('https://localhost:7187/Order/UpdateOrderDetail/', orderDetailToUpdate)
-  .then(response => setOrderAcknowledgementData(response.data))
+  UpdateOrderDetail(orderDetailToUpdate)
+  .then(response => {
+    setOrderAcknowledgementData(response.data)
+  })
 }
-function selectContainer() {
-  axios.get('https://localhost:7187/Container/GetContainerById/' + containerIdToPickInto.value)
-  .then(response => selectContainerToPickInto(response.data.containerDetail.containerId))
+function getContainerById() {
+  GetContainerById(containerIdToPickInto.value)
+  .then(response => {
+    selectContainerToPickInto(response.data.containerDetail.containerId)
+  })
 }
-function getContainerDetail(item) {
-  activeItem.value = item
-  axios.get('https://localhost:7187/Container/GetContainerDetailById/' + item.containerId)
-  .then(response => containerDetailData.value = response.data)
-}
-function pickItemFromContainer() {
+function pickItem() {
   activeItem.value.containerId = containerIdToPickInto
-  axios.post('https://localhost:7187/Pick/PickItem/', activeItem.value)
-  .then(response => resetAllPickData(response.data))
+  PickItem(activeItem.value)
+  .then(response => {
+    resetAllPickData(response.data)
+  })
 }
 function acknowledgeOrder() {
   orderToPickFrom.value.orderDetail.orderStatus = 420
@@ -114,10 +126,6 @@ function completePicking() {
   orderToPickFrom.value.orderDetail.orderStatus = 510
   orderToPickFrom.value.orderDetail.containerIdOrderItemsHeldIn = containerIdToPickInto
   updateOrderDetail(orderToPickFrom.value.orderDetail)
-}
-function setOrderToPickFromDialog(responseData) {
-  orderToPickFrom.value = responseData
-  unacknowledgedOrderDialog.value = true
 }
 function setOrderAcknowledgementData(responseData) {
   orderToPickFrom.value.orderDetail = responseData
