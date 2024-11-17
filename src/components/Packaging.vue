@@ -36,13 +36,14 @@ var unselectedOrderToPackageDialog = ref(false)
 function getContainerById() {
   GetOrderByContainerId(containerId.value)
   .then(response => {
-    openSelectionDialog(response.data)
+    orderToPackage.value = response.data
+    unselectedOrderToPackageDialog.value = true
   })
 }
 function updateOrderDetail(orderDetail) {
   UpdateOrderDetail(orderDetail)
-  .then(response => {
-    beginPackagingProcess(response.data)
+  .then(() => {
+    unselectedOrderToPackageDialog.value = false
   })
 }
 function selectForPackaging() {
@@ -52,13 +53,6 @@ function selectForPackaging() {
 function packageOrder() {
   orderToPackage.value.orderDetail.orderStatus = 610
   updateOrderDetail(orderToPackage.value.orderDetail)
-}
-function openSelectionDialog(responseData) {
-  orderToPackage.value = responseData
-  unselectedOrderToPackageDialog.value = true
-}
-function beginPackagingProcess(responseData) {
-  unselectedOrderToPackageDialog.value = false
 }
 function orderIdTitle(orderId) {
   return "Order Id: " + orderId

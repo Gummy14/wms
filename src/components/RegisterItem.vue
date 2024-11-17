@@ -20,14 +20,9 @@ var itemToRegister = ref({
 function registerItem() {
   RegisterItem(itemToRegister.value)
   .then(() => {
-    resetFields()
+    itemToRegister.value.name = ''
+    itemToRegister.value.description = ''
   })
-}
-function resetFields() {
-  itemToRegister.value = {
-    name: '',
-    description: ''
-  }
 }
 </script>
 

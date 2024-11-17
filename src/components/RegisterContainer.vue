@@ -12,19 +12,14 @@ import { ref } from 'vue'
 import { RegisterContainer } from '@/functions/functions'
 
 var containerToRegister = ref({
-  name: ""
+  name: ''
 })
 
 function registerContainer() {
   RegisterContainer(containerToRegister.value)
   .then(() => {
-    resetFields()
+    containerToRegister.value.name = ''
   })
-}
-function resetFields() {
-  containerToRegister.value = {
-    name: ""
-  }
 }
 </script>
 

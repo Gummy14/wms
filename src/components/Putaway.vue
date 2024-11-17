@@ -61,13 +61,10 @@ function putItemInContainer() {
   putawayItem.value.eventType = 310
   UpdateItem(putawayItem.value)
   .then(() => {
-    resetAllPutawayData()
+    itemToPutawayId.value = '',
+    putawayContainer.value = null,
+    putawayItem.value = null
   })
-}
-function resetAllPutawayData() {
-  itemToPutawayId.value = '',
-  putawayContainer.value = null,
-  putawayItem.value = null
 }
 
 </script>
