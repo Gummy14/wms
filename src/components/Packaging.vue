@@ -5,8 +5,10 @@
     </v-card>
     <v-btn @click="getContainerById()">Find Container</v-btn>
 
+    <v-btn v-if="orderToPackage && !unselectedOrderToPackageDialog" @click="packageOrder()">Package Order</v-btn>
+
     <v-dialog
-      v-model="orderToPackage"
+      v-model="unselectedOrderToPackageDialog"
       width="auto"
     >
       <v-card v-if="orderToPackage"
@@ -29,15 +31,30 @@ import { ref } from 'vue'
 
 var orderToPackage = ref(null)
 var containerId = ref(null)
+var unselectedOrderToPackageDialog = ref(false)
 
 function getContainerById() {
   axios.get('https://localhost:7187/Order/GetOrderByContainerId/' + containerId.value)
-  .then(response => orderToPackage.value = response.data)
+  .then(response => openSelectionDialog(response.data))
+}
+function updateOrderDetail(orderDetail) {
+  axios.post('https://localhost:7187/Order/UpdateOrderDetail/', orderDetail)
+  .then(response => beginPackagingProcess(response.data))
 }
 function selectForPackaging() {
   orderToPackage.value.orderDetail.orderStatus = 520
-  axios.post('https://localhost:7187/Order/UpdateOrderDetail/', orderToPackage.value.orderDetail)
-  .then(response => console.log(response.data))
+  updateOrderDetail(orderToPackage.value.orderDetail)
+}
+function packageOrder() {
+  orderToPackage.value.orderDetail.orderStatus = 610
+  updateOrderDetail(orderToPackage.value.orderDetail)
+}
+function openSelectionDialog(responseData) {
+  orderToPackage.value = responseData
+  unselectedOrderToPackageDialog.value = true
+}
+function beginPackagingProcess(responseData) {
+  unselectedOrderToPackageDialog.value = false
 }
 function orderIdTitle(orderId) {
   return "Order Id: " + orderId
