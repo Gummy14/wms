@@ -59,7 +59,3 @@ export async function GetPutawayLocation() {
 export async function PickItem(item) {
     return await axios.post(baseUrl + 'Pick/PickItem/', item)
 }
-
-
-
-
