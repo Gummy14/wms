@@ -7,6 +7,7 @@ import Orders from '@/components/Orders.vue'
 import Packaging from '@/components/Packaging.vue'
 import Shipping from '@/components/Shipping.vue'
 import History from '@/components/History.vue'
+import Data from '@/components/Data.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -61,6 +62,11 @@ const router = createRouter({
       path: '/history',
       name: 'history',
       component: History
+    },
+    {
+      path: '/data',
+      name: 'data',
+      component: Data
     }
   ]
 })
