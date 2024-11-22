@@ -1,6 +1,6 @@
 import Menu from '@/components/Menu.vue'
-import RegisterItem from '@/components/RegisterItem.vue'
-import RegisterContainer from '@/components/RegisterContainer.vue'
+import Items from '@/components/RegisterItem.vue'
+import Containers from '@/components/RegisterContainer.vue'
 import Pick from '@/components/Pick.vue'
 import Putaway from '@/components/Putaway.vue'
 import Orders from '@/components/Orders.vue'
@@ -23,14 +23,14 @@ const router = createRouter({
       component: Menu
     },
     {
-      path: '/register-item',
-      name: 'register-item',
-      component: RegisterItem
+      path: '/items',
+      name: 'items',
+      component: Items
     },
     {
-      path: '/register-container',
-      name: 'register-container',
-      component: RegisterContainer
+      path: '/containers',
+      name: 'containers',
+      component: Containers
     },
     {
       path: '/putaway',

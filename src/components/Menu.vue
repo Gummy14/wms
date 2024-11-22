@@ -51,13 +51,13 @@
               <v-list-item v-bind="props" title="configuration"></v-list-item>
             </template>
 
-            <v-list-item @click="setCurrentRoute('/register-item')" title="Receiving">
+            <v-list-item @click="setCurrentRoute('/items')" title="Items">
               <template v-slot:prepend>
                 <svg-icon type="mdi" :path="mdiTruckFastOutline"></svg-icon>
               </template>
             </v-list-item>
 
-            <v-list-item @click="setCurrentRoute('/register-container')" title="Containers">
+            <v-list-item @click="setCurrentRoute('/containers')" title="Containers">
               <template v-slot:prepend>
                 <svg-icon type="mdi" :path="mdiWarehouse"></svg-icon>
               </template>
