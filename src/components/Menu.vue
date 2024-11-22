@@ -10,12 +10,6 @@
             <template v-slot:activator="{ props }">
               <v-list-item v-bind="props" title="inbound"></v-list-item>
             </template>
-
-            <v-list-item @click="setCurrentRoute('/register-item')" title="Receiving">
-              <template v-slot:prepend>
-                <svg-icon type="mdi" :path="mdiTruckFastOutline"></svg-icon>
-              </template>
-            </v-list-item>
           
             <v-list-item @click="setCurrentRoute('/putaway')" title="Putaway">
               <template v-slot:prepend>
@@ -56,6 +50,12 @@
             <template v-slot:activator="{ props }">
               <v-list-item v-bind="props" title="configuration"></v-list-item>
             </template>
+
+            <v-list-item @click="setCurrentRoute('/register-item')" title="Receiving">
+              <template v-slot:prepend>
+                <svg-icon type="mdi" :path="mdiTruckFastOutline"></svg-icon>
+              </template>
+            </v-list-item>
 
             <v-list-item @click="setCurrentRoute('/register-container')" title="Containers">
               <template v-slot:prepend>

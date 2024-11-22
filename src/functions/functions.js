@@ -3,11 +3,11 @@ import axios from 'axios'
 const baseUrl = 'https://localhost:7187/'
 
 //Item
-export async function GetItemById(itemId) {
-    return await axios.get(baseUrl + 'Item/GetItemById/' + itemId)
-}
 export async function GetAllItems() {
     return await axios.get(baseUrl + 'Item/GetAllItems/')
+}
+export async function GetItemById(itemId) {
+    return await axios.get(baseUrl + 'Item/GetItemById/' + itemId)
 }
 export async function RegisterItem(itemToRegister) {
     return await axios.post(baseUrl + 'Item/RegisterItem', itemToRegister)
@@ -17,6 +17,9 @@ export async function UpdateItem(item) {
 }
 
 //Container
+export async function GetAllContainers() {
+    return await axios.get(baseUrl + 'Container/GetAllContainers/')
+}
 export async function GetContainerById(containerId) {
     return await axios.get(baseUrl + 'Container/GetContainerById/' + containerId)
 }
