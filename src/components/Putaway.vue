@@ -21,6 +21,7 @@
         </div>
         <div v-else>
           Putaway In Location: {{ putawayContainer.name }}
+          <v-btn @click="setContainerFull()">Is Putaway Container Full? Request New Container</v-btn>
           <v-btn @click="putItemInContainer()">Putaway</v-btn>
         </div>
         </v-card>
@@ -31,7 +32,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { GetItemById, UpdateItem, GetPutawayLocation } from '@/functions/functions'
+import { GetItemById, UpdateItem, GetPutawayLocation, UpdateContainerDetail } from '@/functions/functions'
 
 var itemToPutawayId = ref('')
 var putawayContainer = ref(null)
@@ -54,6 +55,14 @@ function getPutawayLocation() {
   GetPutawayLocation()
   .then(response => {
     putawayContainer.value = response.data
+  })
+}
+function setContainerFull() {
+  putawayContainer.value.isFull = true
+  putawayContainer.value.eventType = 111
+  UpdateContainerDetail(putawayContainer.value)
+  .then(() => {
+    getPutawayLocation()
   })
 }
 function putItemInContainer() {

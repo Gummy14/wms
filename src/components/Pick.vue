@@ -107,8 +107,13 @@ function updateOrderDetail(orderDetailToUpdate) {
 }
 function getContainerById() {
   GetContainerById(containerIdToPickInto.value)
-  .then(response => {
-    selectContainerToPickInto(response.data.containerDetail.containerId)
+  .then(containerResponse => {
+    orderToPickFrom.value.containerIdOrderItemsHeldIn = containerResponse.data.containerDetail.containerId
+    orderToPickFrom.value.orderDetail.orderStatus = 421
+    UpdateOrderDetail(orderToPickFrom.value.orderDetail)
+    .then(() => {
+      selectContainerToPickInto(containerResponse.data.containerDetail.containerId)
+    })
   })
 }
 function pickItem() {

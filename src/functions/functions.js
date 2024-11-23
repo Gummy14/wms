@@ -29,6 +29,9 @@ export async function GetContainerDetailById(containerId) {
 export async function RegisterContainer(containerToRegister) {
     return await axios.post(baseUrl + 'Container/RegisterContainer', containerToRegister)
 }
+export async function UpdateContainerDetail(containerDetail) {
+    return await axios.post(baseUrl + 'Container/UpdateContainerDetail', containerDetail)
+}
 
 //Order
 export async function GetAllOrders() {
