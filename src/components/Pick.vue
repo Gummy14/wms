@@ -8,7 +8,7 @@
           <v-list-item v-bind="props" :title="orderIdTitle(orderToPickFrom.orderDetail.orderId)"></v-list-item>
         </template>
         <v-list-item v-for="item in orderToPickFrom.items" :key="item.itemId" :title="item.name" @click="getContainerDetailById(item)">
-          <template v-slot:append v-if="item.eventType == 422">
+          <template v-slot:append v-if="item.eventType == 423">
             <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
           </template>
         </v-list-item>
@@ -75,7 +75,7 @@ const areAllItemsPicked = computed(() => {
   if(orderToPickFrom.value) {
     var allItemsPicked = true
     orderToPickFrom.value.items.forEach(item => {
-      if(item.eventType != 422) {
+      if(item.eventType != 423) {
         allItemsPicked = false
       }
     })

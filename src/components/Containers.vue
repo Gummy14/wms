@@ -6,7 +6,7 @@
     <div v-else>
       <v-card>
         <v-text-field label="Container Name" v-model="containerToRegister.name"></v-text-field>
-        <v-select :items="containerTypes" label="Container Type"></v-select>
+        <v-select :items="containerTypes" item-title="type" item-value="id" label="Container Type" v-model="containerToRegister.containerType"></v-select>
         <v-btn @click="registerContainer()">Register Container</v-btn>
       </v-card>
       <v-card>
@@ -22,7 +22,7 @@
 import { onMounted, ref } from 'vue'
 import { GetAllContainers, RegisterContainer } from '@/functions/functions'
 
-var containerTypes = ref([0, 1])
+var containerTypes = ref([{id: 0, type: 'Putaway'}, {id: 1, type: 'Picking'}])
 var retrievedAllContainers = ref(false)
 var allContainers = ref(null)
 var containerToRegister = ref({
