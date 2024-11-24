@@ -9,6 +9,9 @@ export async function GetAllItems() {
 export async function GetItemById(itemId) {
     return await axios.get(baseUrl + 'Item/GetItemById/' + itemId)
 }
+export async function PrintItemQRCode(itemToRegister) {
+    return await axios.post(baseUrl + 'Item/PrintItemQRCode/', itemToRegister)
+}
 export async function RegisterItem(itemToRegister) {
     return await axios.post(baseUrl + 'Item/RegisterItem', itemToRegister)
 }

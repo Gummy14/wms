@@ -20,21 +20,27 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllItems, RegisterItem } from '@/functions/functions'
+import { GetAllItems, RegisterItem, PrintItemQRCode } from '@/functions/functions'
 
 var allItems = ref(null)
 var retrievedAllItems = ref(false)
 var itemToRegister = ref({
+  itemId: null,
   name: '',
   description: ''
 })
 
 function registerItem() {
-  RegisterItem(itemToRegister.value)
+  console.log('item', JSON.stringify(itemToRegister.value))
+  PrintItemQRCode(itemToRegister.value)
   .then(() => {
-    itemToRegister.value.name = ''
-    itemToRegister.value.description = ''
+    console.log('saved')
   })
+  // RegisterItem(itemToRegister.value)
+  // .then(() => {
+  //   itemToRegister.value.name = ''
+  //   itemToRegister.value.description = ''
+  // })
 }
 
 onMounted(() => {
