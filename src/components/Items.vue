@@ -62,7 +62,6 @@ function registerItem() {
 }
 function onDetect(detectedCodes) {
   scannedQrCode.value = JSON.parse(detectedCodes[0].rawValue)
-  console.log('scannedQrCode.value.name', scannedQrCode.value.Name)
 }
 
 onMounted(() => {

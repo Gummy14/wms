@@ -29,6 +29,9 @@ export async function GetContainerById(containerId) {
 export async function GetContainerDetailById(containerId) {
     return await axios.get(baseUrl + 'Container/GetContainerDetailById/' + containerId)
 }
+export async function PrintContainerQRCode(containerToRegister) {
+    return await axios.post(baseUrl + 'Container/PrintContainerQRCode/', containerToRegister)
+}
 export async function RegisterContainer(containerToRegister) {
     return await axios.post(baseUrl + 'Container/RegisterContainer', containerToRegister)
 }
