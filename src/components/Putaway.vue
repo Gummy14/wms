@@ -1,10 +1,7 @@
 <template>
   <div>
     <div>
-      <v-card>
-        <v-text-field label="Item Id" v-model="itemToPutawayId"></v-text-field>
-      </v-card>
-      <v-btn @click="getItemById()">Find Item</v-btn>
+      <QrcodeStream @detect="onDetect" />
     </div>
     <div>
       <v-dialog
@@ -33,13 +30,13 @@
 <script setup>
 import { ref } from 'vue'
 import { GetItemById, UpdateItem, GetPutawayLocation, UpdateContainerDetail } from '@/functions/functions'
+import { QrcodeStream } from 'vue-qrcode-reader'
 
-var itemToPutawayId = ref('')
 var putawayContainer = ref(null)
 var putawayItem = ref(null)
 
 function getItemById() {
-  GetItemById(itemToPutawayId.value)
+  GetItemById(putawayItem.value)
   .then(response => {
     putawayItem.value = response.data
   })
@@ -70,9 +67,16 @@ function putItemInContainer() {
   putawayItem.value.eventType = 310
   UpdateItem(putawayItem.value)
   .then(() => {
-    itemToPutawayId.value = '',
+    putawayItem.value = '',
     putawayContainer.value = null,
     putawayItem.value = null
+  })
+}
+function onDetect(detectedCodes) {
+  putawayItem.value = JSON.parse(detectedCodes[0].rawValue)
+  GetItemById(putawayItem.value.ItemId)
+  .then(response => {
+    putawayItem.value = response.data
   })
 }
 
