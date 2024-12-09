@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <QrcodeStream @detect="onDetect" />
+      <QrcodeStream @detect="onDetectItem" />
     </div>
     <div>
       <v-dialog
@@ -19,7 +19,8 @@
         <div v-else>
           Putaway In Location: {{ putawayContainer.name }}
           <v-btn @click="setContainerFull()">Is Putaway Container Full? Request New Container</v-btn>
-          <v-btn @click="putItemInContainer()">Putaway</v-btn>
+          <QrcodeStream @detect="onDetectContainer" />
+          <v-btn v-if="scannedContainer != null" @click="putItemInContainer()">Confirm Putaway</v-btn>
         </div>
         </v-card>
       </v-dialog>
@@ -33,14 +34,9 @@ import { GetItemById, UpdateItem, GetPutawayLocation, UpdateContainerDetail } fr
 import { QrcodeStream } from 'vue-qrcode-reader'
 
 var putawayContainer = ref(null)
+var scannedContainer = ref(null)
 var putawayItem = ref(null)
 
-function getItemById() {
-  GetItemById(putawayItem.value)
-  .then(response => {
-    putawayItem.value = response.data
-  })
-}
 function selectForPutaway() {
   putawayItem.value.eventType = 220
   UpdateItem(putawayItem.value)
@@ -72,11 +68,18 @@ function putItemInContainer() {
     putawayItem.value = null
   })
 }
-function onDetect(detectedCodes) {
+function onDetectItem(detectedCodes) {
   putawayItem.value = JSON.parse(detectedCodes[0].rawValue)
   GetItemById(putawayItem.value.ItemId)
   .then(response => {
     putawayItem.value = response.data
+  })
+}
+function onDetectContainer(detectedCodes) {
+  scannedContainer.value = JSON.parse(detectedCodes[0].rawValue)
+  GetContainerDetailById(scannedContainer.value.ContainerId)
+  .then(response => {
+    scannedContainer.value = response.data
   })
 }
 
