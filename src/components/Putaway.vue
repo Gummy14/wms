@@ -20,7 +20,8 @@
           Putaway In Location: {{ putawayContainer.name }}
           <v-btn @click="setContainerFull()">Is Putaway Container Full? Request New Container</v-btn>
           <QrcodeStream @detect="onDetectContainer" />
-          <v-btn v-if="scannedContainer != null" @click="putItemInContainer()">Confirm Putaway</v-btn>
+          <div v-if="containerIdDoesNotMatch">Incorrect Container Scanned</div>
+          <v-btn v-if="scannedContainer != null" @click="putItemInContainer()">Matching Container Successfully Scanned. Confirm Putaway</v-btn>
         </div>
         </v-card>
       </v-dialog>
@@ -30,12 +31,13 @@
 
 <script setup>
 import { ref } from 'vue'
-import { GetItemById, UpdateItem, GetPutawayLocation, UpdateContainerDetail } from '@/functions/functions'
+import { GetItemById, UpdateItem, GetPutawayLocation, UpdateContainerDetail, GetContainerDetailById } from '@/functions/functions'
 import { QrcodeStream } from 'vue-qrcode-reader'
 
 var putawayContainer = ref(null)
 var scannedContainer = ref(null)
 var putawayItem = ref(null)
+var containerIdDoesNotMatch = ref(null)
 
 function selectForPutaway() {
   putawayItem.value.eventType = 220
@@ -69,17 +71,22 @@ function putItemInContainer() {
   })
 }
 function onDetectItem(detectedCodes) {
-  putawayItem.value = JSON.parse(detectedCodes[0].rawValue)
-  GetItemById(putawayItem.value.ItemId)
+  GetItemById(JSON.parse(detectedCodes[0].rawValue).ItemId)
   .then(response => {
     putawayItem.value = response.data
   })
 }
 function onDetectContainer(detectedCodes) {
-  scannedContainer.value = JSON.parse(detectedCodes[0].rawValue)
-  GetContainerDetailById(scannedContainer.value.ContainerId)
+  GetContainerDetailById(JSON.parse(detectedCodes[0].rawValue).ContainerId)
   .then(response => {
-    scannedContainer.value = response.data
+    if(response.data.containerId == putawayContainer.value.containerId) {
+      containerIdDoesNotMatch.value = false
+      scannedContainer.value = response.data
+    } else {
+      containerIdDoesNotMatch.value = true
+      scannedContainer.value = null
+    }
+    
   })
 }
 
