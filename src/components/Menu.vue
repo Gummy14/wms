@@ -3,7 +3,8 @@
     <v-layout>
       <v-navigation-drawer expand-on-hover rail>
         <v-list>
-          <v-list-item title="wms"></v-list-item>
+          <v-list-item title="Kepler WMS"></v-list-item>
+          <v-list-item subtitle="Astronomia Solutions"></v-list-item>
           
           <v-divider></v-divider>
 
