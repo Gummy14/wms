@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <QrcodeStream @detect="onDetectItem" />
+      <Scanner @codeScanned="(emittedData) => putawayItem = emittedData" />
     </div>
     <div>
       <v-dialog
@@ -10,8 +10,8 @@
       >
         <v-card v-if="putawayItem"
           max-width="400"
-          :text="putawayItem.description"
-          :title="putawayItem.name"
+          :text="putawayItem.Description"
+          :title="putawayItem.Name"
         >
         <div v-if="putawayContainer == null">
           <v-btn @click="selectForPutaway()">Select For Putaway</v-btn>
@@ -19,7 +19,7 @@
         <div v-else>
           Putaway In Location: {{ putawayContainer.name }}
           <v-btn @click="setContainerFull()">Is Putaway Container Full? Request New Container</v-btn>
-          <QrcodeStream @detect="onDetectContainer" />
+          <Scanner @codeScanned="(emittedData) => scannedContainer = emittedData" />
           <div v-if="containerIdDoesNotMatch">Incorrect Container Scanned</div>
           <v-btn v-if="scannedContainer != null" @click="putItemInContainer()">Matching Container Successfully Scanned. Confirm Putaway</v-btn>
         </div>
@@ -32,7 +32,7 @@
 <script setup>
 import { ref } from 'vue'
 import { GetItemById, UpdateItem, GetPutawayLocation, UpdateContainerDetail, GetContainerDetailById } from '@/functions/functions'
-import { QrcodeStream } from 'vue-qrcode-reader'
+import Scanner from '@/components/scanning/Scanner.vue'
 
 var putawayContainer = ref(null)
 var scannedContainer = ref(null)
@@ -70,25 +70,25 @@ function putItemInContainer() {
     putawayItem.value = null
   })
 }
-function onDetectItem(detectedCodes) {
-  GetItemById(JSON.parse(detectedCodes[0].rawValue).ItemId)
-  .then(response => {
-    putawayItem.value = response.data
-  })
-}
-function onDetectContainer(detectedCodes) {
-  GetContainerDetailById(JSON.parse(detectedCodes[0].rawValue).ContainerId)
-  .then(response => {
-    if(response.data.containerId == putawayContainer.value.containerId) {
-      containerIdDoesNotMatch.value = false
-      scannedContainer.value = response.data
-    } else {
-      containerIdDoesNotMatch.value = true
-      scannedContainer.value = null
-    }
+// function onDetectItem(detectedCodes) {
+//   GetItemById(JSON.parse(detectedCodes[0].rawValue).ItemId)
+//   .then(response => {
+//     putawayItem.value = response.data
+//   })
+// }
+// function onDetectContainer(detectedCodes) {
+//   GetContainerDetailById(JSON.parse(detectedCodes[0].rawValue).ContainerId)
+//   .then(response => {
+//     if(response.data.containerId == putawayContainer.value.containerId) {
+//       containerIdDoesNotMatch.value = false
+//       scannedContainer.value = response.data
+//     } else {
+//       containerIdDoesNotMatch.value = true
+//       scannedContainer.value = null
+//     }
     
-  })
-}
+//   })
+// }
 
 </script>
 

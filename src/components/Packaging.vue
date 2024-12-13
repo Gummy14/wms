@@ -1,9 +1,10 @@
 <template>
   <div>
-    <v-card>
-      <v-text-field label="Container Id" v-model="containerId"></v-text-field>
+    <!-- <v-card>
+      <v-text-field label="Container Id" v-model="container"></v-text-field>
     </v-card>
-    <v-btn @click="getContainerById()">Find Container</v-btn>
+    <v-btn @click="getContainerById()">Find Container</v-btn> -->
+    <Scanner @codeScanned="(emittedData) => container = emittedData" />
 
     <v-btn v-if="orderToPackage && !unselectedOrderToPackageDialog" @click="packageOrder()">Package Order</v-btn>
 
@@ -28,18 +29,19 @@
 <script setup>
 import { ref } from 'vue'
 import { GetOrderByContainerId, UpdateOrderDetail } from '@/functions/functions'
+import Scanner from '@/components/scanning/Scanner.vue'
 
-var containerId = ref(null)
+var container = ref(null)
 var unselectedOrderToPackageDialog = ref(false)
 var orderToPackage = ref(null)
 
-function getContainerById() {
-  GetOrderByContainerId(containerId.value)
-  .then(response => {
-    orderToPackage.value = response.data
-    unselectedOrderToPackageDialog.value = true
-  })
-}
+// function getContainerById() {
+//   GetOrderByContainerId(container.value)
+//   .then(response => {
+//     orderToPackage.value = response.data
+//     unselectedOrderToPackageDialog.value = true
+//   })
+// }
 function updateOrderDetail(orderDetail) {
   UpdateOrderDetail(orderDetail)
   .then(() => {

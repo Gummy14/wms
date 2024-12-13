@@ -10,7 +10,7 @@
         <v-btn @click="printContainerQrCode()">Print Container QR Code</v-btn>
       </v-card>
 
-      <QrcodeStream @detect="onDetect" />
+      <Scanner @codeScanned="(emittedData) => scannedQrCode = emittedData" />
 
       <v-card>
         <v-list>
@@ -36,7 +36,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { GetAllContainers, PrintContainerQRCode, RegisterContainer } from '@/functions/functions'
-import { QrcodeStream } from 'vue-qrcode-reader'
+import Scanner from '@/components/scanning/Scanner.vue'
 
 var containerTypes = ref([{id: 0, type: 'Putaway'}, {id: 1, type: 'Picking'}])
 var retrievedAllContainers = ref(false)
@@ -59,9 +59,6 @@ function registerContainer() {
   .then(() => {
     scannedQrCode.value = null
   })
-}
-function onDetect(detectedCodes) {
-  scannedQrCode.value = JSON.parse(detectedCodes[0].rawValue)
 }
 
 onMounted(() => {

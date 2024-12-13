@@ -10,7 +10,7 @@
       </v-card>
       <v-btn @click="printItemQrCode()">Print Item QR Code</v-btn>
 
-      <QrcodeStream @detect="onDetect" />
+      <Scanner @codeScanned="(emittedData) => scannedQrCode = emittedData" />
 
       <v-card>
         <v-list>
@@ -37,7 +37,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { GetAllItems, RegisterItem, PrintItemQRCode } from '@/functions/functions'
-import { QrcodeStream } from 'vue-qrcode-reader'
+import Scanner from '@/components/scanning/Scanner.vue'
 
 var allItems = ref(null)
 var retrievedAllItems = ref(false)
@@ -59,9 +59,6 @@ function registerItem() {
   .then(() => {
     scannedQrCode.value = null
   })
-}
-function onDetect(detectedCodes) {
-  scannedQrCode.value = JSON.parse(detectedCodes[0].rawValue)
 }
 
 onMounted(() => {
