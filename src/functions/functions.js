@@ -9,9 +9,6 @@ export async function GetAllItems() {
 export async function GetItemById(itemId) {
     return await axios.get(baseUrl + 'Item/GetItemById/' + itemId)
 }
-export async function PrintItemQRCode(itemToRegister) {
-    return await axios.post(baseUrl + 'Item/PrintItemQRCode/', itemToRegister)
-}
 export async function RegisterItem(itemToRegister) {
     return await axios.post(baseUrl + 'Item/RegisterItem', itemToRegister)
 }
@@ -28,9 +25,6 @@ export async function GetContainerById(containerId) {
 }
 export async function GetContainerDetailById(containerId) {
     return await axios.get(baseUrl + 'Container/GetContainerDetailById/' + containerId)
-}
-export async function PrintContainerQRCode(containerToRegister) {
-    return await axios.post(baseUrl + 'Container/PrintContainerQRCode/', containerToRegister)
 }
 export async function RegisterContainer(containerToRegister) {
     return await axios.post(baseUrl + 'Container/RegisterContainer', containerToRegister)
@@ -70,4 +64,7 @@ export async function GetPutawayLocation() {
 }
 export async function PickItem(item) {
     return await axios.post(baseUrl + 'Pick/PickItem/', item)
+}
+export async function PrintQRCode(objectToRegister) {
+    return await axios.post(baseUrl + 'WMS/PrintQRCode/', objectToRegister)
 }

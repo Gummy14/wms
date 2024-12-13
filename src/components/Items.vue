@@ -5,10 +5,10 @@
     </div>
     <div v-else>
       <v-card>
-        <v-text-field label="Item Name" v-model="itemToRegister.name"></v-text-field>
-        <v-text-field label="Item Description" v-model="itemToRegister.description"></v-text-field>
+        <v-text-field label="Item Name" v-model="itemToRegister.objectData.name"></v-text-field>
+        <v-text-field label="Item Description" v-model="itemToRegister.objectData.description"></v-text-field>
       </v-card>
-      <v-btn @click="printItemQrCode()">Print Item QR Code</v-btn>
+      <v-btn @click="printQrCode()">Print Item QR Code</v-btn>
 
       <Scanner @codeScanned="(emittedData) => scannedQrCode = emittedData" />
 
@@ -24,8 +24,8 @@
       >
         <v-card v-if="scannedQrCode"
           max-width="400"
-          :text="scannedQrCode.Description"
-          :title="scannedQrCode.Name"
+          :text="scannedQrCode.ObjectData.Description"
+          :title="scannedQrCode.ObjectData.Name"
         >
           <v-btn @click="registerItem()">Register Item</v-btn>
         </v-card>
@@ -36,20 +36,24 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllItems, RegisterItem, PrintItemQRCode } from '@/functions/functions'
+import { GetAllItems, RegisterItem, PrintQRCode } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
 var allItems = ref(null)
 var retrievedAllItems = ref(false)
 var scannedQrCode = ref(null)
 var itemToRegister = ref({
-  itemId: null,
-  name: '',
-  description: ''
+  objectId: null,
+  objectType: 1,
+  objectData: {
+    name: '',
+    description: '',
+    containerType: 0
+  }
 })
 
-function printItemQrCode() {
-  PrintItemQRCode(itemToRegister.value)
+function printQrCode() {
+  PrintQRCode(itemToRegister.value)
   .then(() => {
     console.log('saved')
   })
