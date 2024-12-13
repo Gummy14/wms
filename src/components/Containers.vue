@@ -5,12 +5,12 @@
     </div>
     <div v-else>
       <v-card>
-        <v-text-field label="Container Name" v-model="containerToRegister.name"></v-text-field>
-        <v-select :items="containerTypes" item-title="type" item-value="id" label="Container Type" v-model="containerToRegister.containerType"></v-select>
+        <v-text-field label="Container Name" v-model="containerToRegister.objectData.name"></v-text-field>
+        <v-select :items="containerTypes" item-title="type" item-value="id" label="Container Type" v-model="containerToRegister.objectData.containerType"></v-select>
         <v-btn @click="printContainerQrCode()">Print Container QR Code</v-btn>
       </v-card>
 
-      <QrcodeStream @detect="onDetect" />
+      <Scanner @codeScanned="(emittedData) => scannedQrCode = emittedData" />
 
       <v-card>
         <v-list>
@@ -24,7 +24,7 @@
       >
         <v-card v-if="scannedQrCode"
           max-width="400"
-          :title="scannedQrCode.Name"
+          :title="scannedQrCode.ObjectData.Name"
         >
           <v-btn @click="registerContainer()">Register Container</v-btn>
         </v-card>
@@ -35,21 +35,25 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllContainers, PrintContainerQRCode, RegisterContainer } from '@/functions/functions'
-import { QrcodeStream } from 'vue-qrcode-reader'
+import { GetAllContainers, PrintQRCode, RegisterContainer } from '@/functions/functions'
+import Scanner from '@/components/scanning/Scanner.vue'
 
 var containerTypes = ref([{id: 0, type: 'Putaway'}, {id: 1, type: 'Picking'}])
 var retrievedAllContainers = ref(false)
 var allContainers = ref(null)
 var scannedQrCode = ref(null)
 var containerToRegister = ref({
-  containerId: null,
-  name: '',
-  containerType: 0
+  objectId: null,
+  objectType: 2,
+  objectData: {
+    name: '',
+    description: '',
+    containerType: 0
+  }
 })
 
 function printContainerQrCode() {
-  PrintContainerQRCode(containerToRegister.value)
+  PrintQRCode(containerToRegister.value)
   .then(() => {
     console.log('saved')
   })
@@ -59,9 +63,6 @@ function registerContainer() {
   .then(() => {
     scannedQrCode.value = null
   })
-}
-function onDetect(detectedCodes) {
-  scannedQrCode.value = JSON.parse(detectedCodes[0].rawValue)
 }
 
 onMounted(() => {

@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-btn @click="getNextOrderByStatus()">Pick By Next Unacknowledged Order</v-btn>
+    <div v-if="containerToPickInto != null">{{ containerToPickInto.ContainerId }}</div>
 
     <v-list v-if="orderToPickFrom && !unacknowledgedOrderDialog">
       <v-list-group>
@@ -36,9 +37,8 @@
       width="auto"
     >
       <v-card>
-        <v-text-field label="Container Id To Pick Into" v-model="containerIdToPickInto"></v-text-field>
+        <Scanner @codeScanned="(emittedData) => containerToPickInto = emittedData" />
       </v-card>
-      <v-btn @click="getContainerById()">Select Container</v-btn>
     </v-dialog>
 
     <v-dialog
@@ -59,13 +59,14 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import SvgIcon from '@jamescoyle/vue-icon'
 import { mdiCheckCircleOutline  } from '@mdi/js'
 import { GetNextOrderByStatus, GetContainerDetailById, UpdateOrderDetail, GetContainerById, PickItem } from '@/functions/functions'
+import SvgIcon from '@jamescoyle/vue-icon'
+import Scanner from '@/components/scanning/Scanner.vue'
 
 var genericId = ref(0)
 var activeItem = ref(null)
-var containerIdToPickInto = ref(null)
+var containerToPickInto = ref(null)
 var containerDetailData = ref(null)
 var orderToPickFrom = ref(null)
 var unacknowledgedOrderDialog = ref(false)
@@ -105,19 +106,19 @@ function updateOrderDetail(orderDetailToUpdate) {
     setOrderAcknowledgementData(response.data)
   })
 }
-function getContainerById() {
-  GetContainerById(containerIdToPickInto.value)
-  .then(containerResponse => {
-    orderToPickFrom.value.containerIdOrderItemsHeldIn = containerResponse.data.containerDetail.containerId
-    orderToPickFrom.value.orderDetail.orderStatus = 421
-    UpdateOrderDetail(orderToPickFrom.value.orderDetail)
-    .then(() => {
-      selectContainerToPickInto(containerResponse.data.containerDetail.containerId)
-    })
-  })
-}
+// function getContainerById() {
+//   GetContainerById(containerToPickInto.value)
+//   .then(containerResponse => {
+//     orderToPickFrom.value.containerIdOrderItemsHeldIn = containerResponse.data.containerDetail.containerId
+//     orderToPickFrom.value.orderDetail.orderStatus = 421
+//     UpdateOrderDetail(orderToPickFrom.value.orderDetail)
+//     .then(() => {
+//       selectContainerToPickInto(containerResponse.data.containerDetail.containerId)
+//     })
+//   })
+// }
 function pickItem() {
-  activeItem.value.containerId = containerIdToPickInto
+  activeItem.value.containerId = containerToPickInto.value.ContainerId
   PickItem(activeItem.value)
   .then(response => {
     resetAllPickData(response.data)
@@ -129,7 +130,7 @@ function acknowledgeOrder() {
 }
 function completePicking() {
   orderToPickFrom.value.orderDetail.orderStatus = 510
-  orderToPickFrom.value.orderDetail.containerIdOrderItemsHeldIn = containerIdToPickInto
+  orderToPickFrom.value.orderDetail.containerIdOrderItemsHeldIn = containerToPickInto.value.ContainerId
   updateOrderDetail(orderToPickFrom.value.orderDetail)
 }
 function setOrderAcknowledgementData(responseData) {
@@ -137,10 +138,10 @@ function setOrderAcknowledgementData(responseData) {
   unacknowledgedOrderDialog.value = false
   selectContainerToPickIntoDialog.value = true
 }
-function selectContainerToPickInto(containerId) {
-  containerIdToPickInto.value = containerId
-  selectContainerToPickIntoDialog.value = false
-}
+// function selectContainerToPickInto(containerId) {
+//   containerToPickInto.value = containerId
+//   selectContainerToPickIntoDialog.value = false
+// }
 function resetAllPickData(responseData) {
   genericId.value = 0,
   containerDetailData.value = null
