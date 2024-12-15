@@ -1,14 +1,14 @@
 <template>
   <div>
     <v-btn @click="getNextOrderByStatus()">Pick By Next Unacknowledged Order</v-btn>
-    <div v-if="containerToPickInto != null">{{ containerToPickInto.ContainerId }}</div>
+    <div v-if="containerToPickInto != null">{{ containerToPickInto.ObjectId }}</div>
 
     <v-list v-if="orderToPickFrom && !unacknowledgedOrderDialog">
       <v-list-group>
         <template v-slot:activator="{ props }">
           <v-list-item v-bind="props" :title="orderIdTitle(orderToPickFrom.orderDetail.orderId)"></v-list-item>
         </template>
-        <v-list-item v-for="item in orderToPickFrom.items" :key="item.itemId" :title="item.name" @click="getContainerDetailById(item)">
+        <v-list-item v-for="item in orderToPickFrom.items" :key="item.objectId" :title="item.name" @click="getContainerDetailById(item)">
           <template v-slot:append v-if="item.eventType == 423">
             <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
           </template>
@@ -60,7 +60,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { mdiCheckCircleOutline  } from '@mdi/js'
-import { GetNextOrderByStatus, GetContainerDetailById, UpdateOrderDetail, GetContainerById, PickItem } from '@/functions/functions'
+import { GetWarehouseObjectById, GetNextOrderByStatus, UpdateOrderDetail, PickItem } from '@/functions/functions'
 import SvgIcon from '@jamescoyle/vue-icon'
 import Scanner from '@/components/scanning/Scanner.vue'
 
@@ -95,7 +95,7 @@ function getNextOrderByStatus() {
 }
 function getContainerDetailById(item) {
   activeItem.value = item
-  GetContainerDetailById(item.containerId)
+  GetWarehouseObjectById(item.parentId)
   .then(response => {
     containerDetailData.value = response.data
   })

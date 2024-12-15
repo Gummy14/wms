@@ -27,7 +27,7 @@
   
 <script setup>
 import { ref, onMounted } from 'vue'
-import { GetAllItems, GetAllOrders, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
+import { GetAllWarehouseObjectsByType, GetAllOrders, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
 
 
 var allOrders = ref(null)
@@ -36,7 +36,7 @@ var newOrderItems = ref([])
 var eventTypes = ref(null)
 
 function getAllItems() {
-  GetAllItems()
+  GetAllWarehouseObjectsByType(0)
   .then(response => {
     allItems.value = response.data
   })

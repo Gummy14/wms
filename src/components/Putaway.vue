@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { UpdateItem, GetPutawayLocation, UpdateContainerDetail, GetContainerDetailById } from '@/functions/functions'
+import { UpdateWarehouseObject, GetPutawayLocation } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
 var putawayContainer = ref(null)
@@ -40,11 +40,13 @@ var putawayItem = ref(null)
 var containerIdDoesNotMatch = ref(null)
 
 function selectForPutaway() {
-  putawayItem.value.eventType = 220
-  UpdateItem(putawayItem.value)
-  .then(() => {
-    getPutawayLocation()
-  })
+  if(putawayItem.value.objectType == 0) {
+    putawayItem.value.eventType = 220
+    UpdateWarehouseObject(putawayItem.value)
+    .then(() => {
+      getPutawayLocation()
+    })
+  }
 }
 function getPutawayLocation() {
   GetPutawayLocation()
@@ -52,37 +54,24 @@ function getPutawayLocation() {
     putawayContainer.value = response.data
   })
 }
-function setContainerFull() {
-  putawayContainer.value.isFull = true
-  putawayContainer.value.eventType = 111
-  UpdateContainerDetail(putawayContainer.value)
-  .then(() => {
-    getPutawayLocation()
-  })
-}
+// function setContainerFull() {
+//   putawayContainer.value.isFull = true
+//   putawayContainer.value.eventType = 111
+//   UpdateContainerDetail(putawayContainer.value)
+//   .then(() => {
+//     getPutawayLocation()
+//   })
+// }
 function putItemInContainer() {
-  putawayItem.value.containerId = putawayContainer.value.containerId
+  putawayItem.value.parentId = putawayContainer.value.objectId
   putawayItem.value.eventType = 310
-  UpdateItem(putawayItem.value)
+  UpdateWarehouseObject(putawayItem.value)
   .then(() => {
     putawayItem.value = '',
     putawayContainer.value = null,
     putawayItem.value = null
   })
 }
-// function onDetectContainer(detectedCodes) {
-//   GetContainerDetailById(JSON.parse(detectedCodes[0].rawValue).ContainerId)
-//   .then(response => {
-//     if(response.data.containerId == putawayContainer.value.containerId) {
-//       containerIdDoesNotMatch.value = false
-//       scannedContainer.value = response.data
-//     } else {
-//       containerIdDoesNotMatch.value = true
-//       scannedContainer.value = null
-//     }
-    
-//   })
-// }
 
 </script>
 
