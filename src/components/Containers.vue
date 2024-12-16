@@ -35,7 +35,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllWarehouseObjectsByType, PrintQRCode, RegisterObject } from '@/functions/functions'
+import { GetAllWarehouseObjectsByType, PrintQRCode, RegisterWarehouseObject } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
 var containerTypes = ref([{id: 1, type: 'Putaway'}, {id: 2, type: 'Picking'}])
@@ -56,7 +56,7 @@ function printContainerQrCode() {
   })
 }
 function registerContainer() {
-  RegisterObject(scannedQrCode.value)
+  RegisterWarehouseObject(scannedQrCode.value)
   .then(() => {
     scannedQrCode.value = null
   })

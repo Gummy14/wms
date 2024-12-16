@@ -28,7 +28,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { GetOrderByContainerId, UpdateOrderDetail } from '@/functions/functions'
+import { GetOrderByContainerId, UpdateWarehouseObject } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
 var container = ref(null)
@@ -43,7 +43,7 @@ var orderToPackage = ref(null)
 //   })
 // }
 function updateOrderDetail(orderDetail) {
-  UpdateOrderDetail(orderDetail)
+  UpdateWarehouseObject(orderDetail)
   .then(() => {
     unselectedOrderToPackageDialog.value = false
   })

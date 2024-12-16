@@ -36,7 +36,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllWarehouseObjectsByType, RegisterObject, PrintQRCode } from '@/functions/functions'
+import { GetAllWarehouseObjectsByType, RegisterWarehouseObject, PrintQRCode } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
 var allItems = ref(null)
@@ -56,7 +56,7 @@ function printQrCode() {
   })
 }
 function registerItem() {
-  RegisterObject(scannedQrCode.value)
+  RegisterWarehouseObject(scannedQrCode.value)
   .then(() => {
     scannedQrCode.value = null
   })

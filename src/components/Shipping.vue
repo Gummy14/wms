@@ -27,21 +27,21 @@
 
 <script setup>
 import { ref } from 'vue'
-import { GetOrderById, UpdateOrderDetail } from '@/functions/functions'
+import { GetWarehouseOrderObjectWithChildrenByOrderId, UpdateWarehouseObject } from '@/functions/functions'
 
 var orderId = ref(null)
 var unselectedOrderToShipDialog = ref(false)
 var orderToShip = ref(null)
 
 function getOrderById() {
-  GetOrderById(orderId.value)
+  GetWarehouseOrderObjectWithChildrenByOrderId(orderId.value)
   .then(response => {
     orderToShip.value = response.data
     unselectedOrderToShipDialog.value = true
   })
 }
 function updateOrderDetail(orderDetail) {
-  UpdateOrderDetail(orderDetail)
+  UpdateWarehouseObject(orderDetail)
   .then(() => {
     unselectedOrderToShipDialog.value = false
   })

@@ -13,11 +13,16 @@
       </v-dialog>
 
       <v-list>
-        <v-list-group v-for="order in allOrders" :key="order.orderDetail.orderEventId">
+        <v-list-group v-for="warehouseParentWithChildrenObject in allOrders" :key="warehouseParentWithChildrenObject.warehouseParentObject.objectId">
           <template v-slot:activator="{ props }">
-            <v-list-item v-bind="props" :title="orderIdTitle(order.orderDetail.orderId)" :subtitle="orderStatusText(order.orderDetail.orderStatus)"></v-list-item>
+            <v-list-item 
+            v-bind="props" 
+            :title="orderIdTitle(warehouseParentWithChildrenObject.warehouseParentObject.objectId)" 
+            :subtitle="orderStatusText(warehouseParentWithChildrenObject.warehouseParentObject.eventType)"
+            >
+            </v-list-item>
           </template>
-          <v-list-item v-for="item in order.items" :key="item.id" :title="item.name"></v-list-item>
+          <v-list-item v-for="childObject in warehouseParentWithChildrenObject.warehouseChildrenObjects" :key="childObject.objectId" :title="childObject.name"></v-list-item>
         </v-list-group>
       </v-list>
 
@@ -27,7 +32,7 @@
   
 <script setup>
 import { ref, onMounted } from 'vue'
-import { GetAllWarehouseObjectsByType, GetAllOrders, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
+import { GetAllWarehouseObjectsByType, GetAllWarehouseOrderObjectsWithChildren, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
 
 
 var allOrders = ref(null)
@@ -42,7 +47,7 @@ function getAllItems() {
   })
 }
 function getAllOrders() {
-  GetAllOrders()
+  GetAllWarehouseOrderObjectsWithChildren()
   .then(response => {
     allOrders.value = response.data
   })
