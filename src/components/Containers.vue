@@ -5,8 +5,8 @@
     </div>
     <div v-else>
       <v-card>
-        <v-text-field label="Container Name" v-model="containerToRegister.objectData.name"></v-text-field>
-        <v-select :items="containerTypes" item-title="type" item-value="id" label="Container Type" v-model="containerToRegister.objectData.containerType"></v-select>
+        <v-text-field label="Container Name" v-model="containerToRegister.name"></v-text-field>
+        <v-select :items="containerTypes" item-title="type" item-value="id" label="Container Type" v-model="containerToRegister.objectType"></v-select>
         <v-btn @click="printContainerQrCode()">Print Container QR Code</v-btn>
       </v-card>
 
@@ -14,7 +14,7 @@
 
       <v-card>
         <v-list>
-          <v-list-item v-for="container in allContainers" :key="container.containerDetail.containerId" :title="container.containerDetail.name"></v-list-item>
+          <v-list-item v-for="container in allContainers" :key="container.objectId" :title="container.name"></v-list-item>
         </v-list>
       </v-card>
 
@@ -24,7 +24,7 @@
       >
         <v-card v-if="scannedQrCode"
           max-width="400"
-          :title="scannedQrCode.ObjectData.Name"
+          :title="scannedQrCode.Name"
         >
           <v-btn @click="registerContainer()">Register Container</v-btn>
         </v-card>
@@ -35,21 +35,18 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllContainers, PrintQRCode, RegisterContainer } from '@/functions/functions'
+import { GetAllWarehouseObjectsByType, PrintQRCode, RegisterWarehouseObject } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
-var containerTypes = ref([{id: 0, type: 'Putaway'}, {id: 1, type: 'Picking'}])
+var containerTypes = ref([{id: 1, type: 'Putaway'}, {id: 2, type: 'Picking'}])
 var retrievedAllContainers = ref(false)
 var allContainers = ref(null)
 var scannedQrCode = ref(null)
 var containerToRegister = ref({
   objectId: null,
-  objectType: 2,
-  objectData: {
-    name: '',
-    description: '',
-    containerType: 0
-  }
+  objectType: 1,
+  name: '',
+  description: '',
 })
 
 function printContainerQrCode() {
@@ -59,14 +56,14 @@ function printContainerQrCode() {
   })
 }
 function registerContainer() {
-  RegisterContainer(scannedQrCode.value)
+  RegisterWarehouseObject(scannedQrCode.value)
   .then(() => {
     scannedQrCode.value = null
   })
 }
 
 onMounted(() => {
-  GetAllContainers()
+  GetAllWarehouseObjectsByType(1)
   .then(response => {
     allContainers.value = response.data
     retrievedAllContainers.value = true

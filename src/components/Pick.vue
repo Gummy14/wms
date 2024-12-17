@@ -1,14 +1,14 @@
 <template>
   <div>
-    <v-btn @click="getNextOrderByStatus()">Pick By Next Unacknowledged Order</v-btn>
-    <div v-if="containerToPickInto != null">{{ containerToPickInto.ContainerId }}</div>
+    <v-btn @click="getOrderByStatus()">Pick By Next Unacknowledged Order</v-btn>
+    <div v-if="containerToPickInto != null">{{ containerToPickInto.ObjectId }}</div>
 
     <v-list v-if="orderToPickFrom && !unacknowledgedOrderDialog">
       <v-list-group>
         <template v-slot:activator="{ props }">
-          <v-list-item v-bind="props" :title="orderIdTitle(orderToPickFrom.orderDetail.orderId)"></v-list-item>
+          <v-list-item v-bind="props" :title="orderIdTitle(orderToPickFrom.warehouseParentObject.objectId)"></v-list-item>
         </template>
-        <v-list-item v-for="item in orderToPickFrom.items" :key="item.itemId" :title="item.name" @click="getContainerDetailById(item)">
+        <v-list-item v-for="item in orderToPickFrom.warehouseChildrenObjects" :key="item.objectId" :title="item.name" @click="getContainerDetailById(item)">
           <template v-slot:append v-if="item.eventType == 423">
             <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
           </template>
@@ -22,11 +22,11 @@
     >
       <v-card v-if="orderToPickFrom"
         max-width="400"
-        :title="orderIdTitle(orderToPickFrom.orderDetail.orderId)"
-        :subtitle="orderDateTimeSubtitle(orderToPickFrom.orderDetail.orderStatusDateTime)"
+        :title="orderIdTitle(orderToPickFrom.warehouseParentObject.objectId)"
+        :subtitle="orderDateTimeSubtitle(orderToPickFrom.warehouseParentObject.eventDateTime)"
       >
         <v-list>
-          <v-list-item v-for="item in orderToPickFrom.items" :key="item.itemId" :title="item.name"></v-list-item>
+          <v-list-item v-for="item in orderToPickFrom.warehouseChildrenObjects" :key="item.objectId" :title="item.name"></v-list-item>
         </v-list>
         <v-btn @click="acknowledgeOrder()">Select Order For Picking</v-btn>
       </v-card>
@@ -37,7 +37,7 @@
       width="auto"
     >
       <v-card>
-        <Scanner @codeScanned="(emittedData) => containerToPickInto = emittedData" />
+        <Scanner must-verify @codeScanned="(emittedData) => containerToPickInto = emittedData" />
       </v-card>
     </v-dialog>
 
@@ -48,7 +48,7 @@
       <v-card v-if="containerDetailData"
         max-width="400"
         :title="containerDetailData.name"
-        :subtitle="containerDetailData.containerId"
+        :subtitle="containerDetailData.objectId"
       >
         <v-btn @click="pickItem()">Pick</v-btn>
       </v-card>
@@ -60,7 +60,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { mdiCheckCircleOutline  } from '@mdi/js'
-import { GetNextOrderByStatus, GetContainerDetailById, UpdateOrderDetail, GetContainerById, PickItem } from '@/functions/functions'
+import { GetWarehouseObjectById, GetWarehouseOrderObjectWithChildrenByEventType, UpdateWarehouseObject, PickItem } from '@/functions/functions'
 import SvgIcon from '@jamescoyle/vue-icon'
 import Scanner from '@/components/scanning/Scanner.vue'
 
@@ -75,7 +75,7 @@ var selectContainerToPickIntoDialog = ref(false)
 const areAllItemsPicked = computed(() => {
   if(orderToPickFrom.value) {
     var allItemsPicked = true
-    orderToPickFrom.value.items.forEach(item => {
+    orderToPickFrom.value.warehouseChildrenObjects.forEach(item => {
       if(item.eventType != 423) {
         allItemsPicked = false
       }
@@ -86,8 +86,8 @@ const areAllItemsPicked = computed(() => {
   }
 })
 
-function getNextOrderByStatus() {
-  GetNextOrderByStatus(410)
+function getOrderByStatus() {
+  GetWarehouseOrderObjectWithChildrenByEventType(410)
   .then(response => {
     orderToPickFrom.value = response.data
     unacknowledgedOrderDialog.value = true
@@ -95,46 +95,35 @@ function getNextOrderByStatus() {
 }
 function getContainerDetailById(item) {
   activeItem.value = item
-  GetContainerDetailById(item.containerId)
+  GetWarehouseObjectById(item.parentId)
   .then(response => {
     containerDetailData.value = response.data
   })
 }
 function updateOrderDetail(orderDetailToUpdate) {
-  UpdateOrderDetail(orderDetailToUpdate)
+  UpdateWarehouseObject(orderDetailToUpdate)
   .then(response => {
     setOrderAcknowledgementData(response.data)
   })
 }
-// function getContainerById() {
-//   GetContainerById(containerToPickInto.value)
-//   .then(containerResponse => {
-//     orderToPickFrom.value.containerIdOrderItemsHeldIn = containerResponse.data.containerDetail.containerId
-//     orderToPickFrom.value.orderDetail.orderStatus = 421
-//     UpdateOrderDetail(orderToPickFrom.value.orderDetail)
-//     .then(() => {
-//       selectContainerToPickInto(containerResponse.data.containerDetail.containerId)
-//     })
-//   })
-// }
 function pickItem() {
-  activeItem.value.containerId = containerToPickInto.value.ContainerId
+  activeItem.value.parentId = containerToPickInto.value.ObjectId
   PickItem(activeItem.value)
   .then(response => {
     resetAllPickData(response.data)
   })
 }
 function acknowledgeOrder() {
-  orderToPickFrom.value.orderDetail.orderStatus = 420
-  updateOrderDetail(orderToPickFrom.value.orderDetail)
+  orderToPickFrom.value.warehouseParentObject.eventType = 420
+  updateOrderDetail(orderToPickFrom.value.warehouseParentObject)
 }
 function completePicking() {
-  orderToPickFrom.value.orderDetail.orderStatus = 510
-  orderToPickFrom.value.orderDetail.containerIdOrderItemsHeldIn = containerToPickInto.value.ContainerId
-  updateOrderDetail(orderToPickFrom.value.orderDetail)
+  orderToPickFrom.value.warehouseParentObject.eventType = 510
+  orderToPickFrom.value.warehouseParentObject.parentId = containerToPickInto.value.objectId
+  updateOrderDetail(orderToPickFrom.value.warehouseParentObject)
 }
 function setOrderAcknowledgementData(responseData) {
-  orderToPickFrom.value.orderDetail = responseData
+  orderToPickFrom.value.warehouseParentObject = responseData
   unacknowledgedOrderDialog.value = false
   selectContainerToPickIntoDialog.value = true
 }
@@ -146,8 +135,8 @@ function resetAllPickData(responseData) {
   genericId.value = 0,
   containerDetailData.value = null
   
-  var itemIndexToUpdate = orderToPickFrom.value.items.findIndex(x => x.itemId == responseData.itemId)
-  orderToPickFrom.value.items[itemIndexToUpdate] = responseData
+  var itemIndexToUpdate = orderToPickFrom.value.warehouseChildrenObjects.findIndex(x => x.objectId == responseData.objectId)
+  orderToPickFrom.value.warehouseChildrenObjects[itemIndexToUpdate] = responseData
 }
 function orderIdTitle(orderId) {
   return "Order Id: " + orderId
