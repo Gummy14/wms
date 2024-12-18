@@ -18,11 +18,10 @@
         </div>
         <div v-else>
           Putaway In Location: {{ putawayLocation.name }}
-          <!-- <v-btn @click="setContainerFull()">Is Putaway Container Full? Request New Container</v-btn> -->
           <Scanner must-verify @codeScanned="(emittedData) => setScannedData(emittedData)" />
           <div v-if="scannedPutawayLocation">Location Scanned</div>
           <div v-if="scannedPutawayObject">Object Scanned</div>
-          <v-btn v-if="scannedPutawayLocation && scannedPutawayObject" @click="putItemInContainer()">Confirm Putaway</v-btn>
+          <v-btn v-if="scannedPutawayLocation && scannedPutawayObject" @click="putItemInLocation()">Confirm Putaway</v-btn>
         </div>
         </v-card>
       </v-dialog>
@@ -56,24 +55,13 @@ function getPutawayLocation() {
   })
 }
 function setScannedData(scannedData) {
-  console.log('YES')
   if (scannedData.objectType == 1 && scannedPutawayLocation.value == null) {
-    console.log('HERE')
     scannedPutawayLocation.value = scannedData
   } else if (scannedData.objectType == 0 && scannedPutawayLocation.value != null && scannedPutawayObject.value == null) {
-    console.log('HERE2')
     scannedPutawayObject.value = scannedData
   }
 }
-// function setContainerFull() {
-//   putawayLocation.value.isFull = true
-//   putawayLocation.value.eventType = 111
-//   UpdateContainerDetail(putawayLocation.value)
-//   .then(() => {
-//     getPutawayLocation()
-//   })
-// }
-function putItemInContainer() {
+function putItemInLocation() {
   putawayItem.value.parentId = putawayLocation.value.objectId
   putawayItem.value.eventType = 310
   UpdateWarehouseObject(putawayItem.value)
