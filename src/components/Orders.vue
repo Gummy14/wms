@@ -17,8 +17,8 @@
           <template v-slot:activator="{ props }">
             <v-list-item 
             v-bind="props" 
-            :title="orderIdTitle(warehouseParentWithChildrenObject.warehouseParentObject.objectId)" 
-            :subtitle="orderStatusText(warehouseParentWithChildrenObject.warehouseParentObject.eventType)"
+            :title="orderTitle(warehouseParentWithChildrenObject.warehouseParentObject.name)" 
+            :subtitle="orderStatusText(warehouseParentWithChildrenObject.warehouseParentObject.description)"
             >
             </v-list-item>
           </template>
@@ -67,8 +67,8 @@ function registerOrder() {
 function addItemToOrder(item) {
   newOrderItems.value.push(item)
 }
-function orderIdTitle(orderId) {
-  return "Order Id: " + orderId
+function orderTitle(orderName) {
+  return "Order #" + orderName
 }
 function orderStatusText(orderStatus) {
   // if(orderStatus && eventTypes.value) {
