@@ -12,17 +12,17 @@ export async function GetAllWarehouseObjectsByType(objectType) {
 export async function GetWarehouseObjectById(objectId) {
     return await axios.get(baseUrl + 'WMS/GetWarehouseObjectById/' + objectId)
 }
+export async function GetAllWarehouseParentObjectsWithChildren() {
+    return await axios.get(baseUrl + 'WMS/GetAllWarehouseParentObjectsWithChildren/')
+}
 export async function GetWarehouseParentObjectWithChildrenByParentId(parentObjectId) {
     return await axios.get(baseUrl + 'WMS/GetWarehouseParentObjectWithChildrenByParentId/' + parentObjectId)
 }
-export async function GetAllWarehouseOrderObjectsWithChildren() {
-    return await axios.get(baseUrl + 'WMS/GetAllWarehouseOrderObjectsWithChildren/')
+export async function GetWarehouseParentObjectWithChildrenByEventType(eventType) {
+    return await axios.get(baseUrl + 'WMS/GetWarehouseParentObjectWithChildrenByEventType/' + eventType)
 }
-export async function GetWarehouseOrderObjectWithChildrenByOrderId(orderObjectId) {
-    return await axios.get(baseUrl + 'WMS/GetWarehouseOrderObjectWithChildrenByOrderId/' + orderObjectId)
-}
-export async function GetWarehouseOrderObjectWithChildrenByEventType(eventType) {
-    return await axios.get(baseUrl + 'WMS/GetWarehouseOrderObjectWithChildrenByEventType/' + eventType)
+export async function GetAllWarehouseParentObjectsWithChildrenByParentType(objectType) {
+    return await axios.get(baseUrl + 'WMS/GetAllWarehouseParentObjectsWithChildrenByParentType/' + objectType)
 }
 export async function PrintQRCode(objectToRegister) {
     return await axios.post(baseUrl + 'WMS/PrintQRCode/', objectToRegister)

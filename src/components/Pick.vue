@@ -60,7 +60,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { mdiCheckCircleOutline  } from '@mdi/js'
-import { GetWarehouseObjectById, GetWarehouseOrderObjectWithChildrenByEventType, UpdateWarehouseObject, PickItem } from '@/functions/functions'
+import { GetWarehouseObjectById, GetWarehouseParentObjectWithChildrenByEventType, UpdateWarehouseObject, PickItem } from '@/functions/functions'
 import SvgIcon from '@jamescoyle/vue-icon'
 import Scanner from '@/components/scanning/Scanner.vue'
 
@@ -87,7 +87,7 @@ const areAllItemsPicked = computed(() => {
 })
 
 function getOrderByStatus() {
-  GetWarehouseOrderObjectWithChildrenByEventType(410)
+  GetWarehouseParentObjectWithChildrenByEventType(410)
   .then(response => {
     orderToPickFrom.value = response.data
     unacknowledgedOrderDialog.value = true

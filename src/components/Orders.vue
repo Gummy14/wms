@@ -32,7 +32,7 @@
   
 <script setup>
 import { ref, onMounted } from 'vue'
-import { GetAllWarehouseObjectsByType, GetAllWarehouseOrderObjectsWithChildren, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
+import { GetAllWarehouseObjectsByType, GetAllWarehouseParentObjectsWithChildrenByParentType, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
 
 
 var allOrders = ref(null)
@@ -47,8 +47,9 @@ function getAllItems() {
   })
 }
 function getAllOrders() {
-  GetAllWarehouseOrderObjectsWithChildren()
+  GetAllWarehouseParentObjectsWithChildrenByParentType(3)
   .then(response => {
+    console.log("response.data", response.data)
     allOrders.value = response.data
   })
 }
