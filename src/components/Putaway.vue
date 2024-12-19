@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { UpdateWarehouseObject, GetPutawayLocation } from '@/functions/functions'
+import { UpdateWarehouseObject, GetPutawayLocation, CreateWarehouseObjectRelationship } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
 var putawayLocation = ref(null)
@@ -62,9 +62,13 @@ function setScannedData(scannedData) {
   }
 }
 function putItemInLocation() {
-  putawayItem.value.parentId = putawayLocation.value.objectId
   putawayItem.value.eventType = 310
-  UpdateWarehouseObject(putawayItem.value)
+  putawayLocation.value.eventType = 310
+  var objectRelationship = {
+    parent: putawayLocation.value,
+    child: putawayItem.value
+  }
+  CreateWarehouseObjectRelationship(objectRelationship)
   .then(() => {
     putawayItem.value = '',
     putawayLocation.value = null,

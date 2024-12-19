@@ -33,6 +33,9 @@ export async function RegisterWarehouseObject(objectToRegister) {
 export async function UpdateWarehouseObject(warehouseObject) {
     return await axios.post(baseUrl + 'WMS/UpdateWarehouseObject', warehouseObject)
 }
+export async function CreateWarehouseObjectRelationship(objectRelationshipToRegister) {
+    return await axios.post(baseUrl + 'WMS/CreateWarehouseObjectRelationship', objectRelationshipToRegister)
+}
 
 //Order
 export async function GetOrderByContainerId(containerId) {
