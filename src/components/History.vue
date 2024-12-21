@@ -30,7 +30,7 @@ function getObjectHistory() {
 }
 function orderHistoryEntry(warehouseObject) {
   if(eventTypes != null) {
-    return eventTypes.value.find(x => x.id === warehouseObject.eventType).eventTypeDescription
+    return eventTypes.value.find(x => x.id === warehouseObject.status).eventTypeDescription
   }
 }
 function getAllEventTypes() {

@@ -13,16 +13,16 @@
       </v-dialog>
 
       <v-list>
-        <v-list-group v-for="warehouseParentWithChildrenObject in allOrders" :key="warehouseParentWithChildrenObject.warehouseParentObject.objectId">
+        <v-list-group v-for="(order, index) in allOrders" :key="index">
           <template v-slot:activator="{ props }">
             <v-list-item 
             v-bind="props" 
-            :title="orderTitle(warehouseParentWithChildrenObject.warehouseParentObject.name)" 
-            :subtitle="orderStatusText(warehouseParentWithChildrenObject.warehouseParentObject.description)"
+            :title="orderTitle(index)" 
+            :subtitle="orderStatusText(index)"
             >
             </v-list-item>
           </template>
-          <v-list-item v-for="childObject in warehouseParentWithChildrenObject.warehouseChildrenObjects" :key="childObject.objectId" :title="childObject.name"></v-list-item>
+          <v-list-item v-for="(item, itemIndex) in allOrders[index]" :key="item" :title="item"></v-list-item>
         </v-list-group>
       </v-list>
 
@@ -32,7 +32,7 @@
   
 <script setup>
 import { ref, onMounted } from 'vue'
-import { GetAllWarehouseObjectsByType, GetAllWarehouseParentObjectsWithChildrenByParentType, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
+import { GetAllWarehouseObjectsByType, GetAllWarehouseRelationshipsByParentType, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
 
 
 var allOrders = ref(null)
@@ -47,10 +47,17 @@ function getAllItems() {
   })
 }
 function getAllOrders() {
-  GetAllWarehouseParentObjectsWithChildrenByParentType(3)
+  GetAllWarehouseRelationshipsByParentType(3)
   .then(response => {
-    console.log("response.data", response.data)
-    allOrders.value = response.data
+    var dictionary = {}
+    response.data.forEach(warehouseRelationship => {
+      if (dictionary[warehouseRelationship.parentId]) {
+        dictionary[warehouseRelationship.parentId].push(warehouseRelationship.childId)
+      } else {
+        dictionary[warehouseRelationship.parentId] = [warehouseRelationship.childId]
+      }
+    });
+    allOrders.value = dictionary
   })
 }
 function getAllEventTypes() {

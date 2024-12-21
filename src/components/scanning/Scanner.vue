@@ -17,7 +17,7 @@ function onDetect(detectedCodes) {
   if(props.mustVerify) {
     GetWarehouseObjectById(scanData.ObjectId)
     .then(response => {
-      console.log('verfied object')
+      console.log('verfied object', response.data)
       emit('codeScanned', response.data)
     })
   } else {

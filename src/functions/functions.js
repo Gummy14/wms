@@ -12,18 +12,22 @@ export async function GetAllWarehouseObjectsByType(objectType) {
 export async function GetWarehouseObjectById(objectId) {
     return await axios.get(baseUrl + 'WMS/GetWarehouseObjectById/' + objectId)
 }
-export async function GetAllWarehouseParentObjectsWithChildren() {
-    return await axios.get(baseUrl + 'WMS/GetAllWarehouseParentObjectsWithChildren/')
+export async function GetAllWarehouseRelationships() {
+    return await axios.get(baseUrl + 'WMS/GetAllWarehouseRelationships/')
 }
-export async function GetWarehouseParentObjectWithChildrenByParentId(parentObjectId) {
-    return await axios.get(baseUrl + 'WMS/GetWarehouseParentObjectWithChildrenByParentId/' + parentObjectId)
+export async function GetAllWarehouseRelationshipsByParentId(parentObjectId) {
+    return await axios.get(baseUrl + 'WMS/GetAllWarehouseRelationshipsByParentId/' + parentObjectId)
 }
-export async function GetWarehouseParentObjectWithChildrenByEventType(eventType) {
-    return await axios.get(baseUrl + 'WMS/GetWarehouseParentObjectWithChildrenByEventType/' + eventType)
+export async function GetAllWarehouseRelationshipsByChildId(childObjectId) {
+    return await axios.get(baseUrl + 'WMS/GetAllWarehouseRelationshipsByChildId/' + childObjectId)
 }
-export async function GetAllWarehouseParentObjectsWithChildrenByParentType(objectType) {
-    return await axios.get(baseUrl + 'WMS/GetAllWarehouseParentObjectsWithChildrenByParentType/' + objectType)
+export async function GetAllWarehouseRelationshipsByParentType(objectType) {
+    return await axios.get(baseUrl + 'WMS/GetAllWarehouseRelationshipsByParentType/' + objectType)
 }
+export async function GetAllWarehouseRelationshipsByParentStatus(status) {
+    return await axios.get(baseUrl + 'WMS/GetAllWarehouseRelationshipsByParentStatus/' + status)
+}
+
 export async function PrintQRCode(objectToRegister) {
     return await axios.post(baseUrl + 'WMS/PrintQRCode/', objectToRegister)
 }
@@ -33,14 +37,14 @@ export async function RegisterWarehouseObject(objectToRegister) {
 export async function UpdateWarehouseObject(warehouseObject) {
     return await axios.post(baseUrl + 'WMS/UpdateWarehouseObject', warehouseObject)
 }
-export async function CreateWarehouseObjectRelationship(objectRelationshipToRegister) {
-    return await axios.post(baseUrl + 'WMS/CreateWarehouseObjectRelationship', objectRelationshipToRegister)
+export async function RegisterWarehouseObjectRelationship(objectRelationshipToRegister) {
+    return await axios.post(baseUrl + 'WMS/RegisterWarehouseObjectRelationship', objectRelationshipToRegister)
+}
+export async function UpdateWarehouseObjectRelationship(warehouseObjectRelationship) {
+    return await axios.post(baseUrl + 'WMS/UpdateWarehouseObjectRelationship', warehouseObjectRelationship)
 }
 
 //Order
-export async function GetOrderByContainerId(containerId) {
-    return await axios.get(baseUrl + 'Order/GetOrderByContainerId/' + containerId)
-}
 export async function RegisterOrder(newOrderItems) {
     return await axios.post(baseUrl + 'Order/RegisterOrder/', newOrderItems)
 }

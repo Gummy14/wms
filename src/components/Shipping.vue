@@ -27,14 +27,14 @@
 
 <script setup>
 import { ref } from 'vue'
-import { GetWarehouseParentObjectWithChildrenByParentId, UpdateWarehouseObject } from '@/functions/functions'
+import { GetAllWarehouseRelationshipsByParentId, UpdateWarehouseObject } from '@/functions/functions'
 
 var orderId = ref(null)
 var unselectedOrderToShipDialog = ref(false)
 var orderToShip = ref(null)
 
 function getOrderById() {
-  GetWarehouseParentObjectWithChildrenByParentId(orderId.value)
+  GetAllWarehouseRelationshipsByParentId(orderId.value)
   .then(response => {
     orderToShip.value = response.data
     unselectedOrderToShipDialog.value = true

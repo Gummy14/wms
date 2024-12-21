@@ -28,7 +28,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { GetOrderByContainerId, UpdateWarehouseObject } from '@/functions/functions'
+import { UpdateWarehouseObject } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
 var container = ref(null)
