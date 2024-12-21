@@ -12,6 +12,9 @@ export async function GetAllWarehouseObjectsByType(objectType) {
 export async function GetWarehouseObjectById(objectId) {
     return await axios.get(baseUrl + 'WMS/GetWarehouseObjectById/' + objectId)
 }
+export async function GetWarehouseObjectByStatus(status) {
+    return await axios.get(baseUrl + 'WMS/GetWarehouseObjectByStatus/' + status)
+}
 export async function GetAllWarehouseRelationships() {
     return await axios.get(baseUrl + 'WMS/GetAllWarehouseRelationships/')
 }

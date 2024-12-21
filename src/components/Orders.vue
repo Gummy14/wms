@@ -22,7 +22,7 @@
             >
             </v-list-item>
           </template>
-          <v-list-item v-for="(item, itemIndex) in allOrders[index]" :key="item" :title="item"></v-list-item>
+          <v-list-item v-for="item in allOrders[index]" :key="item" :title="item"></v-list-item>
         </v-list-group>
       </v-list>
 
