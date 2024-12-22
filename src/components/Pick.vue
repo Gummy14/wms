@@ -6,9 +6,9 @@
     <v-list v-if="dictionary">
       <v-list-group v-for="(order, index) in dictionary" :key="index">
         <template v-slot:activator="{ props }">
-          <v-list-item v-bind="props" :title="index"></v-list-item>
+          <v-list-item v-bind="props" :title="dictionaryIndexObjectLookUpTable[index].name"></v-list-item>
         </template>
-        <v-list-item v-for="item in dictionary[index]" :key="item" :title="item"></v-list-item>
+        <v-list-item v-for="itemObject in dictionary[index]" :key="itemObject.objectId" :title="itemObject.name"></v-list-item>
       </v-list-group>
       <!-- <v-list-group>
         <template v-slot:activator="{ props }">
@@ -45,13 +45,13 @@
     </v-dialog>
 
     <v-dialog
-      v-model="parentObject"
+      v-model="activeItem"
       width="auto"
     >
-      <v-card v-if="parentObject"
+      <v-card v-if="activeItem"
         max-width="400"
-        :title="parentObject.name"
-        :subtitle="parentObject.objectId"
+        :title="activeItem.name"
+        :subtitle="activeItem.objectId"
       >
         <v-btn @click="pickItem()">Pick</v-btn>
       </v-card>
@@ -63,11 +63,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { mdiCheckCircleOutline  } from '@mdi/js'
-import { GetAllWarehouseRelationshipsByChildId, GetWarehouseObjectByStatus, UpdateWarehouseObject, GetAllWarehouseRelationshipsByParentId } from '@/functions/functions'
+import { GetWarehouseObjectById, GetWarehouseObjectByStatus, UpdateWarehouseObject, GetAllWarehouseRelationshipsByParentId } from '@/functions/functions'
 import SvgIcon from '@jamescoyle/vue-icon'
 import Scanner from '@/components/scanning/Scanner.vue'
 
-var genericId = ref(0)
 var activeItem = ref(null)
 var containerToPickInto = ref(null)
 var parentObject = ref(null)
@@ -75,6 +74,7 @@ var orderToPickFrom = ref(null)
 var unacknowledgedOrderDialog = ref(false)
 var selectContainerToPickIntoDialog = ref(false)
 var dictionary = ref({})
+var dictionaryIndexObjectLookUpTable = ref({})
 
 // const areAllItemsPicked = computed(() => {
 //   if(orderToPickFrom.value) {
@@ -97,25 +97,34 @@ function getOrderByStatus() {
     unacknowledgedOrderDialog.value = true
   })
 }
-function getContainerDetailById(item) {
-  activeItem.value = item
-  GetAllWarehouseRelationshipsByChildId(item.objectId)
+function getItem(itemObjectId) {
+  GetWarehouseObjectById(itemObjectId)
   .then(response => {
-    parentObject.value = response.data
+    activeItem.value = response.data
   })
 }
 function updateOrderObject(objectToUpdate) {
   UpdateWarehouseObject(objectToUpdate)
   .then(response => {
     GetAllWarehouseRelationshipsByParentId(response.data.objectId)
-    .then(warehouseRelationshipData => {
-      warehouseRelationshipData.data.forEach(warehouseRelationship => {
-        if (dictionary.value[warehouseRelationship.parentId]) {
-          dictionary.value[warehouseRelationship.parentId].push(warehouseRelationship.childId)
-        } else {
-          dictionary.value[warehouseRelationship.parentId] = [warehouseRelationship.childId]
-        }
+    .then(warehouseRelationshipResponse => {
+      warehouseRelationshipResponse.data.forEach(warehouseRelationship => {
+        GetWarehouseObjectById(warehouseRelationship.parentId)
+        .then(getWarehouseRelationshipParentObjectByIdResponse => {
+          var parentObjectString = JSON.stringify(getWarehouseRelationshipParentObjectByIdResponse.data)
+          GetWarehouseObjectById(warehouseRelationship.childId)
+          .then(getWarehouseRelationshipChildObjectByIdResponse => {
+            if (dictionary.value[parentObjectString]) {
+              dictionary.value[parentObjectString].push(getWarehouseRelationshipChildObjectByIdResponse.data)
+            } else {
+              dictionary.value[parentObjectString] = [getWarehouseRelationshipChildObjectByIdResponse.data]
+              dictionaryIndexObjectLookUpTable.value[parentObjectString] = getWarehouseRelationshipParentObjectByIdResponse.data
+            }
+          })
+        })
       });
+      console.log('dictionary', dictionary)
+      console.log('dictionaryIndexObjectLookUpTable', dictionaryIndexObjectLookUpTable)
       orderToPickFrom.value = response.data
       unacknowledgedOrderDialog.value = false
       selectContainerToPickIntoDialog.value = true
@@ -143,7 +152,6 @@ function completePicking() {
 //   selectContainerToPickIntoDialog.value = false
 // }
 function resetAllPickData(responseData) {
-  genericId.value = 0,
   parentObject.value = null
   
   var itemIndexToUpdate = orderToPickFrom.value.warehouseChildrenObjects.findIndex(x => x.objectId == responseData.objectId)
