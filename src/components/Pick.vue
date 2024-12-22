@@ -6,7 +6,7 @@
     <v-list v-if="dictionary">
       <v-list-group v-for="(order, index) in dictionary" :key="index">
         <template v-slot:activator="{ props }">
-          <v-list-item v-bind="props" :title="dictionaryIndexObjectLookUpTable[index].name"></v-list-item>
+          <v-list-item v-bind="props" :title="JSON.parse(index).name"></v-list-item>
         </template>
         <v-list-item v-for="itemObject in dictionary[index]" :key="itemObject.objectId" :title="itemObject.name"></v-list-item>
       </v-list-group>
@@ -74,7 +74,6 @@ var orderToPickFrom = ref(null)
 var unacknowledgedOrderDialog = ref(false)
 var selectContainerToPickIntoDialog = ref(false)
 var dictionary = ref({})
-var dictionaryIndexObjectLookUpTable = ref({})
 
 // const areAllItemsPicked = computed(() => {
 //   if(orderToPickFrom.value) {
@@ -97,35 +96,20 @@ function getOrderByStatus() {
     unacknowledgedOrderDialog.value = true
   })
 }
-function getItem(itemObjectId) {
-  GetWarehouseObjectById(itemObjectId)
-  .then(response => {
-    activeItem.value = response.data
-  })
-}
 function updateOrderObject(objectToUpdate) {
   UpdateWarehouseObject(objectToUpdate)
-  .then(response => {
-    GetAllWarehouseRelationshipsByParentId(response.data.objectId)
+  .then(updatedWarehouseObject => {
+    var parentObjectString = JSON.stringify(updatedWarehouseObject.data)
+    dictionary.value[parentObjectString] = []
+    GetAllWarehouseRelationshipsByParentId(updatedWarehouseObject.data.objectId)
     .then(warehouseRelationshipResponse => {
       warehouseRelationshipResponse.data.forEach(warehouseRelationship => {
-        GetWarehouseObjectById(warehouseRelationship.parentId)
-        .then(getWarehouseRelationshipParentObjectByIdResponse => {
-          var parentObjectString = JSON.stringify(getWarehouseRelationshipParentObjectByIdResponse.data)
-          GetWarehouseObjectById(warehouseRelationship.childId)
-          .then(getWarehouseRelationshipChildObjectByIdResponse => {
-            if (dictionary.value[parentObjectString]) {
-              dictionary.value[parentObjectString].push(getWarehouseRelationshipChildObjectByIdResponse.data)
-            } else {
-              dictionary.value[parentObjectString] = [getWarehouseRelationshipChildObjectByIdResponse.data]
-              dictionaryIndexObjectLookUpTable.value[parentObjectString] = getWarehouseRelationshipParentObjectByIdResponse.data
-            }
-          })
+        GetWarehouseObjectById(warehouseRelationship.childId)
+        .then(getWarehouseRelationshipChildObjectByIdResponse => {
+          dictionary.value[parentObjectString].push(getWarehouseRelationshipChildObjectByIdResponse.data)
         })
       });
-      console.log('dictionary', dictionary)
-      console.log('dictionaryIndexObjectLookUpTable', dictionaryIndexObjectLookUpTable)
-      orderToPickFrom.value = response.data
+      orderToPickFrom.value = updatedWarehouseObject.data
       unacknowledgedOrderDialog.value = false
       selectContainerToPickIntoDialog.value = true
     })
