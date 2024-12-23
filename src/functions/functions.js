@@ -3,32 +3,26 @@ import axios from 'axios'
 const baseUrl = 'https://localhost:7187/'
 
 //WMS
-export async function GetAllWarehouseObjects() {
-    return await axios.get(baseUrl + 'WMS/GetAllWarehouseObjects/')
+export async function GetAllItems() {
+    return await axios.get(baseUrl + 'WMS/GetAllItems/')
 }
-export async function GetAllWarehouseObjectsByType(objectType) {
-    return await axios.get(baseUrl + 'WMS/GetAllWarehouseObjectsByType/' + objectType)
+export async function GetAllLocations() {
+    return await axios.get(baseUrl + 'WMS/GetAllLocations/')
 }
-export async function GetWarehouseObjectById(objectId) {
-    return await axios.get(baseUrl + 'WMS/GetWarehouseObjectById/' + objectId)
+export async function GetAllOrders() {
+    return await axios.get(baseUrl + 'WMS/GetAllOrders/')
 }
-export async function GetWarehouseObjectByStatus(status) {
-    return await axios.get(baseUrl + 'WMS/GetWarehouseObjectByStatus/' + status)
+export async function GetItemById(objectId) {
+    return await axios.get(baseUrl + 'WMS/GetItemById/' + objectId)
 }
-export async function GetAllWarehouseRelationships() {
-    return await axios.get(baseUrl + 'WMS/GetAllWarehouseRelationships/')
+export async function GetLocationById(objectId) {
+    return await axios.get(baseUrl + 'WMS/GetLocationById/' + objectId)
 }
-export async function GetAllWarehouseRelationshipsByParentId(parentObjectId) {
-    return await axios.get(baseUrl + 'WMS/GetAllWarehouseRelationshipsByParentId/' + parentObjectId)
+export async function GetOrderById(objectId) {
+    return await axios.get(baseUrl + 'WMS/GetOrderById/' + objectId)
 }
-export async function GetAllWarehouseRelationshipsByChildId(childObjectId) {
-    return await axios.get(baseUrl + 'WMS/GetAllWarehouseRelationshipsByChildId/' + childObjectId)
-}
-export async function GetAllWarehouseRelationshipsByParentType(objectType) {
-    return await axios.get(baseUrl + 'WMS/GetAllWarehouseRelationshipsByParentType/' + objectType)
-}
-export async function GetAllWarehouseRelationshipsByParentStatus(status) {
-    return await axios.get(baseUrl + 'WMS/GetAllWarehouseRelationshipsByParentStatus/' + status)
+export async function GetNextOrderByStatus(status) {
+    return await axios.get(baseUrl + 'WMS/GetNextOrderByStatus/' + status)
 }
 
 export async function PrintQRCode(objectToRegister) {
@@ -37,14 +31,14 @@ export async function PrintQRCode(objectToRegister) {
 export async function RegisterWarehouseObject(objectToRegister) {
     return await axios.post(baseUrl + 'WMS/RegisterWarehouseObject', objectToRegister)
 }
-export async function UpdateWarehouseObject(warehouseObject) {
-    return await axios.post(baseUrl + 'WMS/UpdateWarehouseObject', warehouseObject)
+export async function UpdateItem(item) {
+    return await axios.post(baseUrl + 'WMS/UpdateItem', item)
 }
-export async function RegisterWarehouseObjectRelationship(objectRelationshipToRegister) {
-    return await axios.post(baseUrl + 'WMS/RegisterWarehouseObjectRelationship', objectRelationshipToRegister)
+export async function UpdateLocation(location) {
+    return await axios.post(baseUrl + 'WMS/UpdateLocation', location)
 }
-export async function UpdateWarehouseObjectRelationship(warehouseObjectRelationship) {
-    return await axios.post(baseUrl + 'WMS/UpdateWarehouseObjectRelationship', warehouseObjectRelationship)
+export async function UpdateOrder(order) {
+    return await axios.post(baseUrl + 'WMS/UpdateOrder', order)
 }
 
 //Order

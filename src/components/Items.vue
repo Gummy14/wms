@@ -36,7 +36,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllWarehouseObjectsByType, RegisterWarehouseObject, PrintQRCode } from '@/functions/functions'
+import { GetAllItems, RegisterWarehouseObject, PrintQRCode } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
 var allItems = ref(null)
@@ -63,7 +63,7 @@ function registerItem() {
 }
 
 onMounted(() => {
-  GetAllWarehouseObjectsByType(0)
+  GetAllItems()
   .then(response => {
     allItems.value = response.data
     retrievedAllItems.value = true

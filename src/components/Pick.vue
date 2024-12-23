@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn @click="getOrderByStatus()">Pick By Next Unacknowledged Order</v-btn>
+    <!-- <v-btn @click="getOrderByStatus()">Pick By Next Unacknowledged Order</v-btn> -->
     <div v-if="containerToPickInto != null">{{ containerToPickInto.objectId }}</div>
 
     <v-list v-if="dictionary">
@@ -61,19 +61,19 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
-import { mdiCheckCircleOutline  } from '@mdi/js'
-import { GetWarehouseObjectById, GetWarehouseObjectByStatus, UpdateWarehouseObject, GetAllWarehouseRelationshipsByParentId } from '@/functions/functions'
-import SvgIcon from '@jamescoyle/vue-icon'
-import Scanner from '@/components/scanning/Scanner.vue'
+// import { ref, computed } from 'vue'
+// import { mdiCheckCircleOutline  } from '@mdi/js'
+// import { GetWarehouseObjectById, GetWarehouseObjectByStatus, UpdateWarehouseObject, GetAllWarehouseRelationshipsByParentId } from '@/functions/functions'
+// import SvgIcon from '@jamescoyle/vue-icon'
+// import Scanner from '@/components/scanning/Scanner.vue'
 
-var activeItem = ref(null)
-var containerToPickInto = ref(null)
-var parentObject = ref(null)
-var orderToPickFrom = ref(null)
-var unacknowledgedOrderDialog = ref(false)
-var selectContainerToPickIntoDialog = ref(false)
-var dictionary = ref({})
+// var activeItem = ref(null)
+// var containerToPickInto = ref(null)
+// var parentObject = ref(null)
+// var orderToPickFrom = ref(null)
+// var unacknowledgedOrderDialog = ref(false)
+// var selectContainerToPickIntoDialog = ref(false)
+// var dictionary = ref({})
 
 // const areAllItemsPicked = computed(() => {
 //   if(orderToPickFrom.value) {
@@ -89,58 +89,58 @@ var dictionary = ref({})
 //   }
 // })
 
-function getOrderByStatus() {
-  GetWarehouseObjectByStatus(410)
-  .then(response => {
-    orderToPickFrom.value = response.data
-    unacknowledgedOrderDialog.value = true
-  })
-}
-function updateOrderObject(objectToUpdate) {
-  UpdateWarehouseObject(objectToUpdate)
-  .then(updatedWarehouseObject => {
-    var parentObjectString = JSON.stringify(updatedWarehouseObject.data)
-    dictionary.value[parentObjectString] = []
-    GetAllWarehouseRelationshipsByParentId(updatedWarehouseObject.data.objectId)
-    .then(warehouseRelationshipResponse => {
-      warehouseRelationshipResponse.data.forEach(warehouseRelationship => {
-        GetWarehouseObjectById(warehouseRelationship.childId)
-        .then(getWarehouseRelationshipChildObjectByIdResponse => {
-          dictionary.value[parentObjectString].push(getWarehouseRelationshipChildObjectByIdResponse.data)
-        })
-      });
-      orderToPickFrom.value = updatedWarehouseObject.data
-      unacknowledgedOrderDialog.value = false
-      selectContainerToPickIntoDialog.value = true
-    })
-  })
-}
-function pickItem() {
-  activeItem.value.parentId = containerToPickInto.value.ObjectId
-  UpdateWarehouseObjectRelationship(activeItem.value)
-  .then(response => {
-    resetAllPickData(response.data)
-  })
-}
-function acknowledgeOrder() {
-  orderToPickFrom.value.status = 420
-  updateOrderObject(orderToPickFrom.value)
-}
-function completePicking() {
-  orderToPickFrom.value.warehouseParentObject.status = 510
-  orderToPickFrom.value.warehouseParentObject.parentId = containerToPickInto.value.objectId
-  updateOrderObject(orderToPickFrom.value.warehouseParentObject)
-}
-// function selectContainerToPickInto(containerId) {
-//   containerToPickInto.value = containerId
-//   selectContainerToPickIntoDialog.value = false
+// function getOrderByStatus() {
+//   GetWarehouseObjectByStatus(410)
+//   .then(response => {
+//     orderToPickFrom.value = response.data
+//     unacknowledgedOrderDialog.value = true
+//   })
 // }
-function resetAllPickData(responseData) {
-  parentObject.value = null
+// function updateOrderObject(objectToUpdate) {
+//   UpdateWarehouseObject(objectToUpdate)
+//   .then(updatedWarehouseObject => {
+//     var parentObjectString = JSON.stringify(updatedWarehouseObject.data)
+//     dictionary.value[parentObjectString] = []
+//     GetAllWarehouseRelationshipsByParentId(updatedWarehouseObject.data.objectId)
+//     .then(warehouseRelationshipResponse => {
+//       warehouseRelationshipResponse.data.forEach(warehouseRelationship => {
+//         GetWarehouseObjectById(warehouseRelationship.childId)
+//         .then(getWarehouseRelationshipChildObjectByIdResponse => {
+//           dictionary.value[parentObjectString].push(getWarehouseRelationshipChildObjectByIdResponse.data)
+//         })
+//       });
+//       orderToPickFrom.value = updatedWarehouseObject.data
+//       unacknowledgedOrderDialog.value = false
+//       selectContainerToPickIntoDialog.value = true
+//     })
+//   })
+// }
+// function pickItem() {
+//   activeItem.value.parentId = containerToPickInto.value.ObjectId
+//   UpdateWarehouseObjectRelationship(activeItem.value)
+//   .then(response => {
+//     resetAllPickData(response.data)
+//   })
+// }
+// function acknowledgeOrder() {
+//   orderToPickFrom.value.status = 420
+//   updateOrderObject(orderToPickFrom.value)
+// }
+// function completePicking() {
+//   orderToPickFrom.value.warehouseParentObject.status = 510
+//   orderToPickFrom.value.warehouseParentObject.parentId = containerToPickInto.value.objectId
+//   updateOrderObject(orderToPickFrom.value.warehouseParentObject)
+// }
+// // function selectContainerToPickInto(containerId) {
+// //   containerToPickInto.value = containerId
+// //   selectContainerToPickIntoDialog.value = false
+// // }
+// function resetAllPickData(responseData) {
+//   parentObject.value = null
   
-  var itemIndexToUpdate = orderToPickFrom.value.warehouseChildrenObjects.findIndex(x => x.objectId == responseData.objectId)
-  orderToPickFrom.value.warehouseChildrenObjects[itemIndexToUpdate] = responseData
-}
+//   var itemIndexToUpdate = orderToPickFrom.value.warehouseChildrenObjects.findIndex(x => x.objectId == responseData.objectId)
+//   orderToPickFrom.value.warehouseChildrenObjects[itemIndexToUpdate] = responseData
+// }
 </script>
 
 <style scoped>

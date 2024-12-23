@@ -26,37 +26,37 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { GetAllWarehouseRelationshipsByParentId, UpdateWarehouseObject } from '@/functions/functions'
+// import { ref } from 'vue'
+// import { GetAllWarehouseRelationshipsByParentId, UpdateWarehouseObject } from '@/functions/functions'
 
-var orderId = ref(null)
-var unselectedOrderToShipDialog = ref(false)
-var orderToShip = ref(null)
+// var orderId = ref(null)
+// var unselectedOrderToShipDialog = ref(false)
+// var orderToShip = ref(null)
 
-function getOrderById() {
-  GetAllWarehouseRelationshipsByParentId(orderId.value)
-  .then(response => {
-    orderToShip.value = response.data
-    unselectedOrderToShipDialog.value = true
-  })
-}
-function updateOrderDetail(orderDetail) {
-  UpdateWarehouseObject(orderDetail)
-  .then(() => {
-    unselectedOrderToShipDialog.value = false
-  })
-}
-function shipOrder() {
-  orderToShip.value.orderDetail.orderStatus = 710
-  updateOrderDetail(orderToShip.value.orderDetail)
-}
-function selectForShipping() {
-  orderToShip.value.orderDetail.orderStatus = 620
-  updateOrderDetail(orderToShip.value.orderDetail)
-}
-function orderIdTitle(orderId) {
-  return "Order Id: " + orderId
-}
+// function getOrderById() {
+//   GetAllWarehouseRelationshipsByParentId(orderId.value)
+//   .then(response => {
+//     orderToShip.value = response.data
+//     unselectedOrderToShipDialog.value = true
+//   })
+// }
+// function updateOrderDetail(orderDetail) {
+//   UpdateWarehouseObject(orderDetail)
+//   .then(() => {
+//     unselectedOrderToShipDialog.value = false
+//   })
+// }
+// function shipOrder() {
+//   orderToShip.value.orderDetail.orderStatus = 710
+//   updateOrderDetail(orderToShip.value.orderDetail)
+// }
+// function selectForShipping() {
+//   orderToShip.value.orderDetail.orderStatus = 620
+//   updateOrderDetail(orderToShip.value.orderDetail)
+// }
+// function orderIdTitle(orderId) {
+//   return "Order Id: " + orderId
+// }
 </script>
 
 <style scoped>

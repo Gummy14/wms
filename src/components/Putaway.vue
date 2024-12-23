@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { UpdateWarehouseObject, GetPutawayLocation, RegisterWarehouseObjectRelationship } from '@/functions/functions'
+import { UpdateItem, GetPutawayLocation } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
 var putawayLocation = ref(null)
@@ -40,42 +40,32 @@ var scannedPutawayLocation = ref(null)
 var scannedPutawayObject = ref(null)
 
 function selectForPutaway() {
-  if(putawayItem.value.objectType == 0) {
-    putawayItem.value.status = 220
-    UpdateWarehouseObject(putawayItem.value)
-    .then(() => {
-      getPutawayLocation()
+  putawayItem.value.status = 220
+  UpdateItem(putawayItem.value)
+  .then(() => {
+    GetPutawayLocation()
+    .then(response => {
+      putawayLocation.value = response.data
     })
-  }
-}
-function getPutawayLocation() {
-  GetPutawayLocation()
-  .then(response => {
-    putawayLocation.value = response.data
   })
 }
 function setScannedData(scannedData) {
-  if (scannedData.objectType == 1 && scannedPutawayLocation.value == null) {
+  if (scannedPutawayLocation.value == null) {
     scannedPutawayLocation.value = scannedData
-  } else if (scannedData.objectType == 0 && scannedPutawayLocation.value != null && scannedPutawayObject.value == null) {
+  } else if (scannedPutawayLocation.value != null && scannedPutawayObject.value == null) {
     scannedPutawayObject.value = scannedData
   }
 }
 function putItemInLocation() {
   putawayItem.value.status = 310
-  putawayLocation.value.status = 111
-  var objectRelationship = {
-    parent: putawayLocation.value,
-    child: putawayItem.value
-  }
-  RegisterWarehouseObjectRelationship(objectRelationship)
+  putawayItem.value.locationId = putawayLocation.value.objectId
+  UpdateItem(putawayItem.value)
   .then(() => {
     putawayItem.value = '',
     putawayLocation.value = null,
     putawayItem.value = null
   })
 }
-
 </script>
 
 <style scoped>

@@ -27,38 +27,38 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { UpdateWarehouseObject } from '@/functions/functions'
-import Scanner from '@/components/scanning/Scanner.vue'
+// import { ref } from 'vue'
+// import { UpdateWarehouseObject } from '@/functions/functions'
+// import Scanner from '@/components/scanning/Scanner.vue'
 
-var container = ref(null)
-var unselectedOrderToPackageDialog = ref(false)
-var orderToPackage = ref(null)
+// var container = ref(null)
+// var unselectedOrderToPackageDialog = ref(false)
+// var orderToPackage = ref(null)
 
-// function getContainerById() {
-//   GetOrderByContainerId(container.value)
-//   .then(response => {
-//     orderToPackage.value = response.data
-//     unselectedOrderToPackageDialog.value = true
+// // function getContainerById() {
+// //   GetOrderByContainerId(container.value)
+// //   .then(response => {
+// //     orderToPackage.value = response.data
+// //     unselectedOrderToPackageDialog.value = true
+// //   })
+// // }
+// function updateOrderDetail(orderDetail) {
+//   UpdateWarehouseObject(orderDetail)
+//   .then(() => {
+//     unselectedOrderToPackageDialog.value = false
 //   })
 // }
-function updateOrderDetail(orderDetail) {
-  UpdateWarehouseObject(orderDetail)
-  .then(() => {
-    unselectedOrderToPackageDialog.value = false
-  })
-}
-function selectForPackaging() {
-  orderToPackage.value.orderDetail.orderStatus = 520
-  updateOrderDetail(orderToPackage.value.orderDetail)
-}
-function packageOrder() {
-  orderToPackage.value.orderDetail.orderStatus = 610
-  updateOrderDetail(orderToPackage.value.orderDetail)
-}
-function orderIdTitle(orderId) {
-  return "Order Id: " + orderId
-}
+// function selectForPackaging() {
+//   orderToPackage.value.orderDetail.orderStatus = 520
+//   updateOrderDetail(orderToPackage.value.orderDetail)
+// }
+// function packageOrder() {
+//   orderToPackage.value.orderDetail.orderStatus = 610
+//   updateOrderDetail(orderToPackage.value.orderDetail)
+// }
+// function orderIdTitle(orderId) {
+//   return "Order Id: " + orderId
+// }
 </script>
 
 <style scoped>

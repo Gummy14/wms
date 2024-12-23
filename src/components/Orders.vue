@@ -13,16 +13,16 @@
       </v-dialog>
 
       <v-list>
-        <v-list-group v-for="(order, index) in allOrders" :key="index">
+        <v-list-group v-for="order in allOrders" :key="order.objectId">
           <template v-slot:activator="{ props }">
             <v-list-item 
             v-bind="props" 
-            :title="orderTitle(index)" 
-            :subtitle="orderStatusText(index)"
+            :title="order.name" 
+            :subtitle="order.description"
             >
             </v-list-item>
           </template>
-          <v-list-item v-for="item in allOrders[index]" :key="item" :title="item"></v-list-item>
+          <!-- <v-list-item v-for="item in allOrders[index]" :key="item" :title="item"></v-list-item> -->
         </v-list-group>
       </v-list>
 
@@ -32,7 +32,7 @@
   
 <script setup>
 import { ref, onMounted } from 'vue'
-import { GetAllWarehouseObjectsByType, GetAllWarehouseRelationshipsByParentType, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
+import { GetAllItems, GetAllOrders, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
 
 
 var allOrders = ref(null)
@@ -41,23 +41,15 @@ var newOrderItems = ref([])
 var eventTypes = ref(null)
 
 function getAllItems() {
-  GetAllWarehouseObjectsByType(0)
+  GetAllItems()
   .then(response => {
     allItems.value = response.data
   })
 }
 function getAllOrders() {
-  GetAllWarehouseRelationshipsByParentType(3)
+  GetAllOrders()
   .then(response => {
-    var dictionary = {}
-    response.data.forEach(warehouseRelationship => {
-      if (dictionary[warehouseRelationship.parentId]) {
-        dictionary[warehouseRelationship.parentId].push(warehouseRelationship.childId)
-      } else {
-        dictionary[warehouseRelationship.parentId] = [warehouseRelationship.childId]
-      }
-    });
-    allOrders.value = dictionary
+    allOrders.value = response.data
   })
 }
 function getAllEventTypes() {

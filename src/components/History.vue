@@ -17,30 +17,30 @@
 </template>
 
 <script setup>
-import axios from 'axios'
-import { ref, computed, onMounted } from 'vue'
+// import axios from 'axios'
+// import { ref, computed, onMounted } from 'vue'
 
-var genericId = ref('')
-var warehouseItemHistory = ref()
-var eventTypes = ref(null)
+// var genericId = ref('')
+// var warehouseItemHistory = ref()
+// var eventTypes = ref(null)
 
-function getObjectHistory() {
-  axios.get('https://localhost:7187/History/GetObjectHistory/' + genericId.value)
-  .then(response => warehouseItemHistory.value = response.data)
-}
-function orderHistoryEntry(warehouseObject) {
-  if(eventTypes != null) {
-    return eventTypes.value.find(x => x.id === warehouseObject.status).eventTypeDescription
-  }
-}
-function getAllEventTypes() {
-  axios.get('https://localhost:7187/EventTypes/GetAllEventTypes/')
-  .then(response => eventTypes.value = response.data)
-}
+// function getObjectHistory() {
+//   axios.get('https://localhost:7187/History/GetObjectHistory/' + genericId.value)
+//   .then(response => warehouseItemHistory.value = response.data)
+// }
+// function orderHistoryEntry(warehouseObject) {
+//   if(eventTypes != null) {
+//     return eventTypes.value.find(x => x.id === warehouseObject.status).eventTypeDescription
+//   }
+// }
+// function getAllEventTypes() {
+//   axios.get('https://localhost:7187/EventTypes/GetAllEventTypes/')
+//   .then(response => eventTypes.value = response.data)
+// }
 
-onMounted(() => {
-  getAllEventTypes()
-})
+// onMounted(() => {
+//   getAllEventTypes()
+// })
 </script>
 
 <style scoped>

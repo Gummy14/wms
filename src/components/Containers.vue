@@ -35,7 +35,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllWarehouseObjectsByType, PrintQRCode, RegisterWarehouseObject } from '@/functions/functions'
+import { GetAllLocations, PrintQRCode, RegisterWarehouseObject } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
 var containerTypes = ref([{id: 1, type: 'Putaway'}, {id: 2, type: 'Picking'}])
@@ -63,7 +63,7 @@ function registerContainer() {
 }
 
 onMounted(() => {
-  GetAllWarehouseObjectsByType(1)
+  GetAllLocations()
   .then(response => {
     allContainers.value = response.data
     retrievedAllContainers.value = true
