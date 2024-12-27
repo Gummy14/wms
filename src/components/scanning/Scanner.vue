@@ -6,7 +6,7 @@
 
 <script setup>
 import { QrcodeStream } from 'vue-qrcode-reader'
-import { GetItemById, GetLocationById } from '@/functions/functions'
+import { GetItemById, GetLocationById, GetContainerById } from '@/functions/functions'
 const props = defineProps({
   mustVerify: Boolean
 })
@@ -17,16 +17,23 @@ function onDetect(detectedCodes) {
   if(props.mustVerify) {
     switch(scanData.ObjectType) {
       case 0:
-        GetItemById(scanData.ObjectId)
+        GetItemById(scanData.Id)
         .then(response => {
           console.log('verfied item', response.data)
           emit('codeScanned', response.data)
         })
         break
       case 1:
-        GetLocationById(scanData.ObjectId)
+        GetLocationById(scanData.Id)
         .then(response => {
           console.log('verfied location', response.data)
+          emit('codeScanned', response.data)
+        })
+        break
+      case 2:
+        GetContainerById(scanData.Id)
+        .then(response => {
+          console.log('verfied container', response.data)
           emit('codeScanned', response.data)
         })
         break

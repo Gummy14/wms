@@ -13,7 +13,7 @@
       </v-dialog>
 
       <v-list>
-        <v-list-group v-for="order in allOrders" :key="order.objectId">
+        <v-list-group v-for="order in allOrders" :key="order.id">
           <template v-slot:activator="{ props }">
             <v-list-item 
             v-bind="props" 
@@ -22,7 +22,7 @@
             >
             </v-list-item>
           </template>
-          <v-list-item v-for="item in order.orderItems" :key="item.objectId" :title="item.name"></v-list-item>
+          <v-list-item v-for="item in order.orderItems" :key="item.id" :title="item.name"></v-list-item>
         </v-list-group>
       </v-list>
 
@@ -66,16 +66,6 @@ function registerOrder() {
 }
 function addItemToOrder(item) {
   newOrderItems.value.push(item)
-}
-function orderTitle(orderName) {
-  return "Order #" + orderName
-}
-function orderStatusText(orderStatus) {
-  // if(orderStatus && eventTypes.value) {
-  //   return eventTypes.value.find(x => x.Id === orderStatus).eventTypeDescription
-  // } else {
-  //   return 'Fetching Order Status'
-  // }
 }
 
 onMounted(() => {

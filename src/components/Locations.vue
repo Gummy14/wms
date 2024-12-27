@@ -1,20 +1,19 @@
 <template>
   <div>
-    <div v-if="!retrievedAllItems">
+    <div v-if="!retrievedAllLocations">
       <v-progress-circular indeterminate></v-progress-circular>
     </div>
     <div v-else>
       <v-card>
-        <v-text-field label="Item Name" v-model="itemToRegister.name"></v-text-field>
-        <v-text-field label="Item Description" v-model="itemToRegister.description"></v-text-field>
+        <v-text-field label="Location Name" v-model="locationToRegister.name"></v-text-field>
+        <v-btn @click="printQrCode()">Print Location QR Code</v-btn>
       </v-card>
-      <v-btn @click="printQrCode()">Print Item QR Code</v-btn>
 
       <Scanner @codeScanned="(emittedData) => scannedQrCode = emittedData" />
 
       <v-card>
         <v-list>
-          <v-list-item v-for="item in allItems" :key="item.itemId" :title="item.name"></v-list-item>
+          <v-list-item v-for="location in allLocations" :key="location.id" :title="location.name"></v-list-item>
         </v-list>
       </v-card>
 
@@ -24,10 +23,9 @@
       >
         <v-card v-if="scannedQrCode"
           max-width="400"
-          :text="scannedQrCode.Description"
           :title="scannedQrCode.Name"
         >
-          <v-btn @click="registerItem()">Register Item</v-btn>
+          <v-btn @click="registerLocation()">Register Location</v-btn>
         </v-card>
       </v-dialog>
     </div>
@@ -36,26 +34,26 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllItems, RegisterWarehouseObject, PrintQRCode } from '@/functions/functions'
+import { GetAllLocations, PrintQRCode, RegisterWarehouseObject } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
-var allItems = ref(null)
-var retrievedAllItems = ref(false)
+var retrievedAllLocations = ref(false)
+var allLocations = ref(null)
 var scannedQrCode = ref(null)
-var itemToRegister = ref({
+var locationToRegister = ref({
   id: null,
-  objectType: 0,
+  objectType: 1,
   name: '',
-  description: ''
+  description: '',
 })
 
 function printQrCode() {
-  PrintQRCode(itemToRegister.value)
+  PrintQRCode(locationToRegister.value)
   .then(() => {
     console.log('saved')
   })
 }
-function registerItem() {
+function registerLocation() {
   RegisterWarehouseObject(scannedQrCode.value)
   .then(() => {
     scannedQrCode.value = null
@@ -63,10 +61,10 @@ function registerItem() {
 }
 
 onMounted(() => {
-  GetAllItems()
+  GetAllLocations()
   .then(response => {
-    allItems.value = response.data
-    retrievedAllItems.value = true
+    allLocations.value = response.data
+    retrievedAllLocations.value = true
   })
 })
 </script>

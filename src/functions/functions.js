@@ -9,17 +9,23 @@ export async function GetAllItems() {
 export async function GetAllLocations() {
     return await axios.get(baseUrl + 'WMS/GetAllLocations/')
 }
+export async function GetAllContainers() {
+    return await axios.get(baseUrl + 'WMS/GetAllContainers/')
+}
 export async function GetAllOrders() {
     return await axios.get(baseUrl + 'WMS/GetAllOrders/')
 }
-export async function GetItemById(objectId) {
-    return await axios.get(baseUrl + 'WMS/GetItemById/' + objectId)
+export async function GetItemById(id) {
+    return await axios.get(baseUrl + 'WMS/GetItemById/' + id)
 }
-export async function GetLocationById(objectId) {
-    return await axios.get(baseUrl + 'WMS/GetLocationById/' + objectId)
+export async function GetLocationById(id) {
+    return await axios.get(baseUrl + 'WMS/GetLocationById/' + id)
 }
-export async function GetOrderById(objectId) {
-    return await axios.get(baseUrl + 'WMS/GetOrderById/' + objectId)
+export async function GetContainerById(id) {
+    return await axios.get(baseUrl + 'WMS/GetContainerById/' + id)
+}
+export async function GetOrderById(id) {
+    return await axios.get(baseUrl + 'WMS/GetOrderById/' + id)
 }
 export async function GetNextOrderByStatus(status) {
     return await axios.get(baseUrl + 'WMS/GetNextOrderByStatus/' + status)
@@ -36,6 +42,9 @@ export async function UpdateItem(item) {
 }
 export async function UpdateLocation(location) {
     return await axios.post(baseUrl + 'WMS/UpdateLocation', location)
+}
+export async function UpdateContainer(container) {
+    return await axios.post(baseUrl + 'WMS/UpdateContainer', container)
 }
 export async function UpdateOrder(order) {
     return await axios.post(baseUrl + 'WMS/UpdateOrder', order)

@@ -1,29 +1,25 @@
 <template>
   <div>
-    <!-- <v-btn @click="getOrderByStatus()">Pick By Next Unacknowledged Order</v-btn> -->
-    <div v-if="containerToPickInto != null">{{ containerToPickInto.objectId }}</div>
+    <v-btn @click="getOrderByStatus()">Pick By Next Unselected Order</v-btn>
+    <div v-if="containerToPickInto != null">{{ containerToPickInto.id }}</div>
 
-    <v-list v-if="dictionary">
-      <v-list-group v-for="(order, index) in dictionary" :key="index">
-        <template v-slot:activator="{ props }">
-          <v-list-item v-bind="props" :title="JSON.parse(index).name"></v-list-item>
-        </template>
-        <v-list-item v-for="itemObject in dictionary[index]" :key="itemObject.objectId" :title="itemObject.name"></v-list-item>
-      </v-list-group>
-      <!-- <v-list-group>
-        <template v-slot:activator="{ props }">
-          <v-list-item v-bind="props" :title="orderIdTitle(orderToPickFrom.warehouseParentObject.objectId)"></v-list-item>
-        </template>
-        <v-list-item v-for="item in orderToPickFrom.warehouseChildrenObjects" :key="item.objectId" :title="item.name" @click="getContainerDetailById(item)">
-          <template v-slot:append v-if="item.status == 423">
-            <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
-          </template>
-        </v-list-item>
-      </v-list-group> -->
+    <v-list v-if="orderToPickFrom">
+      {{ orderToPickFrom.name }}
+      <v-list-item 
+        v-for="item in orderToPickFrom.orderItems" 
+        :key="item.id"
+        :title="item.name"
+        :subtitle="item.locationId" 
+        @click="pickItem(item)"
+      >
+        <!-- <template v-slot:append v-if="item.status == 423">
+          <svg-icon type="mdi" :path="mdiCheckCircleOutline"></svg-icon>
+        </template> -->
+      </v-list-item>
     </v-list>
 
     <v-dialog
-      v-model="unacknowledgedOrderDialog"
+      v-model="unselectedOrderDialog"
       width="auto"
     >
       <v-card v-if="orderToPickFrom"
@@ -31,7 +27,7 @@
         :title="orderToPickFrom.name"
         :subtitle="orderToPickFrom.description"
       >
-        <v-btn @click="acknowledgeOrder()">Select Order For Picking</v-btn>
+        <v-btn @click="selectOrder()">Select Order For Picking</v-btn>
       </v-card>
     </v-dialog>
 
@@ -48,12 +44,9 @@
       v-model="activeItem"
       width="auto"
     >
-      <v-card v-if="activeItem"
-        max-width="400"
-        :title="activeItem.name"
-        :subtitle="activeItem.objectId"
-      >
-        <v-btn @click="pickItem()">Pick</v-btn>
+      <v-card v-if="activeItem" max-width="400">
+        Pick {{ activeItem.name }} from {{ activeItem.locationId }} Into {{ containerToPickInto.id }}?
+        <v-btn @click="confirmPick(activeItem, containerToPickInto)">Yes</v-btn>
       </v-card>
     </v-dialog>
     <v-btn :disabled="!areAllItemsPicked" @click="completePicking()">All Items Picked, Move Order To Packaging</v-btn>
@@ -61,19 +54,17 @@
 </template>
 
 <script setup>
-// import { ref, computed } from 'vue'
-// import { mdiCheckCircleOutline  } from '@mdi/js'
-// import { GetWarehouseObjectById, GetWarehouseObjectByStatus, UpdateWarehouseObject, GetAllWarehouseRelationshipsByParentId } from '@/functions/functions'
-// import SvgIcon from '@jamescoyle/vue-icon'
-// import Scanner from '@/components/scanning/Scanner.vue'
+import { ref, computed } from 'vue'
+import { mdiCheckCircleOutline  } from '@mdi/js'
+import { GetNextOrderByStatus, UpdateOrder, UpdateItem } from '@/functions/functions'
+import SvgIcon from '@jamescoyle/vue-icon'
+import Scanner from '@/components/scanning/Scanner.vue'
 
-// var activeItem = ref(null)
-// var containerToPickInto = ref(null)
-// var parentObject = ref(null)
-// var orderToPickFrom = ref(null)
-// var unacknowledgedOrderDialog = ref(false)
-// var selectContainerToPickIntoDialog = ref(false)
-// var dictionary = ref({})
+var activeItem = ref(null)
+var containerToPickInto = ref(null)
+var orderToPickFrom = ref(null)
+var unselectedOrderDialog = ref(false)
+var selectContainerToPickIntoDialog = ref(false)
 
 // const areAllItemsPicked = computed(() => {
 //   if(orderToPickFrom.value) {
@@ -89,46 +80,37 @@
 //   }
 // })
 
-// function getOrderByStatus() {
-//   GetWarehouseObjectByStatus(410)
-//   .then(response => {
-//     orderToPickFrom.value = response.data
-//     unacknowledgedOrderDialog.value = true
-//   })
-// }
-// function updateOrderObject(objectToUpdate) {
-//   UpdateWarehouseObject(objectToUpdate)
-//   .then(updatedWarehouseObject => {
-//     var parentObjectString = JSON.stringify(updatedWarehouseObject.data)
-//     dictionary.value[parentObjectString] = []
-//     GetAllWarehouseRelationshipsByParentId(updatedWarehouseObject.data.objectId)
-//     .then(warehouseRelationshipResponse => {
-//       warehouseRelationshipResponse.data.forEach(warehouseRelationship => {
-//         GetWarehouseObjectById(warehouseRelationship.childId)
-//         .then(getWarehouseRelationshipChildObjectByIdResponse => {
-//           dictionary.value[parentObjectString].push(getWarehouseRelationshipChildObjectByIdResponse.data)
-//         })
-//       });
-//       orderToPickFrom.value = updatedWarehouseObject.data
-//       unacknowledgedOrderDialog.value = false
-//       selectContainerToPickIntoDialog.value = true
-//     })
-//   })
-// }
-// function pickItem() {
-//   activeItem.value.parentId = containerToPickInto.value.ObjectId
-//   UpdateWarehouseObjectRelationship(activeItem.value)
-//   .then(response => {
-//     resetAllPickData(response.data)
-//   })
-// }
-// function acknowledgeOrder() {
-//   orderToPickFrom.value.status = 420
-//   updateOrderObject(orderToPickFrom.value)
-// }
+function getOrderByStatus() {
+  GetNextOrderByStatus(410)
+  .then(response => {
+    orderToPickFrom.value = response.data
+    unselectedOrderDialog.value = true
+  })
+}
+function selectOrder() {
+  console.log(orderToPickFrom)
+  orderToPickFrom.value.status = 420
+  UpdateOrder(orderToPickFrom.value)
+  .then(response => {
+    orderToPickFrom.value = response.data
+    unselectedOrderDialog.value = false
+    selectContainerToPickIntoDialog.value = true
+  })
+}
+function pickItem(item) {
+  activeItem.value = item
+}
+function confirmPick(item, container) {
+  item.status = 423
+  item.locationId = container.id
+  UpdateItem(item)
+  .then(response => {
+    console.log('picked', response)
+  })
+}
 // function completePicking() {
 //   orderToPickFrom.value.warehouseParentObject.status = 510
-//   orderToPickFrom.value.warehouseParentObject.parentId = containerToPickInto.value.objectId
+//   orderToPickFrom.value.warehouseParentObject.parentId = containerToPickInto.value.id
 //   updateOrderObject(orderToPickFrom.value.warehouseParentObject)
 // }
 // // function selectContainerToPickInto(containerId) {
@@ -138,7 +120,7 @@
 // function resetAllPickData(responseData) {
 //   parentObject.value = null
   
-//   var itemIndexToUpdate = orderToPickFrom.value.warehouseChildrenObjects.findIndex(x => x.objectId == responseData.objectId)
+//   var itemIndexToUpdate = orderToPickFrom.value.warehouseChildrenObjects.findIndex(x => x.id == responseData.id)
 //   orderToPickFrom.value.warehouseChildrenObjects[itemIndexToUpdate] = responseData
 // }
 </script>

@@ -58,7 +58,7 @@ function setScannedData(scannedData) {
 }
 function putItemInLocation() {
   putawayItem.value.status = 310
-  putawayItem.value.locationId = putawayLocation.value.objectId
+  putawayItem.value.locationId = putawayLocation.value.id
   UpdateItem(putawayItem.value)
   .then(() => {
     putawayItem.value = '',
