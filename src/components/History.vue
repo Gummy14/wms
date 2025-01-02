@@ -9,7 +9,7 @@
       <v-list-item 
       v-for="warehouseObject in warehouseItemHistory" 
       :key="warehouseObject.itemEventId" 
-      :subtitle="warehouseObject.eventDateTime" 
+      :subtitle="warehouseObject.dateTimeStamp" 
       :title="orderHistoryEntry(warehouseObject)">
       </v-list-item>
     </v-list>

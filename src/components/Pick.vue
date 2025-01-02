@@ -102,7 +102,8 @@ function pickItem(item) {
 }
 function confirmPick(item, container) {
   item.status = 423
-  item.locationId = container.id
+  item.locationId = '00000000-0000-0000-0000-000000000000'
+  item.containerId = container.id
   UpdateItem(item)
   .then(response => {
     console.log('picked', response)
