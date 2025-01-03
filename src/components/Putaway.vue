@@ -31,7 +31,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import { UpdateItem, GetPutawayLocation } from '@/functions/functions'
+import { UpdateItemSelectForPutaway, UpdateItemPutInLocation, GetPutawayLocation } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
 var putawayLocation = ref(null)
@@ -40,8 +40,8 @@ var scannedPutawayLocation = ref(null)
 var scannedPutawayObject = ref(null)
 
 function selectForPutaway() {
-  putawayItem.value.status = 220
-  UpdateItem(putawayItem.value)
+  console.log('putawayItem.value.id', putawayItem.value.id)
+  UpdateItemSelectForPutaway(putawayItem.value.id)
   .then(() => {
     GetPutawayLocation()
     .then(response => {
@@ -57,9 +57,7 @@ function setScannedData(scannedData) {
   }
 }
 function putItemInLocation() {
-  putawayItem.value.status = 310
-  putawayItem.value.locationId = putawayLocation.value.id
-  UpdateItem(putawayItem.value)
+  UpdateItemPutInLocation(putawayItem.value.id, putawayLocation.value.id)
   .then(() => {
     putawayItem.value = '',
     putawayLocation.value = null,

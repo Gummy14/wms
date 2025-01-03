@@ -56,7 +56,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { mdiCheckCircleOutline  } from '@mdi/js'
-import { GetNextOrderByStatus, UpdateOrder, UpdateItem } from '@/functions/functions'
+import { GetNextOrderByStatus, UpdateOrder, UpdateItemPick } from '@/functions/functions'
 import SvgIcon from '@jamescoyle/vue-icon'
 import Scanner from '@/components/scanning/Scanner.vue'
 
@@ -101,10 +101,7 @@ function pickItem(item) {
   activeItem.value = item
 }
 function confirmPick(item, container) {
-  item.status = 423
-  item.locationId = '00000000-0000-0000-0000-000000000000'
-  item.containerId = container.id
-  UpdateItem(item)
+  UpdateItemPick(item.id, container.id)
   .then(response => {
     console.log('picked', response)
   })

@@ -40,6 +40,15 @@ export async function RegisterWarehouseObject(objectToRegister) {
 export async function UpdateItem(item) {
     return await axios.post(baseUrl + 'WMS/UpdateItem', item)
 }
+export async function UpdateItemSelectForPutaway(itemId) {
+    return await axios.post(baseUrl + 'WMS/UpdateItemSelectForPutaway/' + itemId)
+}
+export async function UpdateItemPutInLocation(itemId, locationId) {
+    return await axios.post(baseUrl + 'WMS/UpdateItemPutInLocation/' + itemId + '/' + locationId)
+}
+export async function UpdateItemPick(itemId, containerId) {
+    return await axios.post(baseUrl + 'WMS/UpdateItemPick/' + itemId + '/' + containerId)
+}
 export async function UpdateLocation(location) {
     return await axios.post(baseUrl + 'WMS/UpdateLocation', location)
 }
