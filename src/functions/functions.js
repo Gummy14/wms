@@ -27,8 +27,8 @@ export async function GetContainerById(id) {
 export async function GetOrderById(id) {
     return await axios.get(baseUrl + 'WMS/GetOrderById/' + id)
 }
-export async function GetNextOrderByStatus(status) {
-    return await axios.get(baseUrl + 'WMS/GetNextOrderByStatus/' + status)
+export async function GetNextOrderWaitingForPicking() {
+    return await axios.get(baseUrl + 'WMS/GetNextOrderWaitingForPicking/' + status)
 }
 
 export async function PrintQRCode(objectToRegister) {
@@ -37,9 +37,7 @@ export async function PrintQRCode(objectToRegister) {
 export async function RegisterWarehouseObject(objectToRegister) {
     return await axios.post(baseUrl + 'WMS/RegisterWarehouseObject', objectToRegister)
 }
-export async function UpdateItem(item) {
-    return await axios.post(baseUrl + 'WMS/UpdateItem', item)
-}
+
 export async function UpdateItemSelectForPutaway(itemId) {
     return await axios.post(baseUrl + 'WMS/UpdateItemSelectForPutaway/' + itemId)
 }
@@ -49,14 +47,9 @@ export async function UpdateItemPutInLocation(itemId, locationId) {
 export async function UpdateItemPick(itemId, containerId) {
     return await axios.post(baseUrl + 'WMS/UpdateItemPick/' + itemId + '/' + containerId)
 }
-export async function UpdateLocation(location) {
-    return await axios.post(baseUrl + 'WMS/UpdateLocation', location)
-}
-export async function UpdateContainer(container) {
-    return await axios.post(baseUrl + 'WMS/UpdateContainer', container)
-}
-export async function UpdateOrder(order) {
-    return await axios.post(baseUrl + 'WMS/UpdateOrder', order)
+
+export async function UpdateOrderSelectForPicking(orderId) {
+    return await axios.post(baseUrl + 'WMS/UpdateOrderSelectForPicking/' + orderId)
 }
 
 //Order

@@ -56,7 +56,7 @@
 <script setup>
 import { ref, computed } from 'vue'
 import { mdiCheckCircleOutline  } from '@mdi/js'
-import { GetNextOrderByStatus, UpdateOrder, UpdateItemPick } from '@/functions/functions'
+import { GetNextOrderWaitingForPicking, UpdateOrderSelectForPicking, UpdateItemPick } from '@/functions/functions'
 import SvgIcon from '@jamescoyle/vue-icon'
 import Scanner from '@/components/scanning/Scanner.vue'
 
@@ -81,16 +81,14 @@ var selectContainerToPickIntoDialog = ref(false)
 // })
 
 function getOrderByStatus() {
-  GetNextOrderByStatus(410)
+  GetNextOrderWaitingForPicking()
   .then(response => {
     orderToPickFrom.value = response.data
     unselectedOrderDialog.value = true
   })
 }
 function selectOrder() {
-  console.log(orderToPickFrom)
-  orderToPickFrom.value.status = 420
-  UpdateOrder(orderToPickFrom.value)
+  UpdateOrderSelectForPicking(orderToPickFrom.value.id)
   .then(response => {
     orderToPickFrom.value = response.data
     unselectedOrderDialog.value = false
