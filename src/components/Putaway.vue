@@ -40,7 +40,6 @@ var scannedPutawayLocation = ref(null)
 var scannedPutawayObject = ref(null)
 
 function selectForPutaway() {
-  console.log('putawayItem.value.id', putawayItem.value.id)
   UpdateItemSelectForPutaway(putawayItem.value.id)
   .then(() => {
     GetPutawayLocation()
