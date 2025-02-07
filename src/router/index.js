@@ -1,13 +1,12 @@
 import Menu from '@/components/Menu.vue'
 import Items from '@/components/Items.vue'
 import Containers from '@/components/Locations.vue'
-import Pick from '@/components/Pick.vue'
-import Putaway from '@/components/Putaway.vue'
 import Orders from '@/components/Orders.vue'
 import Packaging from '@/components/Packaging.vue'
 import Shipping from '@/components/Shipping.vue'
 import History from '@/components/History.vue'
 import Data from '@/components/Data.vue'
+import ObjectScanner from '@/components/ObjectScanner.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -34,19 +33,9 @@ const router = createRouter({
       component: Containers
     },
     {
-      path: '/putaway',
-      name: 'putaway',
-      component: Putaway
-    },
-    {
       path: '/orders',
       name: 'orders',
       component: Orders
-    },
-    {
-      path: '/pick',
-      name: 'pick',
-      component: Pick
     },
     {
       path: '/packaging',
@@ -67,6 +56,11 @@ const router = createRouter({
       path: '/data',
       name: 'data',
       component: Data
+    },
+    {
+      path: '/objectscanner',
+      name: 'objectscanner',
+      component: ObjectScanner
     }
   ]
 })

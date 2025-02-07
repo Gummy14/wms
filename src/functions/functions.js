@@ -55,6 +55,9 @@ export async function UpdateItemPutInLocation(itemId, locationId) {
 }
 
 //Pick
+export async function UpdateItemSelectForPick(itemId) {
+    return await axios.post(baseUrl + 'Pick/UpdateItemSelectForPick/' + itemId)
+}
 export async function UpdateItemPick(itemId, containerId) {
     return await axios.post(baseUrl + 'Pick/UpdateItemPick/' + itemId + '/' + containerId)
 }

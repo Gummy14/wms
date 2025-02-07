@@ -15,20 +15,14 @@
           </v-list-item>
 
           <v-divider></v-divider>
+
+          <v-list-item @click="setCurrentRoute('/objectScanner')" title="Scanner">
+            <template v-slot:prepend>
+              <svg-icon type="mdi" :path="mdiQrcodeScan"></svg-icon>
+            </template>
+          </v-list-item>
           
-          <v-list-item @click="setCurrentRoute('/putaway')" title="Putaway">
-            <template v-slot:prepend>
-              <svg-icon type="mdi" :path="mdiHumanDolly"></svg-icon>
-            </template>
-          </v-list-item>
-
-          <v-list-item @click="setCurrentRoute('/pick')" title="Picking">
-            <template v-slot:prepend>
-              <svg-icon type="mdi" :path="mdiButtonPointer"></svg-icon>
-            </template>
-          </v-list-item>
-
-          <v-list-item @click="setCurrentRoute('/packaging')" title="Packaging">
+      <!--<v-list-item @click="setCurrentRoute('/packaging')" title="Packaging">
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="mdiPackageVariant"></svg-icon>
             </template>
@@ -38,7 +32,7 @@
             <template v-slot:prepend>
               <svg-icon type="mdi" :path="mdiTruckFastOutline"></svg-icon>
             </template>
-          </v-list-item>
+          </v-list-item> -->
 
           <v-divider></v-divider>
 
@@ -61,9 +55,7 @@
 <script setup>
 import SvgIcon from '@jamescoyle/vue-icon';
 import { 
-  mdiWarehouse, 
-  mdiTruckFastOutline, 
-  mdiHumanDolly, 
+  mdiQrcodeScan, 
   mdiInvoiceTextEditOutline, 
   mdiButtonPointer,
   mdiPackageVariant,
