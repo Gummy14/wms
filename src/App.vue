@@ -1,11 +1,11 @@
 <template>
   <div>
-    <Menu />
+    <Data />
   </div>
 </template>
 
 <script setup>
-import Menu from './components/Menu.vue'
+import Data from './components/Data.vue'
 </script>
 
 <style scoped>

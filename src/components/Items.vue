@@ -10,38 +10,21 @@
       </v-card>
       <v-btn @click="printQrCode()">Print Item QR Code</v-btn>
 
-      <Scanner @codeScanned="(emittedData) => scannedQrCode = emittedData" />
-
       <v-card>
         <v-list>
           <v-list-item v-for="item in allItems" :key="item.itemId" :title="item.name"></v-list-item>
         </v-list>
       </v-card>
-
-      <v-dialog
-        v-model="scannedQrCode"
-        width="auto"
-      >
-        <v-card v-if="scannedQrCode"
-          max-width="400"
-          :text="scannedQrCode.Description"
-          :title="scannedQrCode.Name"
-        >
-          <v-btn @click="registerItem()">Register Item</v-btn>
-        </v-card>
-      </v-dialog>
     </div>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllItems, RegisterWarehouseObject, PrintQRCode } from '@/functions/functions'
-import Scanner from '@/components/scanning/Scanner.vue'
+import { GetAllItems, PrintQRCode } from '@/functions/functions'
 
 var allItems = ref(null)
 var retrievedAllItems = ref(false)
-var scannedQrCode = ref(null)
 var itemToRegister = ref({
   id: null,
   objectType: 0,
@@ -53,12 +36,6 @@ function printQrCode() {
   PrintQRCode(itemToRegister.value)
   .then(() => {
     console.log('saved')
-  })
-}
-function registerItem() {
-  RegisterWarehouseObject(scannedQrCode.value)
-  .then(() => {
-    scannedQrCode.value = null
   })
 }
 

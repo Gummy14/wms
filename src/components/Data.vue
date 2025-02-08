@@ -1,6 +1,14 @@
 <template>
   <div>
     <div>
+      <v-btn
+      @click="openScanner = true"
+      :prepend-icon="mdiQrcodeScan">
+        <template v-slot:prepend>
+          <svg-icon type="mdi" :path="mdiQrcodeScan"></svg-icon>
+        </template>
+        Scanner
+      </v-btn>
       <v-btn @click="dataToView = 1">Items</v-btn>
       <v-btn @click="dataToView = 2">Locations</v-btn>
       <v-btn @click="dataToView = 3">Containers</v-btn>
@@ -18,17 +26,29 @@
     <div v-else-if="dataToView == 4">
       <Orders />
     </div>
+
+    <v-dialog 
+    v-model="openScanner"
+    max-width="400">
+      <ObjectScanner />
+    </v-dialog>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import SvgIcon from '@jamescoyle/vue-icon';
+import { 
+  mdiQrcodeScan
+} from '@mdi/js'
+import ObjectScanner from '@/components/ObjectScanner.vue'
 import Items from '@/components/Items.vue'
 import Locations from '@/components/Locations.vue'
 import Containers from '@/components/Containers.vue'
 import Orders from '@/components/Orders.vue'
 
 var dataToView = ref(0)
+var openScanner = ref(false)
 </script>
 
 <style scoped>

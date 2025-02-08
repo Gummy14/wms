@@ -1,46 +1,34 @@
 <template>
   <div>
-    <div>
+    <v-card>
       <Scanner must-verify @codeScanned="(emittedData) => scannedObject = emittedData" />
-    </div>
-    <div>
-      <v-dialog
-        v-model="scannedObject"
-        width="auto"
-      >
-        <v-card v-if="scannedObject"
-          max-width="400"
-          :text="scannedObject.description"
-          :title="scannedObject.name"
-        >
-
-        <v-if v-if="actionSelected == 0">
-          <v-btn @click="selectForPutaway()">Select For Putaway</v-btn>
-          <v-btn @click="selectForPick()">Select For Picking</v-btn>
-        </v-if>
-
-        <v-else v-if="actionSelected == 1">
-          Putaway In Location: {{ putawayLocation.name }}
-          Scan Correct Location To Putaway Into:
-          <Scanner must-verify @codeScanned="(emittedData) => scannedPutawayLocation = emittedData" />
-          <div v-if="scannedPutawayLocation">
-            Location Scanned
-            <v-btn @click="putItemInLocation()">Confirm Putaway</v-btn>
-          </div>
-        </v-else>
-
-        <v-else v-if="actionSelected == 2">
-          Scan Container To Pick Into:
-          <Scanner must-verify @codeScanned="(emittedData) => scannedContainerToPickInto = emittedData" />
-          <div v-if="scannedContainerToPickInto">
-            Container Scanned
-            <v-btn @click="pickItemIntoContainer()">Confirm Pick</v-btn>
-          </div>
-        </v-else>
-
-        </v-card>
-      </v-dialog>
-    </div>
+    </v-card>
+    <v-card v-if="scannedObject"
+      :text="scannedObject.description"
+      :title="scannedObject.name"
+    >
+      <v-if v-if="actionSelected == 0">
+        <v-btn @click="selectForPutaway()">Select For Putaway</v-btn>
+        <v-btn @click="selectForPick()">Select For Picking</v-btn>
+      </v-if>
+      <v-else v-if="actionSelected == 1">
+        Putaway In Location: {{ putawayLocation.name }}
+        Scan Correct Location To Putaway Into:
+        <Scanner must-verify @codeScanned="(emittedData) => scannedPutawayLocation = emittedData" />
+        <div v-if="scannedPutawayLocation">
+          Location Scanned
+          <v-btn @click="putItemInLocation()">Confirm Putaway</v-btn>
+        </div>
+      </v-else>
+      <v-else v-if="actionSelected == 2">
+        Scan Container To Pick Into:
+        <Scanner must-verify @codeScanned="(emittedData) => scannedContainerToPickInto = emittedData" />
+        <div v-if="scannedContainerToPickInto">
+          Container Scanned
+          <v-btn @click="pickItemIntoContainer()">Confirm Pick</v-btn>
+        </div>
+      </v-else>
+    </v-card>
   </div>
 </template>
 
