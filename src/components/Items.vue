@@ -59,7 +59,7 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllItems, GetLocationById, GetContainerById, GetOrderById } from '@/functions/functions'
+import { GetAllItems } from '@/functions/functions'
 
 var allItems = ref(null)
 var retrievedAllItems = ref(false)
