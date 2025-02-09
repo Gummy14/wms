@@ -5,9 +5,7 @@
     </div>
     <div v-else>
       <v-card>
-        <v-list>
-          <v-list-item v-for="location in allLocations" :key="location.id" :title="location.name"></v-list-item>
-        </v-list>
+        <LocationList :locations="allLocations" />
       </v-card>
     </div>
   </div>
@@ -16,6 +14,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { GetAllLocations } from '@/functions/functions'
+import LocationList from '@/components/LocationList.vue'
 
 var retrievedAllLocations = ref(false)
 var allLocations = ref(null)

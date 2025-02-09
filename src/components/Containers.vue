@@ -5,9 +5,7 @@
     </div>
     <div v-else>
       <v-card>
-        <v-list>
-          <v-list-item v-for="container in allContainers" :key="container.id" :title="container.name"></v-list-item>
-        </v-list>
+        <ContainerList :containers="allContainers" />
       </v-card>
     </div>
   </div>
@@ -16,6 +14,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { GetAllContainers } from '@/functions/functions'
+import ContainerList from '@/components/ContainerList.vue'
 
 var retrievedAllContainers = ref(false)
 var allContainers = ref(null)

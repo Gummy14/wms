@@ -12,88 +12,8 @@
         </v-card>
       </v-dialog>
 
-      <v-list>
-        <v-expansion-panels multiple>
-          <v-expansion-panel v-for="order in allOrders">
-            <v-expansion-panel-title v-slot="{ expanded }">
-             <v-row no-gutters>
-               <v-col>
-                 Order #{{ order.name }}
-               </v-col>
-             </v-row>
-            </v-expansion-panel-title>
-            <v-expansion-panel-text>
-              <v-divider class="border-opacity-25"></v-divider>
-              <v-row>
-                <v-col>Order ID:</v-col>
-                <v-col>{{ order.id }}</v-col>
-              </v-row>
-              <v-divider class="border-opacity-25"></v-divider>
-              <v-divider class="border-opacity-25"></v-divider>
-              <v-row>
-                <v-col>Status:</v-col>
-                <v-col>{{ order.status }}</v-col>
-              </v-row>
-              <v-divider class="border-opacity-25"></v-divider>
-              <v-row>
-                <v-col>Timestamp Of Last Status Change:</v-col>
-                <v-col>{{ order.dateTimeStamp }}</v-col>
-              </v-row>
-              <v-divider class="border-opacity-25"></v-divider>
-              <v-row>
-                <v-col>Order Items:</v-col>
-                <v-expansion-panels multiple>
-                <v-expansion-panel v-for="item in order.orderItems">
-                  <v-expansion-panel-title v-slot="{ expanded }">
-                   <v-row no-gutters>
-                     <v-col>
-                       {{ item.name }}
-                     </v-col>
-                   </v-row>
-                  </v-expansion-panel-title>
-                  <v-expansion-panel-text>
-                    <v-row>
-                      <v-col>Description:</v-col>
-                      <v-col>{{ item.description }}</v-col>
-                    </v-row>
-                    <v-divider class="border-opacity-25"></v-divider>
-                    <v-row>
-                      <v-col>Item ID:</v-col>
-                      <v-col>{{ item.id }}</v-col>
-                    </v-row>
-                    <v-divider class="border-opacity-25"></v-divider>
-                    <v-row>
-                      <v-col>Location:</v-col>
-                      <v-col>{{ item.locationId }}</v-col>
-                    </v-row>
-                    <v-divider class="border-opacity-25"></v-divider>
-                    <v-row>
-                      <v-col>Container:</v-col>
-                      <v-col>{{ item.containerId }}</v-col>
-                    </v-row>
-                    <v-divider class="border-opacity-25"></v-divider>
-                    <v-row>
-                      <v-col>Order:</v-col>
-                      <v-col>{{ item.orderId }}</v-col>
-                    </v-row>
-                    <v-divider class="border-opacity-25"></v-divider>
-                    <v-row>
-                      <v-col>Status:</v-col>
-                      <v-col>{{ item.status }}</v-col>
-                    </v-row>
-                    <v-divider class="border-opacity-25"></v-divider>
-                    <v-row>
-                      <v-col>Timestamp Of Last Status Change:</v-col>
-                      <v-col>{{ item.dateTimeStamp }}</v-col>
-                    </v-row>
-                  </v-expansion-panel-text>
-                </v-expansion-panel>
-                </v-expansion-panels>
-              </v-row>
-            </v-expansion-panel-text>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-list>
+      <OrderList :orders="allOrders" />
+
     </div>
   </div>
 </template>
@@ -101,7 +21,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { GetAllItems, GetAllOrders, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
-
+import OrderList from '@/components/OrderList.vue'
 
 var allOrders = ref(null)
 var allItems = ref(null)
