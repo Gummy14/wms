@@ -1,54 +1,79 @@
 <template>
   <div>
-    <div>
-      <v-btn
+    <v-btn
       @click="openScanner = true"
-      :prepend-icon="mdiQrcodeScan">
-        <template v-slot:prepend>
-          <svg-icon type="mdi" :path="mdiQrcodeScan"></svg-icon>
-        </template>
-        Scanner
-      </v-btn>
-      <v-btn @click="dataToView = 1">Items</v-btn>
-      <v-btn @click="dataToView = 2">Locations</v-btn>
-      <v-btn @click="dataToView = 3">Containers</v-btn>
-      <v-btn @click="dataToView = 4">Orders</v-btn>
-    </div>
-    <div v-if="dataToView == 1">
+      :prepend-icon="mdiQrcodeScan"
+    >
+      <template v-slot:prepend>
+        <svg-icon type="mdi" :path="mdiQrcodeScan"></svg-icon>
+      </template>
+      Scanner
+    </v-btn>
+
+    <v-btn
+      @click="openRegistration = true"
+      :prepend-icon="mdiPlus"
+    >
+      <template v-slot:prepend>
+        <svg-icon type="mdi" :path="mdiPlus"></svg-icon>
+      </template>
+      Register New Warehouse Object
+    </v-btn>
+
+    <v-select 
+      label="Warehouse Objects"
+      item-title="type"
+      item-value="id"
+      :items="warehouseObjectList"
+      v-model="warehouseObjectListSelection"
+    >
+    </v-select>
+
+    <div v-if="warehouseObjectListSelection == 0">
       <Items />
     </div>
-    <div v-else-if="dataToView == 2">
+    <div v-else-if="warehouseObjectListSelection == 1">
       <Locations />
     </div>
-    <div v-else-if="dataToView == 3">
+    <div v-else-if="warehouseObjectListSelection == 2">
       <Containers />
     </div>
-    <div v-else-if="dataToView == 4">
+    <div v-else-if="warehouseObjectListSelection == 3">
       <Orders />
     </div>
 
     <v-dialog 
-    v-model="openScanner"
-    max-width="400">
+      v-model="openScanner"
+      max-width="400"
+    >
       <ObjectScanner />
+    </v-dialog>
+
+    <v-dialog 
+      v-model="openRegistration"
+      max-width="400"
+    >
+      <Registration />
     </v-dialog>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
 import SvgIcon from '@jamescoyle/vue-icon';
-import { 
-  mdiQrcodeScan
-} from '@mdi/js'
 import ObjectScanner from '@/components/ObjectScanner.vue'
+import Registration from './Registration.vue';
 import Items from '@/components/Items.vue'
 import Locations from '@/components/Locations.vue'
 import Containers from '@/components/Containers.vue'
 import Orders from '@/components/Orders.vue'
+import { ref } from 'vue'
+import { mdiQrcodeScan, mdiPlus } from '@mdi/js'
 
-var dataToView = ref(0)
+var warehouseObjectListSelection = ref(null)
+var warehouseObjectList = ref([{id: 0, type: 'Items'}, {id: 1, type: 'Locations'}, {id: 2, type: 'Containers'}, {id: 3, type: 'Orders'}])
 var openScanner = ref(false)
+var openRegistration = ref(false)
+
 </script>
 
 <style scoped>

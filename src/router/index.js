@@ -1,4 +1,3 @@
-import Menu from '@/components/Menu.vue'
 import Items from '@/components/Items.vue'
 import Containers from '@/components/Locations.vue'
 import Orders from '@/components/Orders.vue'
@@ -19,8 +18,8 @@ const router = createRouter({
     // },
     {
       path: '/',
-      name: 'main-menu',
-      component: Menu
+      name: 'data',
+      component: Data
     },
     {
       path: '/items',
