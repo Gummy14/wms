@@ -21,7 +21,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { GetAllItems, GetAllOrders, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
-import OrderList from '@/components/OrderList.vue'
+import OrderList from '@/components/lists/OrderList.vue'
 
 var allOrders = ref(null)
 var allItems = ref(null)

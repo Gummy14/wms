@@ -14,7 +14,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { GetAllItems } from '@/functions/functions'
-import ItemList from '@/components/ItemList.vue'
+import ItemList from '@/components/lists/ItemList.vue'
 
 var allItems = ref(null)
 var retrievedAllItems = ref(false)

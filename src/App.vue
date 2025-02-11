@@ -1,11 +1,11 @@
 <template>
   <div>
-    <Data />
+    <Home />
   </div>
 </template>
 
 <script setup>
-import Data from './components/Data.vue'
+import Home from './components/home/Home.vue'
 </script>
 
 <style scoped>

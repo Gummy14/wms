@@ -1,10 +1,10 @@
-import Items from '@/components/Items.vue'
-import Containers from '@/components/Locations.vue'
-import Orders from '@/components/Orders.vue'
+import Items from '@/components/home/Items.vue'
+import Containers from '@/components/home/Locations.vue'
+import Orders from '@/components/home/Orders.vue'
 import Packaging from '@/components/Packaging.vue'
 import Shipping from '@/components/Shipping.vue'
 import History from '@/components/History.vue'
-import Data from '@/components/Data.vue'
+import Home from '@/components/home/Home.vue'
 import ObjectScanner from '@/components/ObjectScanner.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
@@ -18,8 +18,8 @@ const router = createRouter({
     // },
     {
       path: '/',
-      name: 'data',
-      component: Data
+      name: 'home',
+      component: Home
     },
     {
       path: '/items',
@@ -52,9 +52,9 @@ const router = createRouter({
       component: History
     },
     {
-      path: '/data',
-      name: 'data',
-      component: Data
+      path: '/home',
+      name: 'home',
+      component: Home
     },
     {
       path: '/objectscanner',

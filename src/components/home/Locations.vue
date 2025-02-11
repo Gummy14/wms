@@ -14,7 +14,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { GetAllLocations } from '@/functions/functions'
-import LocationList from '@/components/LocationList.vue'
+import LocationList from '@/components/lists/LocationList.vue'
 
 var retrievedAllLocations = ref(false)
 var allLocations = ref(null)

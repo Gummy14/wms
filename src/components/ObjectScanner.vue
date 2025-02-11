@@ -10,6 +10,7 @@
       <v-if v-if="actionSelected == 0">
         <v-btn @click="selectForPutaway()">Select For Putaway</v-btn>
         <v-btn @click="selectForPick()">Select For Picking</v-btn>
+        <v-btn @click="getHistory(scannedObject.id)">Get Object History</v-btn>
       </v-if>
       <v-else v-if="actionSelected == 1">
         Putaway In Location: {{ putawayLocation.name }}
@@ -64,6 +65,9 @@ function selectForPick() {
   .then(() => {
     actionSelected.value = 2
   })
+}
+function getHistory() {
+
 }
 function putItemInLocation() {
   UpdateItemPutInLocation(scannedObject.value.id, putawayLocation.value.id)

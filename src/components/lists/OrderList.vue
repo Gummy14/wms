@@ -4,7 +4,7 @@
       <v-expansion-panel v-for="order in orders">
         <v-expansion-panel-title v-slot="{ expanded }">
           <v-row no-gutters>
-            <v-col class="d-flex justify-start" cols="8">
+            <v-col class="d-flex justify-start" cols="4">
               Order #{{ order.name }}
             </v-col>
             <v-col class="d-flex justify-end" cols="4">
@@ -13,6 +13,16 @@
           </v-row>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
+          <v-row>
+            <v-col cols="12">
+              <v-btn 
+                v-if="order.status == 510"
+                @click="acknowledgeOrder(order.id)"
+              >
+                Acknowledge Order
+              </v-btn>
+            </v-col>
+          </v-row>
           <v-row>
             <v-col>Order ID:</v-col>
             <v-col>{{ order.id }}</v-col>
@@ -39,11 +49,19 @@
 </template>
   
 <script setup>
-import ItemList from '@/components/ItemList.vue'
+import ItemList from '@/components/lists/ItemList.vue'
+import { UpdateOrderSelectForPicking } from '@/functions/functions'
 
 const props = defineProps({
   orders: Array
 })
+
+function acknowledgeOrder(orderId) {
+  UpdateOrderSelectForPicking(orderId)
+  .then(() => {
+    console.log("acknowledged")
+  })
+}
 </script>
 
 <style scoped>

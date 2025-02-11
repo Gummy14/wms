@@ -61,11 +61,11 @@
 <script setup>
 import SvgIcon from '@jamescoyle/vue-icon';
 import ObjectScanner from '@/components/ObjectScanner.vue'
-import Registration from './Registration.vue';
-import Items from '@/components/Items.vue'
-import Locations from '@/components/Locations.vue'
-import Containers from '@/components/Containers.vue'
-import Orders from '@/components/Orders.vue'
+import Registration from '../Registration.vue';
+import Items from '@/components/home/Items.vue'
+import Locations from '@/components/home/Locations.vue'
+import Containers from '@/components/home/Containers.vue'
+import Orders from '@/components/home/Orders.vue'
 import { ref } from 'vue'
 import { mdiQrcodeScan, mdiPlus } from '@mdi/js'
 

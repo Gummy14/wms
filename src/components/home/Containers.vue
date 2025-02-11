@@ -14,7 +14,7 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import { GetAllContainers } from '@/functions/functions'
-import ContainerList from '@/components/ContainerList.vue'
+import ContainerList from '@/components/lists/ContainerList.vue'
 
 var retrievedAllContainers = ref(false)
 var allContainers = ref(null)
