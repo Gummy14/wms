@@ -31,10 +31,10 @@
       </v-else>
       <v-else v-if="actionSelected == 3">
         History:
-        <div v-for="itemEvent in itemHistory">
+        <div v-for="event in historyData">
           <div>
-            {{ itemEvent.status }}
-            {{ itemEvent.dateTimeStamp }}
+            {{ event.status }}
+            {{ event.dateTimeStamp }}
           </div>
         </div>
       </v-else>
@@ -50,7 +50,9 @@ import {
     UpdateItemPutInLocation, 
     GetPutawayLocation,
     UpdateItemPick,
-    GetItemHistory
+    GetItemHistory,
+    GetLocationHistory,
+    GetContainerHistory
 } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
@@ -59,7 +61,7 @@ var putawayLocation = ref(null)
 var scannedObject = ref(null)
 var scannedPutawayLocation = ref(null)
 var scannedContainerToPickInto = ref(null)
-var itemHistory = ref(null)
+var historyData = ref(null)
 
 function selectForPutaway() {
   UpdateItemSelectForPutaway(scannedObject.value.objectData.id)
@@ -83,12 +85,22 @@ function getHistory(scannedObjectId, scannedObjectType) {
         GetItemHistory(scannedObjectId)
         .then(response => {
           actionSelected.value = 3
-          itemHistory.value = response.data
+          historyData.value = response.data
         })
         break
       case 1:
+        GetLocationHistory(scannedObjectId)
+        .then(response => {
+          actionSelected.value = 3
+          historyData.value = response.data
+        })
         break
       case 2:
+        GetContainerHistory(scannedObjectId)
+        .then(response => {
+          actionSelected.value = 3
+          historyData.value = response.data
+        })
         break
       default:
         break

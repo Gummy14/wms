@@ -9,9 +9,6 @@ export async function GetAllItems() {
 export async function GetItemById(id) {
     return await axios.get(baseUrl + 'Item/GetItemById/' + id)
 }
-export async function GetItemHistory(id) {
-    return await axios.get(baseUrl + 'History/GetItemHistory/' + id)
-}
 
 //Location
 export async function GetAllLocations() {
@@ -73,4 +70,15 @@ export async function PrintQRCode(objectToRegister) {
 //EventTypes
 export async function GetAllEventTypes() {
     return await axios.get(baseUrl + 'EventTypes/GetAllEventTypes/')
+}
+
+//History
+export async function GetItemHistory(id) {
+    return await axios.get(baseUrl + 'History/GetItemHistory/' + id)
+}
+export async function GetLocationHistory(id) {
+    return await axios.get(baseUrl + 'History/GetLocationHistory/' + id)
+}
+export async function GetContainerHistory(id) {
+    return await axios.get(baseUrl + 'History/GetContainerHistory/' + id)
 }
