@@ -9,6 +9,9 @@ export async function GetAllItems() {
 export async function GetItemById(id) {
     return await axios.get(baseUrl + 'Item/GetItemById/' + id)
 }
+export async function GetItemHistory(id) {
+    return await axios.get(baseUrl + 'History/GetItemHistory/' + id)
+}
 
 //Location
 export async function GetAllLocations() {

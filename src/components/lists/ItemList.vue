@@ -25,17 +25,20 @@
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
             <v-col>Location:</v-col>
-            <v-col>{{ item.locationId }}</v-col>
+            <v-col v-if="isEmpty(item.locationId)">Not Currently In Any Storage Location</v-col>
+            <v-col v-else>{{ item.locationName }} ({{ item.locationId }})</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
             <v-col>Container:</v-col>
-            <v-col>{{ item.containerId }}</v-col>
+            <v-col v-if="isEmpty(item.containerId)">Not Currently In Any Container</v-col>
+            <v-col v-else>{{ item.containerId }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
             <v-col>Order:</v-col>
-            <v-col>{{ item.orderId }}</v-col>
+            <v-col v-if="isEmpty(item.orderId)">Not Currently Part of Any Order</v-col>
+            <v-col v-else>>{{ item.orderId }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
@@ -58,6 +61,9 @@ const props = defineProps({
   items: Array
 })
 
+function isEmpty(id) {
+  return id == '00000000-0000-0000-0000-000000000000' ? true : false
+}
 </script>
 
 <style scoped>

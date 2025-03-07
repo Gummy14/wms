@@ -5,6 +5,7 @@
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import { QrcodeStream } from 'vue-qrcode-reader'
 import { GetItemById, GetLocationById, GetContainerById } from '@/functions/functions'
 const props = defineProps({
@@ -12,34 +13,37 @@ const props = defineProps({
 })
 const emit = defineEmits(['codeScanned'])
 
-function onDetect(detectedCodes) {
+async function onDetect(detectedCodes) {
   var scanData = JSON.parse(detectedCodes[0].rawValue)
   if(props.mustVerify) {
+    var responseData = ref(null)
     switch(scanData.ObjectType) {
       case 0:
-        GetItemById(scanData.Id)
+        await GetItemById(scanData.Id)
         .then(response => {
-          console.log('verfied item', response.data)
-          emit('codeScanned', response.data)
+          responseData.value = response.data
         })
         break
       case 1:
-        GetLocationById(scanData.Id)
+        await GetLocationById(scanData.Id)
         .then(response => {
-          console.log('verfied location', response.data)
-          emit('codeScanned', response.data)
+          responseData.value = response.data
         })
         break
       case 2:
-        GetContainerById(scanData.Id)
+        await GetContainerById(scanData.Id)
         .then(response => {
-          console.log('verfied container', response.data)
-          emit('codeScanned', response.data)
+          responseData.value = response.data
         })
         break
       default:
         break
     }
+    var responseDataWithObjectType = {
+      objectData: responseData.value,
+      objectType: scanData.ObjectType
+    }
+    emit('codeScanned', responseDataWithObjectType)
   } else {
     emit('codeScanned', scanData)
   }

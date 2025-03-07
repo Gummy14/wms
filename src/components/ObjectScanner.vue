@@ -4,13 +4,13 @@
       <Scanner must-verify @codeScanned="(emittedData) => scannedObject = emittedData" />
     </v-card>
     <v-card v-if="scannedObject"
-      :text="scannedObject.description"
-      :title="scannedObject.name"
+      :text="scannedObject.objectData.description"
+      :title="scannedObject.objectData.name"
     >
       <v-if v-if="actionSelected == 0">
         <v-btn @click="selectForPutaway()">Select For Putaway</v-btn>
         <v-btn @click="selectForPick()">Select For Picking</v-btn>
-        <v-btn @click="getHistory(scannedObject.id)">Get Object History</v-btn>
+        <v-btn @click="getHistory(scannedObject.objectData.id, scannedObject.objectType)">Get Object History</v-btn>
       </v-if>
       <v-else v-if="actionSelected == 1">
         Putaway In Location: {{ putawayLocation.name }}
@@ -29,6 +29,15 @@
           <v-btn @click="pickItemIntoContainer()">Confirm Pick</v-btn>
         </div>
       </v-else>
+      <v-else v-if="actionSelected == 3">
+        History:
+        <div v-for="itemEvent in itemHistory">
+          <div>
+            {{ itemEvent.status }}
+            {{ itemEvent.dateTimeStamp }}
+          </div>
+        </div>
+      </v-else>
     </v-card>
   </div>
 </template>
@@ -40,7 +49,8 @@ import {
     UpdateItemSelectForPick, 
     UpdateItemPutInLocation, 
     GetPutawayLocation,
-    UpdateItemPick
+    UpdateItemPick,
+    GetItemHistory
 } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
@@ -49,9 +59,10 @@ var putawayLocation = ref(null)
 var scannedObject = ref(null)
 var scannedPutawayLocation = ref(null)
 var scannedContainerToPickInto = ref(null)
+var itemHistory = ref(null)
 
 function selectForPutaway() {
-  UpdateItemSelectForPutaway(scannedObject.value.id)
+  UpdateItemSelectForPutaway(scannedObject.value.objectData.id)
   .then(() => {
     GetPutawayLocation()
     .then(response => {
@@ -61,22 +72,36 @@ function selectForPutaway() {
   })
 }
 function selectForPick() {
-  UpdateItemSelectForPick(scannedObject.value.id)
+  UpdateItemSelectForPick(scannedObject.value.objectData.id)
   .then(() => {
     actionSelected.value = 2
   })
 }
-function getHistory() {
-
+function getHistory(scannedObjectId, scannedObjectType) {
+  switch(scannedObjectType) {
+      case 0:
+        GetItemHistory(scannedObjectId)
+        .then(response => {
+          actionSelected.value = 3
+          itemHistory.value = response.data
+        })
+        break
+      case 1:
+        break
+      case 2:
+        break
+      default:
+        break
+    }
 }
 function putItemInLocation() {
-  UpdateItemPutInLocation(scannedObject.value.id, putawayLocation.value.id)
+  UpdateItemPutInLocation(scannedObject.value.objectData.id, putawayLocation.value.objectData.id)
   .then(() => {
     resetAll()
   })
 }
 function pickItemIntoContainer() {
-  UpdateItemPick(scannedObject.value.id, scannedContainerToPickInto.value.id)
+  UpdateItemPick(scannedObject.value.objectData.id, scannedContainerToPickInto.value.objectData.id)
   .then(() => {
     resetAll()
   })
