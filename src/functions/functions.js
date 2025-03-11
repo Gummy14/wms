@@ -2,6 +2,14 @@ import axios from 'axios'
 
 const baseUrl = 'https://localhost:7187/'
 
+//WarehouseObjects
+export async function GetAllWarehouseObjects() {
+    return await axios.get(baseUrl + 'WarehouseObject/GetAllWarehouseObjects/')
+}
+export async function GetWarehouseObjectByIdAndType(id, type) {
+    return await axios.get(baseUrl + 'WarehouseObject/GetWarehouseObjectByIdAndType/' + id + '/' + type)
+}
+
 //Item
 export async function GetAllItems() {
     return await axios.get(baseUrl + 'Item/GetAllItems/')
@@ -64,10 +72,10 @@ export async function UpdateItemPick(itemId, containerId) {
 
 //WMS
 export async function PrintQRCode(objectToRegister) {
-    return await axios.post(baseUrl + 'WMS/PrintQRCode/', objectToRegister)
+    return await axios.post(baseUrl + 'Registration/PrintQRCode/', objectToRegister)
 }
 export async function RegisterQRCode(objectToRegister) {
-    return await axios.post(baseUrl + 'WMS/RegisterQRCode/', objectToRegister)
+    return await axios.post(baseUrl + 'Registration/RegisterQRCode/', objectToRegister)
 }
 
 //EventTypes

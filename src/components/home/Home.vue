@@ -39,7 +39,10 @@
     >
     </v-select>
 
-    <div v-if="warehouseObjectListSelection == 0">
+    <div>
+      <WarehouseObjects />
+    </div>
+    <!-- <div v-if="warehouseObjectListSelection == 0">
       <Items />
     </div>
     <div v-else-if="warehouseObjectListSelection == 1">
@@ -50,7 +53,7 @@
     </div>
     <div v-else-if="warehouseObjectListSelection == 3">
       <Orders />
-    </div>
+    </div> -->
 
     <v-dialog 
       v-model="openScanner"
@@ -80,10 +83,7 @@ import SvgIcon from '@jamescoyle/vue-icon';
 import ObjectScanner from '@/components/ObjectScanner.vue'
 import Registration from '../Registration.vue';
 import Addition from '../Addition.vue';
-import Items from '@/components/home/Items.vue'
-import Locations from '@/components/home/Locations.vue'
-import Containers from '@/components/home/Containers.vue'
-import Orders from '@/components/home/Orders.vue'
+import WarehouseObjects from '@/components/home/WarehouseObjects.vue'
 import { ref } from 'vue'
 import { mdiQrcodeScan, mdiPlus } from '@mdi/js'
 
