@@ -35,7 +35,8 @@
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
             <v-col>Item ID:</v-col>
-            <v-col>{{ location.itemId }}</v-col>
+            <v-col v-if="isEmpty(location.itemId)">No Item In Location</v-col>
+            <v-col v-else>{{ location.itemName }} ({{ location.itemId }})</v-col>
           </v-row>
         </v-expansion-panel-text>
       </v-expansion-panel>
@@ -47,6 +48,10 @@
 const props = defineProps({
   locations: Array
 })
+
+function isEmpty(id) {
+  return id == '00000000-0000-0000-0000-000000000000' ? true : false
+}
 </script>
 
 <style scoped>

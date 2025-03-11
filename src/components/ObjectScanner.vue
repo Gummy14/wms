@@ -107,7 +107,7 @@ function getHistory(scannedObjectId, scannedObjectType) {
     }
 }
 function putItemInLocation() {
-  UpdateItemPutInLocation(scannedObject.value.objectData.id, putawayLocation.value.objectData.id)
+  UpdateItemPutInLocation(scannedObject.value.objectData.id, scannedPutawayLocation.value.objectData.id)
   .then(() => {
     resetAll()
   })

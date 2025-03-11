@@ -66,6 +66,9 @@ export async function UpdateItemPick(itemId, containerId) {
 export async function PrintQRCode(objectToRegister) {
     return await axios.post(baseUrl + 'WMS/PrintQRCode/', objectToRegister)
 }
+export async function RegisterQRCode(objectToRegister) {
+    return await axios.post(baseUrl + 'WMS/RegisterQRCode/', objectToRegister)
+}
 
 //EventTypes
 export async function GetAllEventTypes() {

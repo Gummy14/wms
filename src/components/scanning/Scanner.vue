@@ -45,6 +45,7 @@ async function onDetect(detectedCodes) {
     }
     emit('codeScanned', responseDataWithObjectType)
   } else {
+    console.log('scanData', scanData)
     emit('codeScanned', scanData)
   }
 }
