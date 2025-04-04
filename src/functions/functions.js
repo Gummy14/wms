@@ -47,17 +47,11 @@ export async function UpdateOrderSelectForPicking(orderId) {
 export async function GetPutawayLocation() {
     return await axios.get(baseUrl + 'Putaway/GetPutawayLocation')
 }
-export async function UpdateItemSelectForPutaway(itemId) {
-    return await axios.post(baseUrl + 'Putaway/UpdateItemSelectForPutaway/' + itemId)
-}
 export async function UpdateItemPutInLocation(itemId, locationId) {
     return await axios.post(baseUrl + 'Putaway/UpdateItemPutInLocation/' + itemId + '/' + locationId)
 }
 
 //Pick
-export async function UpdateItemSelectForPick(itemId) {
-    return await axios.post(baseUrl + 'Pick/UpdateItemSelectForPick/' + itemId)
-}
 export async function UpdateItemPick(itemId, containerId) {
     return await axios.post(baseUrl + 'Pick/UpdateItemPick/' + itemId + '/' + containerId)
 }

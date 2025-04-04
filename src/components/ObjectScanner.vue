@@ -45,14 +45,12 @@
 <script setup>
 import { ref } from 'vue'
 import { 
-    UpdateItemSelectForPutaway, 
-    UpdateItemSelectForPick, 
-    UpdateItemPutInLocation, 
-    GetPutawayLocation,
-    UpdateItemPick,
-    GetItemHistory,
-    GetLocationHistory,
-    GetContainerHistory
+  UpdateItemPutInLocation, 
+  GetPutawayLocation,
+  UpdateItemPick,
+  GetItemHistory,
+  GetLocationHistory,
+  GetContainerHistory
 } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
@@ -64,20 +62,14 @@ var scannedContainerToPickInto = ref(null)
 var historyData = ref(null)
 
 function selectForPutaway() {
-  UpdateItemSelectForPutaway(scannedObject.value.objectData.id)
-  .then(() => {
-    GetPutawayLocation()
-    .then(response => {
-      putawayLocation.value = response.data
-      actionSelected.value = 1
-    })
+  GetPutawayLocation()
+  .then(response => {
+    putawayLocation.value = response.data
+    actionSelected.value = 1
   })
 }
 function selectForPick() {
-  UpdateItemSelectForPick(scannedObject.value.objectData.id)
-  .then(() => {
-    actionSelected.value = 2
-  })
+  actionSelected.value = 2
 }
 function getHistory(scannedObjectId, scannedObjectType) {
   switch(scannedObjectType) {
