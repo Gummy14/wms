@@ -9,6 +9,15 @@ export async function GetAllItems() {
 export async function GetItemById(id) {
     return await axios.get(baseUrl + 'Item/GetItemById/' + id)
 }
+export async function PutawayItem(itemId, locationId) {
+    return await axios.post(baseUrl + 'Item/PutawayItem/' + itemId + '/' + locationId)
+}
+export async function PickItem(itemId, containerId) {
+    return await axios.post(baseUrl + 'Item/PickItem/' + itemId + '/' + containerId)
+}
+export async function PackItems(containerId, boxId) {
+    return await axios.post(baseUrl + 'Item/PackItems/' + containerId + '/' + boxId)
+}
 
 //Location
 export async function GetAllLocations() {
@@ -24,6 +33,14 @@ export async function GetAllContainers() {
 }
 export async function GetContainerById(id) {
     return await axios.get(baseUrl + 'Container/GetContainerById/' + id)
+}
+
+//Box
+export async function GetAllBoxes() {
+    return await axios.get(baseUrl + 'Box/GetAllBoxes/')
+}
+export async function GetBoxById(id) {
+    return await axios.get(baseUrl + 'Box/GetBoxById/' + id)
 }
 
 //Order
@@ -47,14 +64,8 @@ export async function UpdateOrderSelectForPicking(orderId) {
 export async function GetPutawayLocation() {
     return await axios.get(baseUrl + 'Putaway/GetPutawayLocation')
 }
-export async function UpdateItemPutInLocation(itemId, locationId) {
-    return await axios.post(baseUrl + 'Putaway/UpdateItemPutInLocation/' + itemId + '/' + locationId)
-}
 
 //Pick
-export async function UpdateItemPick(itemId, containerId) {
-    return await axios.post(baseUrl + 'Pick/UpdateItemPick/' + itemId + '/' + containerId)
-}
 
 //WMS
 export async function PrintQRCode(objectToRegister) {

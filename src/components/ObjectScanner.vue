@@ -10,6 +10,7 @@
       <v-if v-if="actionSelected == 0">
         <v-btn @click="selectForPutaway()">Select For Putaway</v-btn>
         <v-btn @click="selectForPick()">Select For Picking</v-btn>
+        <v-btn @click="selectForPacking()">Pack Items In Container</v-btn>
         <v-btn @click="getHistory(scannedObject.objectData.id, scannedObject.objectType)">Get Object History</v-btn>
       </v-if>
       <v-else v-if="actionSelected == 1">
@@ -38,6 +39,14 @@
           </div>
         </div>
       </v-else>
+      <v-else v-if="actionSelected == 4">
+        Scan Box To Package Items Into:
+        <Scanner must-verify @codeScanned="(emittedData) => scannedBoxToPackInto = emittedData" />
+        <div v-if="scannedBoxToPackInto">
+          Box Scanned
+          <v-btn @click="packItemsInContainer()">Confirm Pack</v-btn>
+        </div>
+      </v-else>
     </v-card>
   </div>
 </template>
@@ -45,12 +54,14 @@
 <script setup>
 import { ref } from 'vue'
 import { 
-  UpdateItemPutInLocation, 
-  GetPutawayLocation,
-  UpdateItemPick,
-  GetItemHistory,
-  GetLocationHistory,
-  GetContainerHistory
+    UpdateItemSelectForPutaway, 
+    UpdateItemSelectForPick, 
+    UpdateItemPutInLocation, 
+    GetPutawayLocation,
+    UpdateItemPick,
+    GetItemHistory,
+    GetLocationHistory,
+    GetContainerHistory
 } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
@@ -59,6 +70,7 @@ var putawayLocation = ref(null)
 var scannedObject = ref(null)
 var scannedPutawayLocation = ref(null)
 var scannedContainerToPickInto = ref(null)
+var scannedBoxToPackInto = ref(null)
 var historyData = ref(null)
 
 function selectForPutaway() {
@@ -69,7 +81,10 @@ function selectForPutaway() {
   })
 }
 function selectForPick() {
-  actionSelected.value = 2
+  UpdateItemSelectForPick(scannedObject.value.objectData.id)
+  .then(() => {
+    actionSelected.value = 2
+  })
 }
 function getHistory(scannedObjectId, scannedObjectType) {
   switch(scannedObjectType) {
@@ -99,13 +114,19 @@ function getHistory(scannedObjectId, scannedObjectType) {
     }
 }
 function putItemInLocation() {
-  UpdateItemPutInLocation(scannedObject.value.objectData.id, scannedPutawayLocation.value.objectData.id)
+  PutawayItem(scannedObject.value.objectData.id, scannedPutawayLocation.value.objectData.id)
   .then(() => {
     resetAll()
   })
 }
 function pickItemIntoContainer() {
-  UpdateItemPick(scannedObject.value.objectData.id, scannedContainerToPickInto.value.objectData.id)
+  PickItem(scannedObject.value.objectData.id, scannedContainerToPickInto.value.objectData.id)
+  .then(() => {
+    resetAll()
+  })
+}
+function packItemsInContainer() {
+  PackItems(scannedObject.value.objectData.id, scannedBoxToPackInto.value.objectData.id)
   .then(() => {
     resetAll()
   })
