@@ -64,16 +64,8 @@ export async function UpdateOrderSelectForPicking(orderId) {
 export async function GetPutawayLocation() {
     return await axios.get(baseUrl + 'Putaway/GetPutawayLocation')
 }
-export async function UpdateItemSelectForPutaway(itemId) {
-    return await axios.post(baseUrl + 'Putaway/UpdateItemSelectForPutaway/' + itemId)
-}
-
 
 //Pick
-export async function UpdateItemSelectForPick(itemId) {
-    return await axios.post(baseUrl + 'Pick/UpdateItemSelectForPick/' + itemId)
-}
-
 
 //WMS
 export async function PrintQRCode(objectToRegister) {

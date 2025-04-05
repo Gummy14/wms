@@ -54,8 +54,6 @@
 <script setup>
 import { ref } from 'vue'
 import { 
-    UpdateItemSelectForPutaway, 
-    UpdateItemSelectForPick, 
     PutawayItem, 
     GetPutawayLocation,
     PickItem,
@@ -75,20 +73,14 @@ var scannedBoxToPackInto = ref(null)
 var historyData = ref(null)
 
 function selectForPutaway() {
-  UpdateItemSelectForPutaway(scannedObject.value.objectData.id)
-  .then(() => {
-    GetPutawayLocation()
-    .then(response => {
-      putawayLocation.value = response.data
-      actionSelected.value = 1
-    })
+  GetPutawayLocation()
+  .then(response => {
+    putawayLocation.value = response.data
+    actionSelected.value = 1
   })
 }
 function selectForPick() {
-  UpdateItemSelectForPick(scannedObject.value.objectData.id)
-  .then(() => {
-    actionSelected.value = 2
-  })
+  actionSelected.value = 2
 }
 function selectForPacking() {
   actionSelected.value = 4
