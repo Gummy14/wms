@@ -11,9 +11,9 @@
       </v-select>
       <v-text-field label="Name" v-model="objectToRegister.name"></v-text-field>
       <v-text-field v-if="warehouseObjectTypeSelection == 0" label="Description" v-model="objectToRegister.description"></v-text-field>
-      <v-text-field v-if="warehouseObjectTypeSelection == 4" label="Length" v-model="objectToRegister.length"></v-text-field>
-      <v-text-field v-if="warehouseObjectTypeSelection == 4" label="Width" v-model="objectToRegister.width"></v-text-field>
-      <v-text-field v-if="warehouseObjectTypeSelection == 4" label="Height" v-model="objectToRegister.height"></v-text-field>
+      <v-text-field v-if="warehouseObjectTypeSelection == 4" label="Length" v-model="objectToRegister.lengthInCentimeters"></v-text-field>
+      <v-text-field v-if="warehouseObjectTypeSelection == 4" label="Width" v-model="objectToRegister.widthInCentimeters"></v-text-field>
+      <v-text-field v-if="warehouseObjectTypeSelection == 4" label="Height" v-model="objectToRegister.heightInCentimeters"></v-text-field>
     </v-card>
     <v-btn @click="printQrCode()">Print QR Code</v-btn>
   </div>
@@ -30,9 +30,10 @@ var objectToRegister = ref({
   objectType: 0,
   name: '',
   description: '',
-  length: 0,
-  width: 0,
-  height: 0
+  lengthInCentimeters: 0.0,
+  widthInCentimeters: 0.0,
+  heightInCentimeters: 0.0,
+  weightOrMaxWeightInKilograms: 0.0
 })
 
 function printQrCode() {

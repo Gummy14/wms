@@ -9,6 +9,9 @@ export async function GetAllItems() {
 export async function GetItemById(id) {
     return await axios.get(baseUrl + 'Item/GetItemById/' + id)
 }
+export async function GetItemHistory(id) {
+    return await axios.get(baseUrl + 'Item/GetItemHistory/' + id)
+}
 export async function PutawayItem(itemId, locationId) {
     return await axios.post(baseUrl + 'Item/PutawayItem/' + itemId + '/' + locationId)
 }
@@ -29,6 +32,9 @@ export async function GetLocationById(id) {
 export async function GetPutawayLocation() {
     return await axios.get(baseUrl + 'Location/GetPutawayLocation')
 }
+export async function GetLocationHistory(id) {
+    return await axios.get(baseUrl + 'Location/GetLocationHistory/' + id)
+}
 
 //Container
 export async function GetAllContainers() {
@@ -36,6 +42,9 @@ export async function GetAllContainers() {
 }
 export async function GetContainerById(id) {
     return await axios.get(baseUrl + 'Container/GetContainerById/' + id)
+}
+export async function GetContainerHistory(id) {
+    return await axios.get(baseUrl + 'Container/GetContainerHistory/' + id)
 }
 
 //Box
@@ -74,15 +83,4 @@ export async function RegisterQRCode(objectToRegister) {
 //EventTypes
 export async function GetAllEventTypes() {
     return await axios.get(baseUrl + 'EventTypes/GetAllEventTypes/')
-}
-
-//History
-export async function GetItemHistory(id) {
-    return await axios.get(baseUrl + 'History/GetItemHistory/' + id)
-}
-export async function GetLocationHistory(id) {
-    return await axios.get(baseUrl + 'History/GetLocationHistory/' + id)
-}
-export async function GetContainerHistory(id) {
-    return await axios.get(baseUrl + 'History/GetContainerHistory/' + id)
 }

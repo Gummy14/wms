@@ -25,7 +25,11 @@ function addObject() {
     id: scannedObject.value.Id,
     objectType: scannedObject.value.ObjectType,
     name: scannedObject.value.Name,
-    description: scannedObject.value.Description
+    description: scannedObject.value.Description,
+    lengthInCentimeters: scannedObject.value.LengthInCentimeters,
+    widthInCentimeters: scannedObject.value.WidthInCentimeters,
+    heightInCentimeters: scannedObject.value.HeightInCentimeters,
+    weightOrMaxWeightInKilograms: scannedObject.value.WeightOrMaxWeightInKilograms
   })
   RegisterQRCode(objectToRegister.value)
   .then(() => {
