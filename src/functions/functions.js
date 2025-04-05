@@ -26,6 +26,9 @@ export async function GetAllLocations() {
 export async function GetLocationById(id) {
     return await axios.get(baseUrl + 'Location/GetLocationById/' + id)
 }
+export async function GetPutawayLocation() {
+    return await axios.get(baseUrl + 'Location/GetPutawayLocation')
+}
 
 //Container
 export async function GetAllContainers() {
@@ -59,13 +62,6 @@ export async function RegisterOrder(newOrderItems) {
 export async function UpdateOrderSelectForPicking(orderId) {
     return await axios.post(baseUrl + 'Order/UpdateOrderSelectForPicking/' + orderId)
 }
-
-//Putaway
-export async function GetPutawayLocation() {
-    return await axios.get(baseUrl + 'Putaway/GetPutawayLocation')
-}
-
-//Pick
 
 //WMS
 export async function PrintQRCode(objectToRegister) {
