@@ -76,7 +76,6 @@ function selectForPutaway() {
   GetPutawayLocation()
   .then(response => {
     putawayLocation.value = response.data
-    console.log('putawayLocation.value', putawayLocation.value)
     actionSelected.value = 1
   })
 }

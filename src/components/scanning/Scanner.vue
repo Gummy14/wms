@@ -20,7 +20,6 @@ async function onDetect(detectedCodes) {
       await GetItemById(scanDataId)
       .then(response => {
         responseData.value = response.data
-        console.log('scanDataType', responseData.value)
       })
       break
     case 1:
