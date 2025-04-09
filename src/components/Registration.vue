@@ -10,10 +10,11 @@
       >
       </v-select>
       <v-text-field label="Name" v-model="objectToRegister.name"></v-text-field>
-      <v-text-field v-if="warehouseObjectTypeSelection == 0" label="Description" v-model="objectToRegister.description"></v-text-field>
-      <v-text-field v-if="warehouseObjectTypeSelection == 4" label="Length" v-model="objectToRegister.lengthInCentimeters"></v-text-field>
-      <v-text-field v-if="warehouseObjectTypeSelection == 4" label="Width" v-model="objectToRegister.widthInCentimeters"></v-text-field>
-      <v-text-field v-if="warehouseObjectTypeSelection == 4" label="Height" v-model="objectToRegister.heightInCentimeters"></v-text-field>
+      <v-text-field label="Description" v-model="objectToRegister.description"></v-text-field>
+      <v-text-field label="Length In Centimeters" v-model="objectToRegister.lengthInCentimeters"></v-text-field>
+      <v-text-field label="Width In Centimeters" v-model="objectToRegister.widthInCentimeters"></v-text-field>
+      <v-text-field label="Height In Centimeters" v-model="objectToRegister.heightInCentimeters"></v-text-field>
+      <v-text-field label="Weight In Kilograms" v-model="objectToRegister.weightOrMaxWeightInKilograms"></v-text-field>
     </v-card>
     <v-btn @click="printQrCode()">Print QR Code</v-btn>
   </div>

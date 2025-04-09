@@ -1,8 +1,6 @@
 import Items from '@/components/home/Items.vue'
 import Containers from '@/components/home/Locations.vue'
 import Orders from '@/components/home/Orders.vue'
-import Packaging from '@/components/Packaging.vue'
-import Shipping from '@/components/Shipping.vue'
 import History from '@/components/History.vue'
 import Home from '@/components/home/Home.vue'
 import ObjectScanner from '@/components/ObjectScanner.vue'
@@ -35,16 +33,6 @@ const router = createRouter({
       path: '/orders',
       name: 'orders',
       component: Orders
-    },
-    {
-      path: '/packaging',
-      name: 'packaging',
-      component: Packaging
-    },
-    {
-      path: '/shipping',
-      name: 'shipping',
-      component: Shipping
     },
     {
       path: '/history',

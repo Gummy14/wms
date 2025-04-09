@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card>
-      <Scanner must-verify @codeScanned="(emittedData) => scannedObject = emittedData" />
+      <Scanner @codeScanned="(emittedData) => scannedObject = emittedData" />
     </v-card>
     <v-card v-if="scannedObject"
       :text="scannedObject.objectData.description"
@@ -14,9 +14,9 @@
         <v-btn @click="getHistory(scannedObject.objectData.id, scannedObject.objectType)">Get Object History</v-btn>
       </v-if>
       <v-else v-if="actionSelected == 1">
-        Putaway In Location: {{ putawayLocation.name }}
+        Putaway In Location: {{ putawayLocation.name}}
         Scan Correct Location To Putaway Into:
-        <Scanner must-verify @codeScanned="(emittedData) => scannedPutawayLocation = emittedData" />
+        <Scanner @codeScanned="(emittedData) => scannedPutawayLocation = emittedData" />
         <div v-if="scannedPutawayLocation">
           Location Scanned
           <v-btn @click="putItemInLocation()">Confirm Putaway</v-btn>
@@ -24,7 +24,7 @@
       </v-else>
       <v-else v-if="actionSelected == 2">
         Scan Container To Pick Into:
-        <Scanner must-verify @codeScanned="(emittedData) => scannedContainerToPickInto = emittedData" />
+        <Scanner @codeScanned="(emittedData) => scannedContainerToPickInto = emittedData" />
         <div v-if="scannedContainerToPickInto">
           Container Scanned
           <v-btn @click="pickItemIntoContainer()">Confirm Pick</v-btn>
@@ -41,7 +41,7 @@
       </v-else>
       <v-else v-if="actionSelected == 4">
         Scan Box To Package Items Into:
-        <Scanner must-verify @codeScanned="(emittedData) => scannedBoxToPackInto = emittedData" />
+        <Scanner @codeScanned="(emittedData) => scannedBoxToPackInto = emittedData" />
         <div v-if="scannedBoxToPackInto">
           Box Scanned
           <v-btn @click="packItemsInContainer()">Confirm Pack</v-btn>
@@ -76,6 +76,7 @@ function selectForPutaway() {
   GetPutawayLocation()
   .then(response => {
     putawayLocation.value = response.data
+    console.log('putawayLocation.value', putawayLocation.value)
     actionSelected.value = 1
   })
 }
@@ -113,19 +114,19 @@ function getHistory(scannedObjectId, scannedObjectType) {
     }
 }
 function putItemInLocation() {
-  PutawayItem(scannedObject.value.objectData.id, scannedPutawayLocation.value.objectData.id)
+  PutawayItem(scannedObject.value.objectData.itemId, scannedPutawayLocation.value.objectData.locationId)
   .then(() => {
     resetAll()
   })
 }
 function pickItemIntoContainer() {
-  PickItem(scannedObject.value.objectData.id, scannedContainerToPickInto.value.objectData.id)
+  PickItem(scannedObject.value.objectData.itemId, scannedContainerToPickInto.value.objectData.containerId)
   .then(() => {
     resetAll()
   })
 }
 function packItemsInContainer() {
-  PackItems(scannedObject.value.objectData.id, scannedBoxToPackInto.value.objectData.id)
+  PackItems(scannedObject.value.objectData.containerId, scannedBoxToPackInto.value.objectData.boxId)
   .then(() => {
     resetAll()
   })

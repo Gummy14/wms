@@ -65,8 +65,8 @@ export async function GetOrderById(id) {
 export async function GetNextOrderWaitingForPicking() {
     return await axios.get(baseUrl + 'Order/GetNextOrderWaitingForPicking/' + status)
 }
-export async function RegisterOrder(newOrderItems) {
-    return await axios.post(baseUrl + 'Order/RegisterOrder/', newOrderItems)
+export async function RegisterOrder(order) {
+    return await axios.post(baseUrl + 'Order/RegisterOrder/', order)
 }
 export async function UpdateOrderSelectForPicking(orderId) {
     return await axios.post(baseUrl + 'Order/UpdateOrderSelectForPicking/' + orderId)

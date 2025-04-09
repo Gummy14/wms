@@ -8,52 +8,47 @@
 import { ref } from 'vue'
 import { QrcodeStream } from 'vue-qrcode-reader'
 import { GetItemById, GetLocationById, GetContainerById, GetBoxById } from '@/functions/functions'
-const props = defineProps({
-  mustVerify: Boolean
-})
 const emit = defineEmits(['codeScanned'])
 
 async function onDetect(detectedCodes) {
-  var scanData = JSON.parse(detectedCodes[0].rawValue)
-  if(props.mustVerify) {
-    var responseData = ref(null)
-    switch(scanData.ObjectType) {
-      case 0:
-        await GetItemById(scanData.Id)
-        .then(response => {
-          responseData.value = response.data
-        })
-        break
-      case 1:
-        await GetLocationById(scanData.Id)
-        .then(response => {
-          responseData.value = response.data
-        })
-        break
-      case 2:
-        await GetContainerById(scanData.Id)
-        .then(response => {
-          responseData.value = response.data
-        })
-        break
-      case 4:
-        await GetBoxById(scanData.Id)
-        .then(response => {
-          responseData.value = response.data
-        })
-        break
-      default:
-        break
-    }
-    var responseDataWithObjectType = {
-      objectData: responseData.value,
-      objectType: scanData.ObjectType
-    }
-    emit('codeScanned', responseDataWithObjectType)
-  } else {
-    console.log('scanData', scanData)
-    emit('codeScanned', scanData)
+  var scanDataType = Number(detectedCodes[0].rawValue.slice(0,1))
+  var scanDataId = detectedCodes[0].rawValue.slice(2)
+  var responseData = ref(null)
+
+  switch(scanDataType) {
+    case 0:
+      await GetItemById(scanDataId)
+      .then(response => {
+        responseData.value = response.data
+        console.log('scanDataType', responseData.value)
+      })
+      break
+    case 1:
+      await GetLocationById(scanDataId)
+      .then(response => {
+        responseData.value = response.data
+      })
+      break
+    case 2:
+      await GetContainerById(scanDataId)
+      .then(response => {
+        responseData.value = response.data
+      })
+      break
+    case 4:
+      await GetBoxById(scanDataId)
+      .then(response => {
+        responseData.value = response.data
+      })
+      break
+    default:
+      break
   }
+  var responseDataWithObjectType = {
+    objectData: responseData.value,
+    objectType: scanDataType
+  }
+  emit('codeScanned', responseDataWithObjectType)
 }
 </script>
 
