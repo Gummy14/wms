@@ -12,6 +12,9 @@ export async function GetItemById(id) {
 export async function GetItemHistory(id) {
     return await axios.get(baseUrl + 'Item/GetItemHistory/' + id)
 }
+export async function RegisterItem(itemToRegister) {
+    return await axios.post(baseUrl + 'Item/RegisterItem/', itemToRegister)
+}
 export async function PutawayItem(itemId, locationId) {
     return await axios.post(baseUrl + 'Item/PutawayItem/' + itemId + '/' + locationId)
 }
@@ -35,6 +38,9 @@ export async function GetPutawayLocation() {
 export async function GetLocationHistory(id) {
     return await axios.get(baseUrl + 'Location/GetLocationHistory/' + id)
 }
+export async function RegisterLocation(locationToRegister) {
+    return await axios.post(baseUrl + 'Location/RegisterLocation/', locationToRegister)
+}
 
 //Container
 export async function GetAllContainers() {
@@ -46,6 +52,9 @@ export async function GetContainerById(id) {
 export async function GetContainerHistory(id) {
     return await axios.get(baseUrl + 'Container/GetContainerHistory/' + id)
 }
+export async function RegisterContainer(containerToRegister) {
+    return await axios.post(baseUrl + 'Container/RegisterContainer/', containerToRegister)
+}
 
 //Box
 export async function GetAllBoxes() {
@@ -53,6 +62,9 @@ export async function GetAllBoxes() {
 }
 export async function GetBoxById(id) {
     return await axios.get(baseUrl + 'Box/GetBoxById/' + id)
+}
+export async function RegisterBox(boxToRegister) {
+    return await axios.post(baseUrl + 'Box/RegisterBox/', boxToRegister)
 }
 
 //Order
@@ -75,9 +87,6 @@ export async function UpdateOrderSelectForPicking(orderId) {
 //WMS
 export async function PrintQRCode(objectToRegister) {
     return await axios.post(baseUrl + 'WMS/PrintQRCode/', objectToRegister)
-}
-export async function RegisterQRCode(objectToRegister) {
-    return await axios.post(baseUrl + 'WMS/RegisterQRCode/', objectToRegister)
 }
 
 //EventTypes
