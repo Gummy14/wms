@@ -5,6 +5,8 @@
 
       <v-dialog v-model="allItems">
         <v-card>
+          <v-text-field label="First Name" v-model="orderToRegister.address.firstName"></v-text-field>
+          <v-text-field label="Last Name" v-model="orderToRegister.address.lastName"></v-text-field>
           <v-text-field label="Street" v-model="orderToRegister.address.street"></v-text-field>
           <v-text-field label="City" v-model="orderToRegister.address.city"></v-text-field>
           <v-text-field label="State" v-model="orderToRegister.address.state"></v-text-field>
@@ -33,6 +35,8 @@ var eventTypes = ref(null)
 var orderToRegister = ref({
   orderItems: [],
   address: {
+    firstName: "",
+    lastName: "",
     street: "",
     city: "",
     state: "",
