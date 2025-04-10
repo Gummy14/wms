@@ -20,7 +20,7 @@
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
             <v-col>Container ID:</v-col>
-            <v-col>{{ container.id }}</v-col>
+            <v-col>{{ container.containerId }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>

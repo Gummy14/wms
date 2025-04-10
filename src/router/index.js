@@ -1,7 +1,6 @@
 import Items from '@/components/home/Items.vue'
 import Containers from '@/components/home/Locations.vue'
 import Orders from '@/components/home/Orders.vue'
-import History from '@/components/History.vue'
 import Home from '@/components/home/Home.vue'
 import ObjectScanner from '@/components/ObjectScanner.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -33,11 +32,6 @@ const router = createRouter({
       path: '/orders',
       name: 'orders',
       component: Orders
-    },
-    {
-      path: '/history',
-      name: 'history',
-      component: History
     },
     {
       path: '/home',

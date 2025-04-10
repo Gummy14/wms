@@ -20,7 +20,7 @@
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
             <v-col>Location ID:</v-col>
-            <v-col>{{ location.id }}</v-col>
+            <v-col>{{ location.locationId }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
@@ -50,7 +50,7 @@ const props = defineProps({
 })
 
 function isEmpty(id) {
-  return id == '00000000-0000-0000-0000-000000000000' ? true : false
+  return id == null ? true : false
 }
 </script>
 

@@ -17,7 +17,7 @@
             <v-col cols="12">
               <v-btn 
                 v-if="order.status == 510"
-                @click="acknowledgeOrder(order.id)"
+                @click="acknowledgeOrder(order.orderId)"
               >
                 Acknowledge Order
               </v-btn>
@@ -25,7 +25,7 @@
           </v-row>
           <v-row>
             <v-col>Order ID:</v-col>
-            <v-col>{{ order.id }}</v-col>
+            <v-col>{{ order.orderId }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
@@ -50,14 +50,14 @@
   
 <script setup>
 import ItemList from '@/components/lists/ItemList.vue'
-import { UpdateOrderSelectForPicking } from '@/functions/functions'
+import { AcknowledgeOrder } from '@/functions/functions'
 
 const props = defineProps({
   orders: Array
 })
 
 function acknowledgeOrder(orderId) {
-  UpdateOrderSelectForPicking(orderId)
+  AcknowledgeOrder(orderId)
   .then(() => {
     console.log("acknowledged")
   })

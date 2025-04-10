@@ -80,8 +80,8 @@ export async function GetNextOrderWaitingForPicking() {
 export async function RegisterOrder(order) {
     return await axios.post(baseUrl + 'Order/RegisterOrder/', order)
 }
-export async function UpdateOrderSelectForPicking(orderId) {
-    return await axios.post(baseUrl + 'Order/UpdateOrderSelectForPicking/' + orderId)
+export async function AcknowledgeOrder(orderId) {
+    return await axios.post(baseUrl + 'Order/AcknowledgeOrder/' + orderId)
 }
 
 //WMS
