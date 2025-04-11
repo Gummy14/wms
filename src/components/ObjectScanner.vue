@@ -11,6 +11,7 @@
         <v-btn @click="selectForPutaway()">Select For Putaway</v-btn>
         <v-btn @click="selectForPick()">Select For Picking</v-btn>
         <v-btn @click="selectForPacking()">Pack Items In Container</v-btn>
+        <v-btn @click="selectContainerToAddToOrder()">Add Container To Order</v-btn>
         <v-btn @click="getHistory(scannedObject.objectData.id, scannedObject.objectType)">Get Object History</v-btn>
       </v-if>
       <v-else v-if="actionSelected == 1">
@@ -47,6 +48,10 @@
           <v-btn @click="packItemsInContainer()">Confirm Pack</v-btn>
         </div>
       </v-else>
+      <v-else v-if="actionSelected == 5">
+        Scan Container To Add To Order: {{ orderId }}
+        <v-btn @click="addContainerToOrder()">Confirm Pack</v-btn>
+      </v-else>
     </v-card>
   </div>
 </template>
@@ -60,9 +65,14 @@ import {
   GetContainerHistory,
   PutawayItem, 
   PickItem,
-  PackItems
+  PackItems,
+  AddContainerToOrder
 } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
+
+const props = defineProps({
+  orderId: Array
+})
 
 var actionSelected = ref(0)
 var putawayLocation = ref(null)
@@ -84,6 +94,9 @@ function selectForPick() {
 }
 function selectForPacking() {
   actionSelected.value = 4
+}
+function selectContainerToAddToOrder() {
+  actionSelected.value = 5
 }
 function getHistory(scannedObjectId, scannedObjectType) {
   switch(scannedObjectType) {
@@ -126,6 +139,12 @@ function pickItemIntoContainer() {
 }
 function packItemsInContainer() {
   PackItems(scannedObject.value.objectData.containerId, scannedBoxToPackInto.value.objectData.boxId)
+  .then(() => {
+    resetAll()
+  })
+}
+function addContainerToOrder() {
+  AddContainerToOrder(props.orderId, scannedObject.value.objectData.containerId)
   .then(() => {
     resetAll()
   })

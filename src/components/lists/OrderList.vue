@@ -45,22 +45,36 @@
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
+
+    <v-dialog 
+      v-model="openScanner"
+      max-width="400"
+    >
+      <ObjectScanner :orderId="orderIdToAddContainerTo"/>
+    </v-dialog>
   </div>
 </template>
   
 <script setup>
+import { ref } from 'vue'
 import ItemList from '@/components/lists/ItemList.vue'
-import { AcknowledgeOrder } from '@/functions/functions'
+import ObjectScanner from '@/components/ObjectScanner.vue'
+// import { AcknowledgeOrder } from '@/functions/functions'
+// import { mdiTrendingUp } from '@mdi/js'
 
+var openScanner = ref(false)
+var orderIdToAddContainerTo = ref(false)
 const props = defineProps({
   orders: Array
 })
 
 function acknowledgeOrder(orderId) {
-  AcknowledgeOrder(orderId)
-  .then(() => {
-    console.log("acknowledged")
-  })
+  orderIdToAddContainerTo.value = orderId
+  openScanner.value = true
+  // AcknowledgeOrder(orderId)
+  // .then(() => {
+  //   console.log("acknowledged")
+  // })
 }
 </script>
 

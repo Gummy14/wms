@@ -55,6 +55,9 @@ export async function GetContainerHistory(id) {
 export async function RegisterContainer(containerToRegister) {
     return await axios.post(baseUrl + 'Container/RegisterContainer/', containerToRegister)
 }
+export async function AddContainerToOrder(orderId, containerId) {
+    return await axios.post(baseUrl + 'Container/AddContainerToOrder/' + orderId + '/' + containerId)
+}
 
 //Box
 export async function GetAllBoxes() {
