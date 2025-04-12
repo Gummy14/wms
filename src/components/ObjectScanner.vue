@@ -8,11 +8,14 @@
       :title="scannedObject.objectData.name"
     >
       <v-if v-if="actionSelected == 0">
-        <v-btn @click="selectForPutaway()">Select For Putaway</v-btn>
-        <v-btn @click="selectForPick()">Select For Picking</v-btn>
-        <v-btn @click="selectForPacking()">Pack Items In Container</v-btn>
-        <v-btn @click="selectContainerToAddToOrder()">Add Container To Order</v-btn>
-        <v-btn @click="getHistory(scannedObject.objectData.id, scannedObject.objectType)">Get Object History</v-btn>
+        <v-btn v-if="scannedObject.objectType == 0" @click="selectForPutaway()">Select For Putaway</v-btn>
+        <v-btn v-if="scannedObject.objectType == 0" @click="selectForPick()">Select For Picking</v-btn>
+        <v-btn v-if="scannedObject.objectType == 2" @click="selectForPacking()">Pack Items In Container</v-btn>
+        <v-btn v-if="scannedObject.objectType == 2" @click="selectContainerToAddToOrder()">Add Container To Order</v-btn>
+        <v-btn v-if="scannedObject.objectType == 0" @click="getHistory(scannedObject.objectData.itemId, scannedObject.objectType)">Get Item History</v-btn>
+        <v-btn v-if="scannedObject.objectType == 1" @click="getHistory(scannedObject.objectData.locationId, scannedObject.objectType)">Get Location History</v-btn>
+        <v-btn v-if="scannedObject.objectType == 2" @click="getHistory(scannedObject.objectData.containerId, scannedObject.objectType)">Get Container History</v-btn>
+        <v-btn v-if="scannedObject.objectType == 4" @click="getHistory(scannedObject.objectData.boxId, scannedObject.objectType)">Get Container History</v-btn>
       </v-if>
       <v-else v-if="actionSelected == 1">
         Putaway In Location: {{ putawayLocation.name}}
