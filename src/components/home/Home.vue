@@ -68,11 +68,15 @@ import Containers from '@/components/home/Containers.vue'
 import Orders from '@/components/home/Orders.vue'
 import { ref } from 'vue'
 import { mdiQrcodeScan, mdiPlus } from '@mdi/js'
+import { useStore } from 'vuex'
+
+const store = useStore()
 
 var warehouseObjectListSelection = ref(null)
 var warehouseObjectList = ref([{id: 0, type: 'Items'}, {id: 1, type: 'Locations'}, {id: 2, type: 'Containers'}, {id: 3, type: 'Orders'}])
 var openScanner = ref(false)
 var openRegistration = ref(false)
+
 
 </script>
 

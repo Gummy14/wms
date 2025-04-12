@@ -69,7 +69,9 @@ import {
   AddContainerToOrder
 } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
+import { useStore } from 'vuex'
 
+const store = useStore()
 const props = defineProps({
   orderId: Array
 })
@@ -147,6 +149,7 @@ function addContainerToOrder() {
   AddContainerToOrder(props.orderId, scannedObject.value.objectData.containerId)
   .then(() => {
     resetAll()
+    store.commit('updatePickingMode', true)
   })
 }
 function resetAll() {
