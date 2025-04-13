@@ -4,12 +4,12 @@ const store = createStore({
   devtools: true,
   state () {
     return {
-      isinPickingMode: false
+      activeOrder: null
     }
   },
   mutations: {
-    updatePickingMode (state, value) {
-      state.isinPickingMode = value
+    updateActiveOrder (state, value) {
+      state.activeOrder = value
     }
   }
 })

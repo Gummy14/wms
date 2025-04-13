@@ -83,9 +83,6 @@ export async function GetNextOrderWaitingForPicking() {
 export async function RegisterOrder(order) {
     return await axios.post(baseUrl + 'Order/RegisterOrder/', order)
 }
-export async function AcknowledgeOrder(orderId) {
-    return await axios.post(baseUrl + 'Order/AcknowledgeOrder/' + orderId)
-}
 
 //WMS
 export async function PrintQRCode(objectToRegister) {

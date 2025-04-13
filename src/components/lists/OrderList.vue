@@ -5,10 +5,10 @@
         <v-expansion-panel-title v-slot="{ expanded }">
           <v-row no-gutters>
             <v-col class="d-flex justify-start" cols="4">
-              Order #{{ order.name }}
+              Order #{{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].name }}
             </v-col>
             <v-col class="d-flex justify-end" cols="4">
-              {{ order.status }}
+              {{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].status }}
             </v-col>
           </v-row>
         </v-expansion-panel-title>
@@ -16,8 +16,8 @@
           <v-row>
             <v-col cols="12">
               <v-btn 
-                v-if="order.status == 510"
-                @click="acknowledgeOrder(order.orderId)"
+                v-if="order.orderDataHistory.filter(x => x.nextEventId == null)[0].status == 510"
+                @click="acknowledgeOrder(order.orderDataHistory.filter(x => x.nextEventId == null)[0].orderId)"
               >
                 Acknowledge Order
               </v-btn>
@@ -25,17 +25,23 @@
           </v-row>
           <v-row>
             <v-col>Order ID:</v-col>
-            <v-col>{{ order.orderId }}</v-col>
+            <v-col>{{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].orderId }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
             <v-col>Status:</v-col>
-            <v-col>{{ order.status }}</v-col>
+            <v-col>{{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].status }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
             <v-col>Timestamp Of Last Status Change:</v-col>
-            <v-col>{{ order.dateTimeStamp }}</v-col>
+            <v-col>{{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].dateTimeStamp }}</v-col>
+          </v-row>
+          <v-divider class="border-opacity-25"></v-divider>
+          <v-row>
+            <v-col>Container ID Assigned To Order:</v-col>
+            <v-col v-if="isEmpty(order.containerUsedToFulfillOrder)">No Container Assigned To Fulfill Order</v-col>
+            <v-col v-else>({{ order.containerUsedToFulfillOrder.containerId }})</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
@@ -59,8 +65,6 @@
 import { ref } from 'vue'
 import ItemList from '@/components/lists/ItemList.vue'
 import ObjectScanner from '@/components/ObjectScanner.vue'
-// import { AcknowledgeOrder } from '@/functions/functions'
-// import { mdiTrendingUp } from '@mdi/js'
 
 var openScanner = ref(false)
 var orderIdToAddContainerTo = ref(false)
@@ -68,13 +72,12 @@ const props = defineProps({
   orders: Array
 })
 
+function isEmpty(id) {
+  return id == null ? true : false
+}
 function acknowledgeOrder(orderId) {
   orderIdToAddContainerTo.value = orderId
   openScanner.value = true
-  // AcknowledgeOrder(orderId)
-  // .then(() => {
-  //   console.log("acknowledged")
-  // })
 }
 </script>
 

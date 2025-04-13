@@ -32,6 +32,12 @@
             <v-col>Timestamp Of Last Status Change:</v-col>
             <v-col>{{ container.dateTimeStamp }}</v-col>
           </v-row>
+          <v-divider class="border-opacity-25"></v-divider>
+          <v-row>
+            <v-col>Order ID Using Container:</v-col>
+            <v-col v-if="isEmpty(container.orderId)">No Item In Location</v-col>
+            <v-col v-else>({{ container.orderId }})</v-col>
+          </v-row>
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -42,6 +48,10 @@
 const props = defineProps({
   containers: Array
 })
+
+function isEmpty(id) {
+  return id == null ? true : false
+}
 
 </script>
 

@@ -8,8 +8,8 @@
       :title="scannedObject.objectData.name"
     >
       <v-if v-if="actionSelected == 0">
-        <v-btn v-if="scannedObject.objectType == 0" @click="selectForPutaway()">Select For Putaway</v-btn>
-        <v-btn v-if="scannedObject.objectType == 0" @click="selectForPick()">Select For Picking</v-btn>
+        <v-btn v-if="scannedObject.objectType == 0 && scannedObject.objectData.locationId == null" @click="selectForPutaway()">Select For Putaway</v-btn>
+        <v-btn v-if="scannedObject.objectType == 0 && scannedObject.objectData.locationId != null" @click="selectForPick()">Select For Picking</v-btn>
         <v-btn v-if="scannedObject.objectType == 2" @click="selectForPacking()">Pack Items In Container</v-btn>
         <v-btn v-if="scannedObject.objectType == 2" @click="selectContainerToAddToOrder()">Add Container To Order</v-btn>
         <v-btn v-if="scannedObject.objectType == 0" @click="getHistory(scannedObject.objectData.itemId, scannedObject.objectType)">Get Item History</v-btn>
@@ -150,9 +150,9 @@ function packItemsInContainer() {
 }
 function addContainerToOrder() {
   AddContainerToOrder(props.orderId, scannedObject.value.objectData.containerId)
-  .then(() => {
+  .then(response => {
     resetAll()
-    store.commit('updatePickingMode', true)
+    store.commit('updateActiveOrder', response.data)
   })
 }
 function resetAll() {
