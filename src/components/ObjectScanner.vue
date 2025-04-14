@@ -8,15 +8,65 @@
       :title="scannedObject.objectData.name"
     >
       <v-if v-if="actionSelected == 0">
-        <v-btn v-if="scannedObject.objectType == 0 && scannedObject.objectData.locationId == null" @click="selectForPutaway()">Select For Putaway</v-btn>
-        <v-btn v-if="scannedObject.objectType == 0 && scannedObject.objectData.locationId != null" @click="selectForPick()">Select For Picking</v-btn>
-        <v-btn v-if="scannedObject.objectType == 2" @click="selectForPacking()">Pack Items In Container</v-btn>
-        <v-btn v-if="scannedObject.objectType == 2" @click="selectContainerToAddToOrder()">Add Container To Order</v-btn>
-        <v-btn v-if="scannedObject.objectType == 0" @click="getHistory(scannedObject.objectData.itemId, scannedObject.objectType)">Get Item History</v-btn>
-        <v-btn v-if="scannedObject.objectType == 1" @click="getHistory(scannedObject.objectData.locationId, scannedObject.objectType)">Get Location History</v-btn>
-        <v-btn v-if="scannedObject.objectType == 2" @click="getHistory(scannedObject.objectData.containerId, scannedObject.objectType)">Get Container History</v-btn>
-        <v-btn v-if="scannedObject.objectType == 4" @click="getHistory(scannedObject.objectData.boxId, scannedObject.objectType)">Get Container History</v-btn>
+        <v-btn 
+          v-if="scannedObject.objectType == 0 && 
+          scannedObject.objectData.locationId == null" 
+          @click="selectForPutaway()"
+        >
+          Select For Putaway
+        </v-btn>
+
+        <v-btn 
+          v-if="scannedObject.objectType == 0 && 
+          scannedObject.objectData.locationId != null"
+          @click="selectForPick()"
+        >
+          Select For Picking
+        </v-btn>
+
+        <v-btn
+          v-if="scannedObject.objectType == 2" 
+          @click="selectForPacking()"
+        >
+          Pack Items In Container
+        </v-btn>
+
+        <v-btn 
+          v-if="scannedObject.objectType == 2" 
+          @click="selectContainerToAddToOrder()"
+        >
+          Add Container To Order
+        </v-btn>
+
+        <v-btn 
+          v-if="scannedObject.objectType == 0" 
+          @click="getHistory(scannedObject.objectData.itemId, scannedObject.objectType)"
+        >
+          Get Item History
+        </v-btn>
+
+        <v-btn 
+          v-if="scannedObject.objectType == 1" 
+          @click="getHistory(scannedObject.objectData.locationId, scannedObject.objectType)"
+        >
+          Get Location History
+        </v-btn>
+
+        <v-btn 
+          v-if="scannedObject.objectType == 2"
+          @click="getHistory(scannedObject.objectData.containerId, scannedObject.objectType)"
+        >
+          Get Container History
+        </v-btn>
+
+        <v-btn 
+          v-if="scannedObject.objectType == 4" 
+          @click="getHistory(scannedObject.objectData.boxId, scannedObject.objectType)"
+        >
+          Get Container History
+        </v-btn>
       </v-if>
+
       <v-else v-if="actionSelected == 1">
         Putaway In Location: {{ putawayLocation.name}}
         Scan Correct Location To Putaway Into:
@@ -27,18 +77,14 @@
         </div>
       </v-else>
       <v-else v-if="actionSelected == 2">
-        Scan Container To Pick Into:
-        <Scanner @codeScanned="(emittedData) => scannedContainerToPickInto = emittedData" />
-        <div v-if="scannedContainerToPickInto">
-          Container Scanned
+        Pick Item Into Container: {{ store.state.activeOrder.containerUsedToFulfillOrder.containerId }}
           <v-btn @click="pickItemIntoContainer()">Confirm Pick</v-btn>
-        </div>
       </v-else>
       <v-else v-if="actionSelected == 3">
         History:
         <div v-for="event in historyData">
           <div>
-            {{ event.status }}
+            {{ event.eventType }}
             {{ event.dateTimeStamp }}
           </div>
         </div>
@@ -137,7 +183,7 @@ function putItemInLocation() {
   })
 }
 function pickItemIntoContainer() {
-  PickItem(scannedObject.value.objectData.itemId, scannedContainerToPickInto.value.objectData.containerId)
+  PickItem(scannedObject.value.objectData.itemId, store.state.activeOrder.containerUsedToFulfillOrder.containerId)
   .then(() => {
     resetAll()
   })
@@ -162,6 +208,13 @@ function resetAll() {
     scannedPutawayLocation.value = null
     scannedContainerToPickInto.value = null
 }
+// function isInOrderItems(itemIdToFind) {
+//   if(store.state.activeOrder.orderItems.find(x => x.itemId == itemIdToFind) != undefined) {
+//     return true
+//   } else {
+//     return false
+//   }
+// }
 </script>
 
 <style scoped>

@@ -8,7 +8,7 @@
               Order #{{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].name }}
             </v-col>
             <v-col class="d-flex justify-end" cols="4">
-              {{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].status }}
+              {{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].eventType }}
             </v-col>
           </v-row>
         </v-expansion-panel-title>
@@ -16,7 +16,7 @@
           <v-row>
             <v-col cols="12">
               <v-btn 
-                v-if="order.orderDataHistory.filter(x => x.nextEventId == null)[0].status == 510"
+                v-if="order.orderDataHistory.filter(x => x.nextEventId == null)[0].eventType == 510"
                 @click="acknowledgeOrder(order.orderDataHistory.filter(x => x.nextEventId == null)[0].orderId)"
               >
                 Acknowledge Order
@@ -29,12 +29,12 @@
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
-            <v-col>Status:</v-col>
-            <v-col>{{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].status }}</v-col>
+            <v-col>Event Type:</v-col>
+            <v-col>{{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].eventType }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
-            <v-col>Timestamp Of Last Status Change:</v-col>
+            <v-col>Timestamp Of Last Event Type Change:</v-col>
             <v-col>{{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].dateTimeStamp }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>

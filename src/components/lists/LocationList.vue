@@ -8,7 +8,7 @@
               {{ location.name }}
             </v-col>
             <v-col class="d-flex justify-end" cols="4">
-              {{ location.status }}
+              {{ location.eventType }}
             </v-col>
           </v-row>
         </v-expansion-panel-title>
@@ -24,12 +24,12 @@
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
-            <v-col>Status:</v-col>
-            <v-col>{{ location.status }}</v-col>
+            <v-col>Event Type:</v-col>
+            <v-col>{{ location.eventType }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
-            <v-col>Timestamp Of Last Status Change:</v-col>
+            <v-col>Timestamp Of Last Event Type Change:</v-col>
             <v-col>{{ location.dateTimeStamp }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
