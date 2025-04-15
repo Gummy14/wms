@@ -40,8 +40,8 @@
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
             <v-col>Container ID Assigned To Order:</v-col>
-            <v-col v-if="isEmpty(order.containerUsedToFulfillOrder)">No Container Assigned To Fulfill Order</v-col>
-            <v-col v-else>({{ order.containerUsedToFulfillOrder.containerId }})</v-col>
+            <v-col v-if="isEmpty(order.containerUsedToPickOrder)">No Container Assigned To Fulfill Order</v-col>
+            <v-col v-else>({{ order.containerUsedToPickOrder.containerId }})</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>

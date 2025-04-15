@@ -21,8 +21,8 @@ export async function PutawayItem(itemId, locationId) {
 export async function PickItem(itemId, containerId) {
     return await axios.post(baseUrl + 'Item/PickItem/' + itemId + '/' + containerId)
 }
-export async function PackItems(containerId, boxId) {
-    return await axios.post(baseUrl + 'Item/PackItems/' + containerId + '/' + boxId)
+export async function PackItem(itemId, boxId) {
+    return await axios.post(baseUrl + 'Item/PackItem/' + itemId + '/' + boxId)
 }
 
 //Location
@@ -68,6 +68,9 @@ export async function GetBoxById(id) {
 }
 export async function RegisterBox(boxToRegister) {
     return await axios.post(baseUrl + 'Box/RegisterBox/', boxToRegister)
+}
+export async function AddBoxToOrder(orderId, boxId) {
+    return await axios.post(baseUrl + 'Box/AddBoxToOrder/' + orderId + '/' + boxId)
 }
 
 //Order

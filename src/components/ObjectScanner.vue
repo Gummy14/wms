@@ -24,6 +24,14 @@
           Select For Picking
         </v-btn>
 
+        <v-btn 
+          v-if="scannedObject.objectType == 0 && 
+          scannedObject.objectData.containerId != null"
+          @click="selectForPack()"
+        >
+          Select For Packing
+        </v-btn>
+
         <v-btn
           v-if="scannedObject.objectType == 2" 
           @click="selectForPacking()"
@@ -63,7 +71,7 @@
           v-if="scannedObject.objectType == 4" 
           @click="getHistory(scannedObject.objectData.boxId, scannedObject.objectType)"
         >
-          Get Container History
+          Get Box History
         </v-btn>
       </v-if>
 
@@ -77,8 +85,8 @@
         </div>
       </v-else>
       <v-else v-if="actionSelected == 2">
-        Pick Item Into Container: {{ store.state.activeOrder.containerUsedToFulfillOrder.containerId }}
-          <v-btn @click="pickItemIntoContainer()">Confirm Pick</v-btn>
+        Pick Item Into Container: {{ store.state.activeOrder.containerUsedToPickOrder.containerId }}
+        <v-btn @click="pickItemIntoContainer()">Confirm Pick</v-btn>
       </v-else>
       <v-else v-if="actionSelected == 3">
         History:
@@ -90,16 +98,20 @@
         </div>
       </v-else>
       <v-else v-if="actionSelected == 4">
-        Scan Box To Package Items Into:
+        Scan Box To Pack Items In:
         <Scanner @codeScanned="(emittedData) => scannedBoxToPackInto = emittedData" />
         <div v-if="scannedBoxToPackInto">
           Box Scanned
-          <v-btn @click="packItemsInContainer()">Confirm Pack</v-btn>
+          <v-btn @click="addBoxToOrder()">Confirm Pack Items With Box</v-btn>
         </div>
       </v-else>
       <v-else v-if="actionSelected == 5">
         Scan Container To Add To Order: {{ orderId }}
-        <v-btn @click="addContainerToOrder()">Confirm Pack</v-btn>
+        <v-btn @click="addContainerToOrder()">Confirm Pick Items With Container</v-btn>
+      </v-else>
+      <v-else v-if="actionSelected == 6">
+        Pack Item Into Box: {{ store.state.activeOrder.boxUsedToPackOrder.boxId }}
+        <v-btn @click="packItemIntoBox()">Confirm Pack</v-btn>
       </v-else>
     </v-card>
   </div>
@@ -114,7 +126,8 @@ import {
   GetContainerHistory,
   PutawayItem, 
   PickItem,
-  PackItems,
+  PackItem,
+  AddBoxToOrder,
   AddContainerToOrder
 } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
@@ -142,6 +155,9 @@ function selectForPutaway() {
 }
 function selectForPick() {
   actionSelected.value = 2
+}
+function selectForPack() {
+  actionSelected.value = 6
 }
 function selectForPacking() {
   actionSelected.value = 4
@@ -183,15 +199,22 @@ function putItemInLocation() {
   })
 }
 function pickItemIntoContainer() {
-  PickItem(scannedObject.value.objectData.itemId, store.state.activeOrder.containerUsedToFulfillOrder.containerId)
+  PickItem(scannedObject.value.objectData.itemId, store.state.activeOrder.containerUsedToPickOrder.containerId)
   .then(() => {
     resetAll()
   })
 }
-function packItemsInContainer() {
-  PackItems(scannedObject.value.objectData.containerId, scannedBoxToPackInto.value.objectData.boxId)
+function packItemIntoBox() {
+  PackItem(scannedObject.value.objectData.itemId, store.state.activeOrder.boxUsedToPackOrder.boxId)
   .then(() => {
     resetAll()
+  })
+}
+function addBoxToOrder() {
+  AddBoxToOrder(scannedObject.value.objectData.orderId, scannedBoxToPackInto.value.objectData.boxId)
+  .then(response => {
+    resetAll()
+    store.commit('updateActiveOrder', response.data)
   })
 }
 function addContainerToOrder() {
