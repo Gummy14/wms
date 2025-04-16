@@ -55,9 +55,7 @@ export async function GetContainerHistory(id) {
 export async function RegisterContainer(containerToRegister) {
     return await axios.post(baseUrl + 'Container/RegisterContainer/', containerToRegister)
 }
-export async function AddContainerToOrder(orderId, containerId) {
-    return await axios.post(baseUrl + 'Container/AddContainerToOrder/' + orderId + '/' + containerId)
-}
+
 
 //Box
 export async function GetAllBoxes() {
@@ -85,6 +83,9 @@ export async function GetNextOrderWaitingForPicking() {
 }
 export async function RegisterOrder(order) {
     return await axios.post(baseUrl + 'Order/RegisterOrder/', order)
+}
+export async function AddContainerToOrder(orderId, containerId) {
+    return await axios.post(baseUrl + 'Order/AddContainerToOrder/' + orderId + '/' + containerId)
 }
 export async function CompletePicking(orderId) {
     return await axios.post(baseUrl + 'Order/CompletePicking/' + orderId)
