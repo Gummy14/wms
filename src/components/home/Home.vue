@@ -55,6 +55,16 @@
     >
       <Registration />
     </v-dialog>
+
+    <v-alert
+      v-model="isPickingComplete"
+      color="success"
+      icon="$success"
+      :title="orderName"
+      text="All Items in Order Pick"
+    >
+    <v-btn @click="completePicking()">Complete Picking</v-btn>
+    </v-alert>
   </div>
 </template>
 
@@ -66,9 +76,11 @@ import Items from '@/components/home/Items.vue'
 import Locations from '@/components/home/Locations.vue'
 import Containers from '@/components/home/Containers.vue'
 import Orders from '@/components/home/Orders.vue'
-import { ref } from 'vue'
+import { ref, computed, compile } from 'vue'
 import { mdiQrcodeScan, mdiPlus } from '@mdi/js'
 import { useStore } from 'vuex'
+import { CompletePicking } from '@/functions/functions'
+
 
 const store = useStore()
 
@@ -77,6 +89,28 @@ var warehouseObjectList = ref([{id: 0, type: 'Items'}, {id: 1, type: 'Locations'
 var openScanner = ref(false)
 var openRegistration = ref(false)
 
+const isPickingComplete = computed(() => {
+  if(store.state.activeOrder != null) {
+    var itemStatuses = store.state.activeOrder.orderItems.filter(x => x.nextEventId == null && x.containerId == null)
+    return itemStatuses.length > 0 ? false : true
+  } else {
+    return false
+  }
+  
+})
+const orderName = computed(() => {
+  if(store.state.activeOrder != null) {
+    return "Order #" + store.state.activeOrder.orderDataHistory.filter(x => x.nextEventId == null)[0].name
+  }
+  
+})
+
+function completePicking() {
+  CompletePicking(store.state.activeOrder.id)
+  .then(() => {
+    store.commit('updateActiveOrder', null)
+  })
+}
 
 </script>
 

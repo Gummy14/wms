@@ -18,7 +18,8 @@
 
         <v-btn 
           v-if="scannedObject.objectType == 0 && 
-          scannedObject.objectData.locationId != null"
+          scannedObject.objectData.locationId != null &&
+          scannedObject.objectData.orderId != null"
           @click="selectForPick()"
         >
           Select For Picking
@@ -200,8 +201,9 @@ function putItemInLocation() {
 }
 function pickItemIntoContainer() {
   PickItem(scannedObject.value.objectData.itemId, store.state.activeOrder.containerUsedToPickOrder.containerId)
-  .then(() => {
+  .then(response => {
     resetAll()
+    store.commit('updateActiveOrder', response.data)
   })
 }
 function packItemIntoBox() {
