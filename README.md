@@ -1,5 +1,5 @@
-# Kepler WMS Frontend
-# Designed For Warehouse Inventory Tracking
+# SWIMMING Frontend
+# Software for Warehouse Inventory Management, Monitoring, Integration and Numerical Guidance
 
 This template should help get you started developing with Vue 3 in Vite.
 
