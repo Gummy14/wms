@@ -66,9 +66,6 @@ export async function GetBoxById(id) {
 export async function RegisterBox(boxToRegister) {
     return await axios.post(baseUrl + 'Box/RegisterBox/', boxToRegister)
 }
-export async function PrintShippingLabel(boxId) {
-    return await axios.post(baseUrl + 'Box/PrintShippingLabel/' + boxId)
-}
 
 //Order
 export async function GetAllOrders() {
@@ -91,6 +88,9 @@ export async function AddBoxToOrder(orderId, boxId) {
 }
 export async function RemoveContainerFromOrder(containerId) {
     return await axios.post(baseUrl + 'Order/RemoveContainerFromOrder/' + containerId)
+}
+export async function PrintShippingLabel(boxId) {
+    return await axios.post(baseUrl + 'Order/PrintShippingLabel/' + boxId)
 }
 
 //WMS

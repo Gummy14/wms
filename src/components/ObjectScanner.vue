@@ -47,13 +47,6 @@
           Add Container To Order
         </v-btn>
 
-        <!-- <v-btn 
-          v-if="scannedObject.objectType == 4" 
-          @click="confirmBoxSealed()"
-        >
-          Confirm Box Sealed
-        </v-btn> -->
-
         <v-btn 
           v-if="scannedObject.objectType == 4" 
           @click="getShippingLabel()"
@@ -183,9 +176,6 @@ function selectForPacking() {
 }
 function selectContainerToAddToOrder() {
   actionSelected.value = 5
-}
-function confirmBoxSealed() {
-  actionSelected.value = 7
 }
 function getShippingLabel() {
   actionSelected.value = 8

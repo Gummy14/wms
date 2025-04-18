@@ -70,9 +70,9 @@
       color="success"
       icon="$success"
       :title="orderName"
-      text="All Items in Order Packed, Return Container"
+      text="All Items in Order Packed. Seal Box and Return Container"
     >
-    <v-btn @click="returnContainer()">Return Container</v-btn>
+    <v-btn @click="returnContainer()">Confirm Box Sealed and Return Container</v-btn>
     </v-alert>
   </div>
 </template>
