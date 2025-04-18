@@ -47,6 +47,20 @@
           Add Container To Order
         </v-btn>
 
+        <!-- <v-btn 
+          v-if="scannedObject.objectType == 4" 
+          @click="confirmBoxSealed()"
+        >
+          Confirm Box Sealed
+        </v-btn> -->
+
+        <v-btn 
+          v-if="scannedObject.objectType == 4" 
+          @click="getShippingLabel()"
+        >
+          Create Shipping Label
+        </v-btn>
+
         <v-btn 
           v-if="scannedObject.objectType == 0" 
           @click="getHistory(scannedObject.objectData.itemId, scannedObject.objectType)"
@@ -86,7 +100,7 @@
         </div>
       </v-else>
       <v-else v-if="actionSelected == 2">
-        Pick Item Into Container: {{ store.state.activeOrder.containerUsedToPickOrder.containerId }}
+        Pick Item Into Container: {{ store.state.activeOrder.containerUsedToPickOrder.filter(x => x.nextEventId == null)[0].containerId }}
         <v-btn @click="pickItemIntoContainer()">Confirm Pick</v-btn>
       </v-else>
       <v-else v-if="actionSelected == 3">
@@ -111,8 +125,16 @@
         <v-btn @click="addContainerToOrder()">Confirm Pick Items With Container</v-btn>
       </v-else>
       <v-else v-if="actionSelected == 6">
-        Pack Item Into Box: {{ store.state.activeOrder.boxUsedToPackOrder.boxId }}
+        Pack Item Into Box: {{ store.state.activeOrder.boxUsedToPackOrder.filter(x => x.nextEventId == null)[0].boxId }}
         <v-btn @click="packItemIntoBox()">Confirm Pack</v-btn>
+      </v-else>
+      <!-- <v-else v-if="actionSelected == 7">
+        {{ scannedObject.objectData.boxId }}
+        <v-btn @click="sealBox()">Confirm Box Sealed</v-btn>
+      </v-else> -->
+      <v-else v-if="actionSelected == 8">
+        {{ scannedObject.objectData.boxId }}
+        <v-btn @click="printShippingLabel()">Print Shipping Label</v-btn>
       </v-else>
     </v-card>
   </div>
@@ -129,7 +151,9 @@ import {
   PickItem,
   PackItem,
   AddBoxToOrder,
-  AddContainerToOrder
+  AddContainerToOrder,
+  // SealBox,
+  PrintShippingLabel
 } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 import { useStore } from 'vuex'
@@ -166,6 +190,12 @@ function selectForPacking() {
 function selectContainerToAddToOrder() {
   actionSelected.value = 5
 }
+function confirmBoxSealed() {
+  actionSelected.value = 7
+}
+function getShippingLabel() {
+  actionSelected.value = 8
+}
 function getHistory(scannedObjectId, scannedObjectType) {
   switch(scannedObjectType) {
       case 0:
@@ -200,16 +230,17 @@ function putItemInLocation() {
   })
 }
 function pickItemIntoContainer() {
-  PickItem(scannedObject.value.objectData.itemId, store.state.activeOrder.containerUsedToPickOrder.containerId)
+  PickItem(scannedObject.value.objectData.itemId, store.state.activeOrder.containerUsedToPickOrder.filter(x => x.nextEventId == null)[0].containerId)
   .then(response => {
     resetAll()
     store.commit('updateActiveOrder', response.data)
   })
 }
 function packItemIntoBox() {
-  PackItem(scannedObject.value.objectData.itemId, store.state.activeOrder.boxUsedToPackOrder.boxId)
-  .then(() => {
+  PackItem(scannedObject.value.objectData.itemId, store.state.activeOrder.boxUsedToPackOrder.filter(x => x.nextEventId == null)[0].boxId)
+  .then(response => {
     resetAll()
+    store.commit('updateActiveOrder', response.data)
   })
 }
 function addBoxToOrder() {
@@ -226,6 +257,19 @@ function addContainerToOrder() {
     store.commit('updateActiveOrder', response.data)
   })
 }
+// function sealBox() {
+//   SealBox(scannedObject.value.objectData.boxId)
+//   .then(() => {
+//     resetAll()
+//     store.commit('updateActiveOrder', null)
+//   })
+// }
+function printShippingLabel() {
+  PrintShippingLabel(scannedObject.value.objectData.boxId)
+  .then(() => {
+    console.log('Label Printed')
+  })
+}
 function resetAll() {
     actionSelected.value = 0
     putawayLocation.value = null
@@ -233,13 +277,6 @@ function resetAll() {
     scannedPutawayLocation.value = null
     scannedContainerToPickInto.value = null
 }
-// function isInOrderItems(itemIdToFind) {
-//   if(store.state.activeOrder.orderItems.find(x => x.itemId == itemIdToFind) != undefined) {
-//     return true
-//   } else {
-//     return false
-//   }
-// }
 </script>
 
 <style scoped>

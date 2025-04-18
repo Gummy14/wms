@@ -61,9 +61,18 @@
       color="success"
       icon="$success"
       :title="orderName"
-      text="All Items in Order Pick"
+      text="All Items in Order Picked, Move to Packing"
     >
     <v-btn @click="completePicking()">Complete Picking</v-btn>
+    </v-alert>
+    <v-alert
+      v-model="isPackingComplete"
+      color="success"
+      icon="$success"
+      :title="orderName"
+      text="All Items in Order Packed, Return Container"
+    >
+    <v-btn @click="returnContainer()">Return Container</v-btn>
     </v-alert>
   </div>
 </template>
@@ -79,7 +88,7 @@ import Orders from '@/components/home/Orders.vue'
 import { ref, computed, compile } from 'vue'
 import { mdiQrcodeScan, mdiPlus } from '@mdi/js'
 import { useStore } from 'vuex'
-import { CompletePicking } from '@/functions/functions'
+import { RemoveContainerFromOrder } from '@/functions/functions'
 
 
 const store = useStore()
@@ -96,17 +105,26 @@ const isPickingComplete = computed(() => {
   } else {
     return false
   }
-  
+})
+const isPackingComplete = computed(() => {
+  if(store.state.activeOrder != null) {
+    var itemStatuses = store.state.activeOrder.orderItems.filter(x => x.nextEventId == null && x.boxId == null)
+    return itemStatuses.length > 0 ? false : true
+  } else {
+    return false
+  }
 })
 const orderName = computed(() => {
   if(store.state.activeOrder != null) {
     return "Order #" + store.state.activeOrder.orderDataHistory.filter(x => x.nextEventId == null)[0].name
   }
-  
 })
 
 function completePicking() {
-  CompletePicking(store.state.activeOrder.id)
+  store.commit('updateActiveOrder', null)
+}
+function returnContainer() {
+  RemoveContainerFromOrder(store.state.activeOrder.containerUsedToPickOrder.filter(x => x.nextEventId == null)[0].containerId)
   .then(() => {
     store.commit('updateActiveOrder', null)
   })
