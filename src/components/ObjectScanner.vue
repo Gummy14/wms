@@ -128,10 +128,6 @@
         Pack Item Into Box: {{ store.state.activeOrder.boxUsedToPackOrder.filter(x => x.nextEventId == null)[0].boxId }}
         <v-btn @click="packItemIntoBox()">Confirm Pack</v-btn>
       </v-else>
-      <!-- <v-else v-if="actionSelected == 7">
-        {{ scannedObject.objectData.boxId }}
-        <v-btn @click="sealBox()">Confirm Box Sealed</v-btn>
-      </v-else> -->
       <v-else v-if="actionSelected == 8">
         {{ scannedObject.objectData.boxId }}
         <v-btn @click="printShippingLabel()">Print Shipping Label</v-btn>
@@ -152,7 +148,6 @@ import {
   PackItem,
   AddBoxToOrder,
   AddContainerToOrder,
-  // SealBox,
   PrintShippingLabel
 } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
@@ -257,13 +252,6 @@ function addContainerToOrder() {
     store.commit('updateActiveOrder', response.data)
   })
 }
-// function sealBox() {
-//   SealBox(scannedObject.value.objectData.boxId)
-//   .then(() => {
-//     resetAll()
-//     store.commit('updateActiveOrder', null)
-//   })
-// }
 function printShippingLabel() {
   PrintShippingLabel(scannedObject.value.objectData.boxId)
   .then(() => {

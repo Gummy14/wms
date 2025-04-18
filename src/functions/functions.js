@@ -66,9 +66,6 @@ export async function GetBoxById(id) {
 export async function RegisterBox(boxToRegister) {
     return await axios.post(baseUrl + 'Box/RegisterBox/', boxToRegister)
 }
-// export async function SealBox(boxId) {
-//     return await axios.post(baseUrl + 'Box/SealBox/' + boxId)
-// }
 export async function PrintShippingLabel(boxId) {
     return await axios.post(baseUrl + 'Box/PrintShippingLabel/' + boxId)
 }
