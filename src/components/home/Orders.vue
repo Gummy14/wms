@@ -21,12 +21,11 @@
   
 <script setup>
 import { ref, onMounted } from 'vue'
-import { GetAllItems, GetAllOrders, GetAllEventTypes, RegisterOrder } from '@/functions/functions'
+import { GetAllItems, GetAllOrders, RegisterOrder } from '@/functions/functions'
 import OrderList from '@/components/lists/OrderList.vue'
 
 var allOrders = ref(null)
 var allItems = ref(null)
-var eventTypes = ref(null)
 var orderToRegister = ref({
   orderItems: [],
   address: {
@@ -52,12 +51,6 @@ function getAllOrders() {
     allOrders.value = response.data
   })
 }
-function getAllEventTypes() {
-  GetAllEventTypes()
-  .then(response => {
-    eventTypes.value = response.data
-  })
-}
 function registerOrder() {
   RegisterOrder(orderToRegister.value)
   .then(() => {
@@ -70,7 +63,6 @@ function addItemToOrder(item) {
 
 onMounted(() => {
   getAllOrders()
-  getAllEventTypes()
 })
 </script>
 

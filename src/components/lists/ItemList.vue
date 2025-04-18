@@ -7,9 +7,6 @@
             <v-col class="d-flex justify-start" cols="8">
               {{ item.name }}
             </v-col>
-            <v-col class="d-flex justify-end" cols="4">
-              {{ item.eventType }}
-            </v-col>
           </v-row>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
@@ -39,11 +36,6 @@
             <v-col>Order:</v-col>
             <v-col v-if="isEmpty(item.orderId)">Not Currently Part of Any Order</v-col>
             <v-col v-else>{{ item.orderName }} ({{ item.orderId }})</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Event Type:</v-col>
-            <v-col>{{ item.eventType }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>

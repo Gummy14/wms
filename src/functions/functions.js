@@ -97,8 +97,3 @@ export async function RemoveContainerFromOrder(containerId) {
 export async function PrintQRCode(objectToRegister) {
     return await axios.post(baseUrl + 'WMS/PrintQRCode/', objectToRegister)
 }
-
-//EventTypes
-export async function GetAllEventTypes() {
-    return await axios.get(baseUrl + 'EventTypes/GetAllEventTypes/')
-}

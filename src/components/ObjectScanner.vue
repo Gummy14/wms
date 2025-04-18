@@ -107,7 +107,6 @@
         History:
         <div v-for="event in historyData">
           <div>
-            {{ event.eventType }}
             {{ event.dateTimeStamp }}
           </div>
         </div>

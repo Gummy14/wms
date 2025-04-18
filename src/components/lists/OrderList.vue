@@ -7,16 +7,13 @@
             <v-col class="d-flex justify-start" cols="4">
               Order #{{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].name }}
             </v-col>
-            <v-col class="d-flex justify-end" cols="4">
-              {{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].eventType }}
-            </v-col>
           </v-row>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
           <v-row>
             <v-col cols="12">
               <v-btn 
-                v-if="order.orderDataHistory.filter(x => x.nextEventId == null)[0].eventType == 510"
+                v-if="order.orderDataHistory.filter(x => x.nextEventId == null)[0].acknowledged == 0"
                 @click="acknowledgeOrder(order.orderDataHistory.filter(x => x.nextEventId == null)[0].orderId)"
               >
                 Acknowledge Order
@@ -26,11 +23,6 @@
           <v-row>
             <v-col>Order ID:</v-col>
             <v-col>{{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].orderId }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Event Type:</v-col>
-            <v-col>{{ order.orderDataHistory.filter(x => x.nextEventId == null)[0].eventType }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>

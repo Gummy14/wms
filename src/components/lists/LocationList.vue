@@ -7,9 +7,6 @@
             <v-col class="d-flex justify-start" cols="8">
               {{ location.name }}
             </v-col>
-            <v-col class="d-flex justify-end" cols="4">
-              {{ location.eventType }}
-            </v-col>
           </v-row>
         </v-expansion-panel-title>
         <v-expansion-panel-text>
@@ -21,11 +18,6 @@
           <v-row>
             <v-col>Location ID:</v-col>
             <v-col>{{ location.locationId }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Event Type:</v-col>
-            <v-col>{{ location.eventType }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
