@@ -11,15 +11,15 @@
         </v-expansion-panel-title>
         <v-expansion-panel-text>
           <v-row>
-          <v-col cols="12">
-            <v-btn 
-              v-if="shipment.truckData.length == 0"
-              @click="addTruck(shipment.id)"
-            >
-              Add Truck To Shipment
-            </v-btn>
-          </v-col>
-        </v-row>
+            <v-col cols="12">
+              <v-btn 
+                v-if="shipment.truckData.length == 0"
+                @click="addTruck(shipment.id)"
+              >
+                Add Truck To Shipment
+              </v-btn>
+            </v-col>
+          </v-row>
           <v-row>
             <v-col>Description:</v-col>
             <v-col>{{ shipment.shipmentDataHistory.filter(x => x.nextEventId == null)[0].description }}</v-col>

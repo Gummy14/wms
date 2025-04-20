@@ -108,6 +108,9 @@ export async function AddTruckToShipment(shipmentId, licensePlate) {
 export async function GetAllTrucks() {
     return await axios.get(baseUrl + 'Truck/GetAllTrucks/')
 }
+export async function TruckDeparted(truckId) {
+    return await axios.post(baseUrl + 'Truck/TruckDeparted/' + truckId)
+}
 
 
 //WMS
