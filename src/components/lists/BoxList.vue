@@ -17,7 +17,7 @@
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>
             <v-col>Box ID:</v-col>
-            <v-col>{{ box.id }}</v-col>
+            <v-col>{{ box.boxId }}</v-col>
           </v-row>
           <v-divider class="border-opacity-25"></v-divider>
           <v-row>

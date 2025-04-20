@@ -13,8 +13,8 @@
           <v-row>
             <v-col cols="12">
               <v-btn 
-                v-if="order.orderDataHistory.filter(x => x.nextEventId == null)[0].acknowledged == 0"
-                @click="acknowledgeOrder(order.orderDataHistory.filter(x => x.nextEventId == null)[0].orderId)"
+                v-if="order.containerUsedToPickOrder.length == 0"
+                @click="acknowledgeOrder(order.id)"
               >
                 Acknowledge Order
               </v-btn>

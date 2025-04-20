@@ -4,12 +4,16 @@ const store = createStore({
   devtools: true,
   state () {
     return {
-      activeOrder: null
+      activeOrder: null,
+      activeShipment: null
     }
   },
   mutations: {
     updateActiveOrder (state, value) {
       state.activeOrder = value
+    },
+    updateActiveShipment (state, value) {
+      state.activeShipment = value
     }
   }
 })

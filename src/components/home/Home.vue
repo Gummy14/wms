@@ -41,6 +41,15 @@
     <div v-else-if="warehouseObjectListSelection == 3">
       <Orders />
     </div>
+    <div v-else-if="warehouseObjectListSelection == 4">
+      <Boxes />
+    </div>
+    <div v-else-if="warehouseObjectListSelection == 5">
+      <Shipments />
+    </div>
+    <div v-else-if="warehouseObjectListSelection == 6">
+      <Trucks />
+    </div>
 
     <v-dialog 
       v-model="openScanner"
@@ -85,6 +94,9 @@ import Items from '@/components/home/Items.vue'
 import Locations from '@/components/home/Locations.vue'
 import Containers from '@/components/home/Containers.vue'
 import Orders from '@/components/home/Orders.vue'
+import Boxes from '@/components/home/Boxes.vue'
+import Shipments from '@/components/home/Shipments.vue'
+import Trucks from '@/components/home/Trucks.vue'
 import { ref, computed, compile } from 'vue'
 import { mdiQrcodeScan, mdiPlus } from '@mdi/js'
 import { useStore } from 'vuex'
@@ -94,7 +106,15 @@ import { RemoveContainerFromOrder } from '@/functions/functions'
 const store = useStore()
 
 var warehouseObjectListSelection = ref(null)
-var warehouseObjectList = ref([{id: 0, type: 'Items'}, {id: 1, type: 'Locations'}, {id: 2, type: 'Containers'}, {id: 3, type: 'Orders'}])
+var warehouseObjectList = ref([
+{id: 0, type: 'Items'}, 
+{id: 1, type: 'Locations'}, 
+{id: 2, type: 'Containers'}, 
+{id: 3, type: 'Orders'},
+{id: 4, type: 'Boxes'},
+{id: 5, type: 'Shipments'},
+{id: 6, type: 'Trucks'}
+])
 var openScanner = ref(false)
 var openRegistration = ref(false)
 

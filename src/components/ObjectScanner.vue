@@ -49,9 +49,15 @@
 
         <v-btn 
           v-if="scannedObject.objectType == 4" 
-          @click="getShippingLabel()"
+          @click="selectBoxToAddToShipment()"
         >
-          Create Shipping Label
+          Add To Shipment
+        </v-btn>
+        <v-btn 
+          v-if="scannedObject.objectType == 4" 
+          @click="selectBoxToAddToTruck()"
+        >
+          Add To Truck
         </v-btn>
 
         <v-btn 
@@ -122,7 +128,11 @@
       </v-else>
       <v-else v-if="actionSelected == 8">
         {{ scannedObject.objectData.boxId }}
-        <v-btn @click="printShippingLabel()">Print Shipping Label</v-btn>
+        <v-btn @click="addToShipment()">Print Shipping Label</v-btn>
+      </v-else>
+      <v-else v-if="actionSelected == 9">
+        {{ scannedObject.objectData.boxId }}
+        <v-btn @click="addToTruck()">Add Box To Truck</v-btn>
       </v-else>
     </v-card>
   </div>
@@ -140,7 +150,8 @@ import {
   PackItem,
   AddBoxToOrder,
   AddContainerToOrder,
-  PrintShippingLabel
+  AddBoxToShipment,
+  AddBoxToTruck
 } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 import { useStore } from 'vuex'
@@ -177,8 +188,11 @@ function selectForPacking() {
 function selectContainerToAddToOrder() {
   actionSelected.value = 5
 }
-function getShippingLabel() {
+function selectBoxToAddToShipment() {
   actionSelected.value = 8
+}
+function selectBoxToAddToTruck() {
+  actionSelected.value = 9
 }
 function getHistory(scannedObjectId, scannedObjectType) {
   switch(scannedObjectType) {
@@ -241,10 +255,16 @@ function addContainerToOrder() {
     store.commit('updateActiveOrder', response.data)
   })
 }
-function printShippingLabel() {
-  PrintShippingLabel(scannedObject.value.objectData.boxId)
+function addToShipment() {
+  AddBoxToShipment(scannedObject.value.objectData.boxId)
   .then(() => {
     console.log('Label Printed')
+  })
+}
+function addToTruck() {
+  AddBoxToTruck(scannedObject.value.objectData.boxId, store.state.activeShipment.truckData[0].id)
+  .then(response => {
+    store.commit('updateActiveShipment', response.data)
   })
 }
 function resetAll() {
