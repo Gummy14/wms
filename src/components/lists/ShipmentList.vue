@@ -1,42 +1,29 @@
 <template>
   <div>
-    <v-expansion-panels variant="accordion">
-      <v-expansion-panel v-for="shipment in shipments">
-        <v-expansion-panel-title v-slot="{ expanded }">
-          <v-row no-gutters>
-            <v-col class="d-flex justify-start" cols="8">
-              {{ shipment.shipmentDataHistory.filter(x => x.nextEventId == null)[0].name }}
-            </v-col>
-          </v-row>
-        </v-expansion-panel-title>
-        <v-expansion-panel-text>
-          <v-row>
-            <v-col cols="12">
-              <v-btn 
-                v-if="shipment.truckData.length == 0"
-                @click="addTruck(shipment.id)"
-              >
-                Add Truck To Shipment
-              </v-btn>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>Description:</v-col>
-            <v-col>{{ shipment.shipmentDataHistory.filter(x => x.nextEventId == null)[0].description }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Shipment ID:</v-col>
-            <v-col>{{ shipment.Id }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Timestamp Of Last Event Type Change:</v-col>
-            <v-col>{{ shipment.shipmentDataHistory.filter(x => x.nextEventId == null)[0].dateTimeStamp }}</v-col>
-          </v-row>
-        </v-expansion-panel-text>
-      </v-expansion-panel>
-    </v-expansion-panels>
+    <v-list v-for="shipment in shipments">
+      <v-list-item 
+        :title="shipment.shipmentDataHistory.find(x => x.nextEventId == null).name"
+        :subtitle="shipment.id"
+      >
+        <v-list-group>
+          <template v-slot:activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              :title="shipment.shipmentDataHistory.find(x => x.nextEventId == null).dateTimeStamp"
+            >
+            </v-list-item>
+          </template>
+            
+          <v-list-item
+            v-for="shipmentDataHistoryEvent in shipment.shipmentDataHistory"
+            :key="shipmentDataHistoryEvent.eventId"
+            :title="shipmentDataHistoryEvent.dateTimeStamp"
+          >
+          </v-list-item>
+
+        </v-list-group>
+      </v-list-item>
+    </v-list>
     <v-dialog 
       v-model="openDialog"
       max-width="400"

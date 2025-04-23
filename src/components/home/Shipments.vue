@@ -22,7 +22,6 @@ var allShipments = ref(null)
 onMounted(() => {
   GetAllShipments()
   .then(response => {
-    console.log('test', response.data)
     allShipments.value = response.data
     retrievedAllShipments.value = true
   })

@@ -1,54 +1,38 @@
 <template>
   <div>
-    <v-expansion-panels variant="accordion">
-      <v-expansion-panel v-for="item in items">
-        <v-expansion-panel-title v-slot="{ expanded }">
-          <v-row no-gutters>
-            <v-col class="d-flex justify-start" cols="8">
-              {{ item.name }}
-            </v-col>
-          </v-row>
-        </v-expansion-panel-title>
-        <v-expansion-panel-text>
-          <v-row>
-            <v-col>Description:</v-col>
-            <v-col>{{ item.description }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Item ID:</v-col>
-            <v-col>{{ item.itemId }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Location:</v-col>
-            <v-col v-if="isEmpty(item.locationId)">Not Currently In Any Storage Location</v-col>
-            <v-col v-else>{{ item.locationName }} ({{ item.locationId }})</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Container:</v-col>
-            <v-col v-if="isEmpty(item.containerId)">Not Currently In Any Container</v-col>
-            <v-col v-else>{{ item.containerName }} ({{ item.containerId }})</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Order:</v-col>
-            <v-col v-if="isEmpty(item.orderId)">Not Currently Part of Any Order</v-col>
-            <v-col v-else>{{ item.orderName }} ({{ item.orderId }})</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Timestamp Of Last Event Type Change:</v-col>
-            <v-col>{{ item.dateTimeStamp }}</v-col>
-          </v-row>
-        </v-expansion-panel-text>
-      </v-expansion-panel>
-    </v-expansion-panels>
+    <v-list v-for="item in items">
+      <v-list-item 
+        :title="item.itemDataHistory.find(x => x.nextEventId == null).name"
+        :subtitle="item.id"
+      >
+        <ItemDataTemplate 
+          :item-data="item.itemDataHistory.find(x => x.nextEventId == null)"
+        >
+        </ItemDataTemplate>
+
+        <v-list-group v-if="item.itemDataHistory.length > 1">
+          <template v-slot:activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              title="History"
+            >
+            </v-list-item>
+          </template>
+          <v-list-item
+            v-for="itemDataHistoryEvent in item.itemDataHistory.filter(x => x.nextEventId != null)"
+            :key="itemDataHistoryEvent.eventId"
+            :title="itemDataHistoryEvent.dateTimeStamp"
+          >
+          </v-list-item>
+        </v-list-group>
+      </v-list-item>
+      <v-divider></v-divider>
+    </v-list>
   </div>
 </template>
 
 <script setup>
+import ItemDataTemplate from '@/components/lists/ObjectDataTemplate/ItemDataTemplate.vue'
 const props = defineProps({
   items: Array
 })

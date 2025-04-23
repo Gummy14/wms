@@ -142,12 +142,9 @@
 import { ref } from 'vue'
 import { 
   GetPutawayLocation,
-  GetItemHistory,
-  GetLocationHistory,
-  GetContainerHistory,
-  PutawayItem, 
-  PickItem,
-  PackItem,
+  PutawayItemIntoLocation, 
+  PickItemIntoContainer,
+  PackItemIntoBox,
   AddBoxToOrder,
   AddContainerToOrder,
   AddBoxToShipment,
@@ -222,20 +219,20 @@ function getHistory(scannedObjectId, scannedObjectType) {
     }
 }
 function putItemInLocation() {
-  PutawayItem(scannedObject.value.objectData.itemId, scannedPutawayLocation.value.objectData.locationId)
+  PutawayItemIntoLocation(scannedObject.value.objectData.itemId, scannedPutawayLocation.value.objectData.locationId)
   .then(() => {
     resetAll()
   })
 }
 function pickItemIntoContainer() {
-  PickItem(scannedObject.value.objectData.itemId, store.state.activeOrder.containerUsedToPickOrder.filter(x => x.nextEventId == null)[0].containerId)
+  PickItemIntoContainer(scannedObject.value.objectData.itemId, store.state.activeOrder.containerUsedToPickOrder.filter(x => x.nextEventId == null)[0].containerId)
   .then(response => {
     resetAll()
     store.commit('updateActiveOrder', response.data)
   })
 }
 function packItemIntoBox() {
-  PackItem(scannedObject.value.objectData.itemId, store.state.activeOrder.boxUsedToPackOrder.filter(x => x.nextEventId == null)[0].boxId)
+  PackItemIntoBox(scannedObject.value.objectData.itemId, store.state.activeOrder.boxUsedToPackOrder.filter(x => x.nextEventId == null)[0].boxId)
   .then(response => {
     resetAll()
     store.commit('updateActiveOrder', response.data)

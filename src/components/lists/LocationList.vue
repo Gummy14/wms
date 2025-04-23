@@ -1,38 +1,29 @@
 <template>
   <div>
-    <v-expansion-panels variant="accordion">
-      <v-expansion-panel v-for="location in locations">
-        <v-expansion-panel-title v-slot="{ expanded }">
-          <v-row no-gutters>
-            <v-col class="d-flex justify-start" cols="8">
-              {{ location.name }}
-            </v-col>
-          </v-row>
-        </v-expansion-panel-title>
-        <v-expansion-panel-text>
-          <v-row>
-            <v-col>Description:</v-col>
-            <v-col>{{ location.description }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Location ID:</v-col>
-            <v-col>{{ location.locationId }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Timestamp Of Last Event Type Change:</v-col>
-            <v-col>{{ location.dateTimeStamp }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Item ID:</v-col>
-            <v-col v-if="isEmpty(location.itemId)">No Item In Location</v-col>
-            <v-col v-else>{{ location.itemName }} ({{ location.itemId }})</v-col>
-          </v-row>
-        </v-expansion-panel-text>
-      </v-expansion-panel>
-    </v-expansion-panels>
+    <v-list v-for="location in locations">
+      <v-list-item 
+        :title="location.locationDataHistory.find(x => x.nextEventId == null).name"
+        :subtitle="location.id"
+      >
+        <v-list-group>
+          <template v-slot:activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              :title="location.locationDataHistory.find(x => x.nextEventId == null).dateTimeStamp"
+            >
+            </v-list-item>
+          </template>
+            
+          <v-list-item
+            v-for="locationDataHistoryEvent in location.locationDataHistory"
+            :key="locationDataHistoryEvent.eventId"
+            :title="locationDataHistoryEvent.dateTimeStamp"
+          >
+          </v-list-item>
+
+        </v-list-group>
+      </v-list-item>
+    </v-list>
   </div>
 </template>
   

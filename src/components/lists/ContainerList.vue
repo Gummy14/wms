@@ -1,38 +1,29 @@
 <template>
   <div>
-    <v-expansion-panels variant="accordion">
-      <v-expansion-panel v-for="container in containers">
-        <v-expansion-panel-title v-slot="{ expanded }">
-          <v-row no-gutters>
-            <v-col class="d-flex justify-start" cols="8">
-              {{ container.name }}
-            </v-col>
-          </v-row>
-        </v-expansion-panel-title>
-        <v-expansion-panel-text>
-          <v-row>
-            <v-col>Description:</v-col>
-            <v-col>{{ container.description }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Container ID:</v-col>
-            <v-col>{{ container.containerId }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Timestamp Of Last Event Type Change:</v-col>
-            <v-col>{{ container.dateTimeStamp }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Order ID Using Container:</v-col>
-            <v-col v-if="isEmpty(container.orderId)">No Item In Location</v-col>
-            <v-col v-else>({{ container.orderId }})</v-col>
-          </v-row>
-        </v-expansion-panel-text>
-      </v-expansion-panel>
-    </v-expansion-panels>
+    <v-list v-for="container in containers">
+      <v-list-item 
+        :title="container.containerDataHistory.find(x => x.nextEventId == null).name"
+        :subtitle="container.id"
+      >
+        <v-list-group>
+          <template v-slot:activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              :title="container.containerDataHistory.find(x => x.nextEventId == null).dateTimeStamp"
+            >
+            </v-list-item>
+          </template>
+            
+          <v-list-item
+            v-for="containerDataHistoryEvent in container.itemDataHistory"
+            :key="containerDataHistoryEvent.eventId"
+            :title="containerDataHistoryEvent.dateTimeStamp"
+          >
+          </v-list-item>
+
+        </v-list-group>
+      </v-list-item>
+    </v-list>
   </div>
 </template>
 

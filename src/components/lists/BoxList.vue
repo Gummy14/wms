@@ -1,32 +1,29 @@
 <template>
   <div>
-    <v-expansion-panels variant="accordion">
-      <v-expansion-panel v-for="box in boxes">
-        <v-expansion-panel-title v-slot="{ expanded }">
-          <v-row no-gutters>
-            <v-col class="d-flex justify-start" cols="8">
-              {{ box.name }}
-            </v-col>
-          </v-row>
-        </v-expansion-panel-title>
-        <v-expansion-panel-text>
-          <v-row>
-            <v-col>Description:</v-col>
-            <v-col>{{ box.description }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Box ID:</v-col>
-            <v-col>{{ box.boxId }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Timestamp Of Last Event Type Change:</v-col>
-            <v-col>{{ box.dateTimeStamp }}</v-col>
-          </v-row>
-        </v-expansion-panel-text>
-      </v-expansion-panel>
-    </v-expansion-panels>
+    <v-list v-for="box in boxes">
+      <v-list-item 
+        :title="box.boxDataHistory.find(x => x.nextEventId == null).name"
+        :subtitle="box.id"
+      >
+        <v-list-group>
+          <template v-slot:activator="{ props }">
+            <v-list-item
+              v-bind="props"
+              :title="box.boxDataHistory.find(x => x.nextEventId == null).dateTimeStamp"
+            >
+            </v-list-item>
+          </template>
+            
+          <v-list-item
+            v-for="boxDataHistoryEvent in box.boxDataHistory"
+            :key="boxDataHistoryEvent.eventId"
+            :title="boxDataHistoryEvent.dateTimeStamp"
+          >
+          </v-list-item>
+
+        </v-list-group>
+      </v-list-item>
+    </v-list>
   </div>
 </template>
 
