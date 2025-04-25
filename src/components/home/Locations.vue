@@ -4,23 +4,21 @@
       <v-progress-circular indeterminate></v-progress-circular>
     </div>
     <div v-else>
-      <v-card>
-        <LocationList :locations="allLocations" />
-      </v-card>
+      <LocationList :locations="allLocations" />
     </div>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllLocations } from '@/functions/functions'
+import { GetAllLocationsMostRecentData } from '@/functions/functions'
 import LocationList from '@/components/lists/LocationList.vue'
 
 var retrievedAllLocations = ref(false)
 var allLocations = ref(null)
 
 onMounted(() => {
-  GetAllLocations()
+  GetAllLocationsMostRecentData()
   .then(response => {
     allLocations.value = response.data
     retrievedAllLocations.value = true

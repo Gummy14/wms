@@ -4,23 +4,21 @@
       <v-progress-circular indeterminate></v-progress-circular>
     </div>
     <div v-else>
-      <v-card>
-        <ContainerList :containers="allContainers" />
-      </v-card>
+      <ContainerList :containers="allContainers" />
     </div>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllContainers } from '@/functions/functions'
+import { GetAllContainersMostRecentData } from '@/functions/functions'
 import ContainerList from '@/components/lists/ContainerList.vue'
 
 var retrievedAllContainers = ref(false)
 var allContainers = ref(null)
 
 onMounted(() => {
-  GetAllContainers()
+  GetAllContainersMostRecentData()
   .then(response => {
     allContainers.value = response.data
     retrievedAllContainers.value = true

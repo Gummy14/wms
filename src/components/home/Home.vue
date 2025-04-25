@@ -2,15 +2,12 @@
   <div>
     <v-btn
       @click="openScanner = true"
-      :prepend-icon="mdiQrcodeScan"
+      icon="mdi-qrcode-scan"
+      size="x-large"
     >
-      <template v-slot:prepend>
-        <svg-icon type="mdi" :path="mdiQrcodeScan"></svg-icon>
-      </template>
-      Scanner
     </v-btn>
 
-    <v-btn
+    <!-- <v-btn
       @click="openRegistration = true"
       :prepend-icon="mdiPlus"
     >
@@ -18,16 +15,63 @@
         <svg-icon type="mdi" :path="mdiPlus"></svg-icon>
       </template>
       Register New Warehouse Object
-    </v-btn>
-    
-    <v-select 
-      label="Warehouse Objects"
-      item-title="type"
-      item-value="id"
-      :items="warehouseObjectList"
-      v-model="warehouseObjectListSelection"
-    >
-    </v-select>
+    </v-btn> -->
+
+    <v-layout>
+      <v-navigation-drawer expand-on-hover rail>
+        <v-list>
+          <v-list-item
+            prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
+            subtitle="sandra_a88@gmailcom"
+            title="Sandra Adams"
+          ></v-list-item>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list density="compact" nav>
+          <v-list-item
+            prepend-icon="mdi-plus"
+            title="Register Object"
+            @click="openRegistration = true"
+          ></v-list-item>
+          <v-divider></v-divider>
+          <v-list-item
+            prepend-icon="mdi-cube-outline"
+            title="Item"
+            @click="warehouseObjectListSelection = 0"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-map-marker-outline"
+            title="Locations"
+            @click="warehouseObjectListSelection = 1"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-receipt"
+            title="Orders"
+            @click="warehouseObjectListSelection = 2"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-cart-outline"
+            title="Containers"
+            @click="warehouseObjectListSelection = 3"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-package-variant-closed"
+            title="Boxes"
+            @click="warehouseObjectListSelection = 4"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-view-module"
+            title="Shipments"
+            @click="warehouseObjectListSelection = 5"
+          ></v-list-item>
+          <v-list-item
+            prepend-icon="mdi-truck-outline"
+            title="Trucks"
+            @click="warehouseObjectListSelection = 6"
+          ></v-list-item>
+        </v-list>
+      </v-navigation-drawer>
+    </v-layout>
 
     <div v-if="warehouseObjectListSelection == 0">
       <Items />
@@ -36,10 +80,10 @@
       <Locations />
     </div>
     <div v-else-if="warehouseObjectListSelection == 2">
-      <Containers />
+      <Orders />
     </div>
     <div v-else-if="warehouseObjectListSelection == 3">
-      <Orders />
+      <Containers />
     </div>
     <div v-else-if="warehouseObjectListSelection == 4">
       <Boxes />
@@ -98,7 +142,6 @@ import Boxes from '@/components/home/Boxes.vue'
 import Shipments from '@/components/home/Shipments.vue'
 import Trucks from '@/components/home/Trucks.vue'
 import { ref, computed, compile } from 'vue'
-import { mdiQrcodeScan, mdiPlus } from '@mdi/js'
 import { useStore } from 'vuex'
 import { RemoveContainerFromOrder } from '@/functions/functions'
 

@@ -21,7 +21,7 @@
   
 <script setup>
 import { ref, onMounted } from 'vue'
-import { GetAllItems, GetAllOrders, RegisterOrder } from '@/functions/functions'
+import { GetAllItemsMostRecentData, GetAllOrdersMostRecentData, RegisterOrder } from '@/functions/functions'
 import OrderList from '@/components/lists/OrderList.vue'
 
 var allOrders = ref(null)
@@ -40,13 +40,13 @@ var orderToRegister = ref({
 
 
 function getAllItems() {
-  GetAllItems()
+  GetAllItemsMostRecentData()
   .then(response => {
     allItems.value = response.data
   })
 }
 function getAllOrders() {
-  GetAllOrders()
+  GetAllOrdersMostRecentData()
   .then(response => {
     allOrders.value = response.data
   })

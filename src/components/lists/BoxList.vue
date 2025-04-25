@@ -3,27 +3,10 @@
     <v-expansion-panels variant="accordion">
       <v-expansion-panel v-for="box in boxes">
         <v-expansion-panel-title v-slot="{ expanded }">
-          <v-row no-gutters>
-            <v-col class="d-flex justify-start" cols="8">
-              {{ box.name }}
-            </v-col>
-          </v-row>
+          {{ box.id }}
         </v-expansion-panel-title>
         <v-expansion-panel-text>
-          <v-row>
-            <v-col>Description:</v-col>
-            <v-col>{{ box.description }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Box ID:</v-col>
-            <v-col>{{ box.boxId }}</v-col>
-          </v-row>
-          <v-divider class="border-opacity-25"></v-divider>
-          <v-row>
-            <v-col>Timestamp Of Last Event Type Change:</v-col>
-            <v-col>{{ box.dateTimeStamp }}</v-col>
-          </v-row>
+          <BoxData :boxData="box.boxData"></BoxData>
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
@@ -31,6 +14,8 @@
 </template>
 
 <script setup>
+import BoxData from '@/components/lists/data/BoxData.vue'
+
 const props = defineProps({
   boxes: Array
 })

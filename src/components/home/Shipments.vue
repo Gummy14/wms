@@ -13,14 +13,14 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
-import { GetAllShipments } from '@/functions/functions'
+import { GetAllShipmentsMostRecentData } from '@/functions/functions'
 import ShipmentList from '@/components/lists/ShipmentList.vue'
 
 var retrievedAllShipments = ref(false)
 var allShipments = ref(null)
 
 onMounted(() => {
-  GetAllShipments()
+  GetAllShipmentsMostRecentData()
   .then(response => {
     console.log('test', response.data)
     allShipments.value = response.data

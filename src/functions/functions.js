@@ -3,8 +3,8 @@ import axios from 'axios'
 const baseUrl = 'https://localhost:7187/'
 
 //Item
-export async function GetAllItems() {
-    return await axios.get(baseUrl + 'Item/GetAllItems/')
+export async function GetAllItemsMostRecentData() {
+    return await axios.get(baseUrl + 'Item/GetAllItemsMostRecentData/')
 }
 export async function GetItemById(id) {
     return await axios.get(baseUrl + 'Item/GetItemById/' + id)
@@ -26,8 +26,8 @@ export async function PackItem(itemId, boxId) {
 }
 
 //Location
-export async function GetAllLocations() {
-    return await axios.get(baseUrl + 'Location/GetAllLocations/')
+export async function GetAllLocationsMostRecentData() {
+    return await axios.get(baseUrl + 'Location/GetAllLocationsMostRecentData/')
 }
 export async function GetLocationById(id) {
     return await axios.get(baseUrl + 'Location/GetLocationById/' + id)
@@ -43,8 +43,8 @@ export async function RegisterLocation(locationToRegister) {
 }
 
 //Order
-export async function GetAllOrders() {
-    return await axios.get(baseUrl + 'Order/GetAllOrders/')
+export async function GetAllOrdersMostRecentData() {
+    return await axios.get(baseUrl + 'Order/GetAllOrdersMostRecentData/')
 }
 export async function GetOrderById(id) {
     return await axios.get(baseUrl + 'Order/GetOrderById/' + id)
@@ -57,8 +57,8 @@ export async function RegisterOrder(order) {
 }
 
 //Container
-export async function GetAllContainers() {
-    return await axios.get(baseUrl + 'Container/GetAllContainers/')
+export async function GetAllContainersMostRecentData() {
+    return await axios.get(baseUrl + 'Container/GetAllContainersMostRecentData/')
 }
 export async function GetContainerById(id) {
     return await axios.get(baseUrl + 'Container/GetContainerById/' + id)
@@ -77,8 +77,8 @@ export async function RemoveContainerFromOrder(containerId) {
 }
 
 //Box
-export async function GetAllBoxes() {
-    return await axios.get(baseUrl + 'Box/GetAllBoxes/')
+export async function GetAllBoxesMostRecentData() {
+    return await axios.get(baseUrl + 'Box/GetAllBoxesMostRecentData/')
 }
 export async function GetBoxById(id) {
     return await axios.get(baseUrl + 'Box/GetBoxById/' + id)
@@ -97,8 +97,8 @@ export async function AddBoxToTruck(boxId, truckId) {
 }
 
 //Shipment
-export async function GetAllShipments() {
-    return await axios.get(baseUrl + 'Shipment/GetAllShipments/')
+export async function GetAllShipmentsMostRecentData() {
+    return await axios.get(baseUrl + 'Shipment/GetAllShipmentsMostRecentData/')
 }
 export async function AddTruckToShipment(shipmentId, licensePlate) {
     return await axios.post(baseUrl + 'Shipment/AddTruckToShipment/' + shipmentId + '/' + licensePlate)
