@@ -7,16 +7,6 @@
     >
     </v-btn>
 
-    <!-- <v-btn
-      @click="openRegistration = true"
-      :prepend-icon="mdiPlus"
-    >
-      <template v-slot:prepend>
-        <svg-icon type="mdi" :path="mdiPlus"></svg-icon>
-      </template>
-      Register New Warehouse Object
-    </v-btn> -->
-
     <v-layout>
       <v-navigation-drawer expand-on-hover rail>
         <v-list>
@@ -36,7 +26,7 @@
           <v-divider></v-divider>
           <v-list-item
             prepend-icon="mdi-cube-outline"
-            title="Item"
+            title="Items"
             @click="warehouseObjectListSelection = 0"
           ></v-list-item>
           <v-list-item
@@ -131,8 +121,7 @@
 </template>
 
 <script setup>
-import SvgIcon from '@jamescoyle/vue-icon';
-import ObjectScanner from '@/components/ObjectScanner.vue'
+import ObjectScanner from '@/components/scanning/ObjectScanner.vue'
 import Registration from '../Registration.vue';
 import Items from '@/components/home/Items.vue'
 import Locations from '@/components/home/Locations.vue'
@@ -187,7 +176,7 @@ function completePicking() {
   store.commit('updateActiveOrder', null)
 }
 function returnContainer() {
-  RemoveContainerFromOrder(store.state.activeOrder.containerUsedToPickOrder.filter(x => x.nextEventId == null)[0].containerId)
+  RemoveContainerFromOrder(store.state.activeOrder.orderContainer.filter(x => x.nextEventId == null)[0].containerId)
   .then(() => {
     store.commit('updateActiveOrder', null)
   })

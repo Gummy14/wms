@@ -10,7 +10,7 @@
         <v-text-field label="State" v-model="orderToRegister.address.state"></v-text-field>
         <v-text-field label="Zip" v-model="orderToRegister.address.zip"></v-text-field>
         <v-list>
-          <v-list-item v-for="item in allItems" :key="item.id" :title="item.name"><v-btn @click="addItemToOrder(item)">Add To Order</v-btn></v-list-item>
+          <v-list-item v-for="item in allItems" :key="item.id" :title="item.itemData[0].name"><v-btn @click="addItemToOrder(item.itemData[0])">Add To Order</v-btn></v-list-item>
         </v-list>
         <v-btn @click="registerOrder()">Create New Order</v-btn>
       </v-card>
@@ -52,6 +52,7 @@ function getAllOrders() {
   })
 }
 function registerOrder() {
+  console.log('order', orderToRegister.value)
   RegisterOrder(orderToRegister.value)
   .then(() => {
     allItems.value = null

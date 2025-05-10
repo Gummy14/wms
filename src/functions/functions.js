@@ -15,15 +15,6 @@ export async function GetItemHistory(id) {
 export async function RegisterItem(itemToRegister) {
     return await axios.post(baseUrl + 'Item/RegisterItem/', itemToRegister)
 }
-export async function PutawayItem(itemId, locationId) {
-    return await axios.post(baseUrl + 'Item/PutawayItem/' + itemId + '/' + locationId)
-}
-export async function PickItem(itemId, containerId) {
-    return await axios.post(baseUrl + 'Item/PickItem/' + itemId + '/' + containerId)
-}
-export async function PackItem(itemId, boxId) {
-    return await axios.post(baseUrl + 'Item/PackItem/' + itemId + '/' + boxId)
-}
 
 //Location
 export async function GetAllLocationsMostRecentData() {
@@ -41,6 +32,9 @@ export async function GetLocationHistory(id) {
 export async function RegisterLocation(locationToRegister) {
     return await axios.post(baseUrl + 'Location/RegisterLocation/', locationToRegister)
 }
+export async function PutawayItemIntoLocation(itemId, locationId) {
+    return await axios.post(baseUrl + 'Location/PutawayItemIntoLocation/' + itemId + '/' + locationId)
+}
 
 //Order
 export async function GetAllOrdersMostRecentData() {
@@ -54,6 +48,15 @@ export async function GetNextOrderWaitingForPicking() {
 }
 export async function RegisterOrder(order) {
     return await axios.post(baseUrl + 'Order/RegisterOrder/', order)
+}
+export async function AddContainerToOrder(orderId, containerId) {
+    return await axios.post(baseUrl + 'Order/AddContainerToOrder/' + orderId + '/' + containerId)
+}
+export async function AddBoxToOrder(orderId, boxId) {
+    return await axios.post(baseUrl + 'Order/AddBoxToOrder/' + orderId + '/' + boxId)
+}
+export async function RemoveContainerFromOrder(containerId) {
+    return await axios.post(baseUrl + 'Order/RemoveContainerFromOrder/' + containerId)
 }
 
 //Container
@@ -69,11 +72,8 @@ export async function GetContainerHistory(id) {
 export async function RegisterContainer(containerToRegister) {
     return await axios.post(baseUrl + 'Container/RegisterContainer/', containerToRegister)
 }
-export async function AddContainerToOrder(orderId, containerId) {
-    return await axios.post(baseUrl + 'Container/AddContainerToOrder/' + orderId + '/' + containerId)
-}
-export async function RemoveContainerFromOrder(containerId) {
-    return await axios.post(baseUrl + 'Container/RemoveContainerFromOrder/' + containerId)
+export async function PickItemIntoContainer(itemId, containerId) {
+    return await axios.post(baseUrl + 'Container/PickItemIntoContainer/' + itemId + '/' + containerId)
 }
 
 //Box
@@ -86,8 +86,8 @@ export async function GetBoxById(id) {
 export async function RegisterBox(boxToRegister) {
     return await axios.post(baseUrl + 'Box/RegisterBox/', boxToRegister)
 }
-export async function AddBoxToOrder(orderId, boxId) {
-    return await axios.post(baseUrl + 'Box/AddBoxToOrder/' + orderId + '/' + boxId)
+export async function PackItemIntoBox(itemId, boxId) {
+    return await axios.post(baseUrl + 'Box/PackItemIntoBox/' + itemId + '/' + boxId)
 }
 export async function AddBoxToShipment(boxId) {
     return await axios.post(baseUrl + 'Box/AddBoxToShipment/' + boxId)

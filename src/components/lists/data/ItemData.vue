@@ -17,6 +17,16 @@
       </v-row>
       <v-divider class="border-opacity-25"></v-divider>
       <v-row>
+        <v-col>Item Type:</v-col>
+        <v-col>{{ item.itemType }}</v-col>
+      </v-row>
+      <v-divider class="border-opacity-25"></v-divider>
+      <v-row>
+        <v-col>Event Description:</v-col>
+        <v-col>{{ item.eventDescription }}</v-col>
+      </v-row>
+      <v-divider class="border-opacity-25"></v-divider>
+      <v-row>
         <v-col>Location:</v-col>
         <v-col v-if="isEmpty(item.locationId)">Not Currently In Any Storage Location</v-col>
         <v-col v-else>{{ item.locationName }} ({{ item.locationId }})</v-col>

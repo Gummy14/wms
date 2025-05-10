@@ -31,6 +31,7 @@ async function onDetect(detectedCodes) {
     case 2:
       await GetContainerById(scanDataId)
       .then(response => {
+        console.log('response c', response)
         responseData.value = response.data
       })
       break

@@ -1,16 +1,35 @@
 <template>
   <div>
-    <v-card>
-      <Scanner @codeScanned="(emittedData) => scannedObject = emittedData" />
-    </v-card>
-    <v-card v-if="scannedObject"
-      :text="scannedObject.objectData.description"
-      :title="scannedObject.objectData.name"
+    <Scanner @codeScanned="(emittedData) => scannedObject = emittedData" />
+    <div v-if="scannedObject">
+      <ItemScanMenu 
+        v-if="scannedObject.objectType == 0" 
+        :item="scannedObject.objectData" 
+      />
+
+      <LocationScanMenu
+        v-else-if="scannedObject.objectType == 1"
+        :location="scannedObject.objectData" 
+      />
+
+      <ContainerScanMenu
+        v-else-if="scannedObject.objectType == 2"
+        :container="scannedObject.objectData"
+      />
+
+      <BoxScanMenu 
+        v-else-if="scannedObject.objectType == 4"
+        :box="scannedObject.objectData"
+      />
+    </div>
+    <!-- <v-card v-if="scannedObject"
+      :text="scannedObject.objectData.itemData[0].description"
+      :title="scannedObject.objectData.itemData[0].name"
     >
       <v-if v-if="actionSelected == 0">
         <v-btn 
           v-if="scannedObject.objectType == 0 && 
-          scannedObject.objectData.locationId == null" 
+          scannedObject.objectData.itemData[0].locationId == null" 
           @click="selectForPutaway()"
         >
           Select For Putaway
@@ -18,8 +37,8 @@
 
         <v-btn 
           v-if="scannedObject.objectType == 0 && 
-          scannedObject.objectData.locationId != null &&
-          scannedObject.objectData.orderId != null"
+          scannedObject.objectData.itemData[0].locationId != null &&
+          scannedObject.objectData.itemData[0].orderId != null"
           @click="selectForPick()"
         >
           Select For Picking
@@ -27,62 +46,62 @@
 
         <v-btn 
           v-if="scannedObject.objectType == 0 && 
-          scannedObject.objectData.containerId != null"
+          scannedObject.objectData.itemData[0].containerId != null"
           @click="selectForPack()"
         >
           Select For Packing
         </v-btn>
 
         <v-btn
-          v-if="scannedObject.objectType == 2" 
+          v-if="scannedObject.containerData[0].objectType == 2" 
           @click="selectForPacking()"
         >
           Pack Items In Container
         </v-btn>
 
         <v-btn 
-          v-if="scannedObject.objectType == 2" 
+          v-if="scannedObject.containerData[0].objectType == 2" 
           @click="selectContainerToAddToOrder()"
         >
           Add Container To Order
         </v-btn>
 
         <v-btn 
-          v-if="scannedObject.objectType == 4" 
+          v-if="scannedObject.boxData[0].objectType == 4" 
           @click="selectBoxToAddToShipment()"
         >
           Add To Shipment
         </v-btn>
         <v-btn 
-          v-if="scannedObject.objectType == 4" 
+          v-if="scannedObject.boxData[0].objectType == 4" 
           @click="selectBoxToAddToTruck()"
         >
           Add To Truck
         </v-btn>
 
         <v-btn 
-          v-if="scannedObject.objectType == 0" 
+          v-if="scannedObject.itemData[0].objectType == 0" 
           @click="getHistory(scannedObject.objectData.itemId, scannedObject.objectType)"
         >
           Get Item History
         </v-btn>
 
         <v-btn 
-          v-if="scannedObject.objectType == 1" 
+          v-if="scannedObject.locationData[0].objectType == 1" 
           @click="getHistory(scannedObject.objectData.locationId, scannedObject.objectType)"
         >
           Get Location History
         </v-btn>
 
         <v-btn 
-          v-if="scannedObject.objectType == 2"
+          v-if="scannedObject.containerData[0].objectType == 2"
           @click="getHistory(scannedObject.objectData.containerId, scannedObject.objectType)"
         >
           Get Container History
         </v-btn>
 
         <v-btn 
-          v-if="scannedObject.objectType == 4" 
+          v-if="scannedObject.boxData[0].objectType == 4" 
           @click="getHistory(scannedObject.objectData.boxId, scannedObject.objectType)"
         >
           Get Box History
@@ -99,7 +118,7 @@
         </div>
       </v-else>
       <v-else v-if="actionSelected == 2">
-        Pick Item Into Container: {{ store.state.activeOrder.containerUsedToPickOrder.filter(x => x.nextEventId == null)[0].containerId }}
+        Pick Item Into Container: {{ store.state.activeOrder.orderContainer.filter(x => x.nextEventId == null)[0].containerId }}
         <v-btn @click="pickItemIntoContainer()">Confirm Pick</v-btn>
       </v-else>
       <v-else v-if="actionSelected == 3">
@@ -134,7 +153,7 @@
         {{ scannedObject.objectData.boxId }}
         <v-btn @click="addToTruck()">Add Box To Truck</v-btn>
       </v-else>
-    </v-card>
+    </v-card> -->
   </div>
 </template>
 
@@ -145,15 +164,16 @@ import {
   GetItemHistory,
   GetLocationHistory,
   GetContainerHistory,
-  PutawayItem, 
-  PickItem,
-  PackItem,
   AddBoxToOrder,
   AddContainerToOrder,
   AddBoxToShipment,
   AddBoxToTruck
 } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
+import ItemScanMenu from '@/components/scanning/menus/ItemScanMenu.vue'
+import LocationScanMenu from '@/components/scanning/menus/LocationScanMenu.vue'
+import ContainerScanMenu from '@/components/scanning/menus/ContainerScanMenu.vue'
+import BoxScanMenu from '@/components/scanning/menus/BoxScanMenu.vue'
 import { useStore } from 'vuex'
 
 const store = useStore()
@@ -227,20 +247,20 @@ function putItemInLocation() {
     resetAll()
   })
 }
-function pickItemIntoContainer() {
-  PickItem(scannedObject.value.objectData.itemId, store.state.activeOrder.containerUsedToPickOrder.filter(x => x.nextEventId == null)[0].containerId)
-  .then(response => {
-    resetAll()
-    store.commit('updateActiveOrder', response.data)
-  })
-}
-function packItemIntoBox() {
-  PackItem(scannedObject.value.objectData.itemId, store.state.activeOrder.boxUsedToPackOrder.filter(x => x.nextEventId == null)[0].boxId)
-  .then(response => {
-    resetAll()
-    store.commit('updateActiveOrder', response.data)
-  })
-}
+// function pickItemIntoContainer() {
+//   PickItem(scannedObject.value.objectData.itemId, store.state.activeOrder.orderContainer.filter(x => x.nextEventId == null)[0].containerId)
+//   .then(response => {
+//     resetAll()
+//     store.commit('updateActiveOrder', response.data)
+//   })
+// }
+// function packItemIntoBox() {
+//   PackItem(scannedObject.value.objectData.itemId, store.state.activeOrder.boxUsedToPackOrder.filter(x => x.nextEventId == null)[0].boxId)
+//   .then(response => {
+//     resetAll()
+//     store.commit('updateActiveOrder', response.data)
+//   })
+// }
 function addBoxToOrder() {
   AddBoxToOrder(scannedObject.value.objectData.orderId, scannedBoxToPackInto.value.objectData.boxId)
   .then(response => {
