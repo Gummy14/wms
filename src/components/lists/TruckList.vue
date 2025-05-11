@@ -43,13 +43,13 @@
 </template>
 
 <script setup>
-import { TruckDeparted } from '@/functions/functions'
+import { SetTruckDepartedAsync } from '@/functions/functions'
 const props = defineProps({
   trucks: Array
 })
 
 function truckDeparture(truckId) {
-  TruckDeparted(truckId)
+  SetTruckDepartedAsync(truckId)
   .then(() => {
     console.log('Success')
   })

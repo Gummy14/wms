@@ -36,7 +36,7 @@ import ItemData from '@/components/lists/data/ItemData.vue'
 import OrderData from '@/components/lists/data/OrderData.vue'
 import ContainerData from '@/components/lists/data/ContainerData.vue'
 import BoxData from '@/components/lists/data/BoxData.vue'
-import OrderScanMenu from '../scanning/menus/OrderScanMenu.vue'
+import OrderScanMenu from '../scanning/menus/order/OrderScanMenu.vue'
 
 var openScanner = ref(false)
 var orderToAddContainerTo = ref(false)

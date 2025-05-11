@@ -89,16 +89,13 @@ export async function RegisterBox(boxToRegister) {
 export async function PackItemIntoBox(itemId, boxId) {
     return await axios.post(baseUrl + 'Box/PackItemIntoBox/' + itemId + '/' + boxId)
 }
-export async function AddBoxToShipment(boxId) {
-    return await axios.post(baseUrl + 'Box/AddBoxToShipment/' + boxId)
-}
-export async function AddBoxToTruck(boxId, truckId) {
-    return await axios.post(baseUrl + 'Box/AddBoxToTruck/' + boxId + '/' + truckId)
-}
 
 //Shipment
 export async function GetAllShipmentsMostRecentData() {
     return await axios.get(baseUrl + 'Shipment/GetAllShipmentsMostRecentData/')
+}
+export async function AddBoxToShipment(boxId) {
+    return await axios.post(baseUrl + 'Shipment/AddBoxToShipment/' + boxId)
 }
 export async function AddTruckToShipment(shipmentId, licensePlate) {
     return await axios.post(baseUrl + 'Shipment/AddTruckToShipment/' + shipmentId + '/' + licensePlate)
@@ -108,8 +105,11 @@ export async function AddTruckToShipment(shipmentId, licensePlate) {
 export async function GetAllTrucks() {
     return await axios.get(baseUrl + 'Truck/GetAllTrucks/')
 }
-export async function TruckDeparted(truckId) {
-    return await axios.post(baseUrl + 'Truck/TruckDeparted/' + truckId)
+export async function SetTruckDepartedAsync(truckId) {
+    return await axios.post(baseUrl + 'Truck/SetTruckDepartedAsync/' + truckId)
+}
+export async function AddBoxToTruck(boxId, truckId) {
+    return await axios.post(baseUrl + 'Truck/AddBoxToTruck/' + boxId + '/' + truckId)
 }
 
 
