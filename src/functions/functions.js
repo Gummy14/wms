@@ -9,8 +9,8 @@ export async function GetAllItemsMostRecentData() {
 export async function GetItemById(id) {
     return await axios.get(baseUrl + 'Item/GetItemById/' + id)
 }
-export async function GetItemHistory(id) {
-    return await axios.get(baseUrl + 'Item/GetItemHistory/' + id)
+export async function GetItemHistoryById(id) {
+    return await axios.get(baseUrl + 'Item/GetItemHistoryById/' + id)
 }
 export async function RegisterItem(itemToRegister) {
     return await axios.post(baseUrl + 'Item/RegisterItem/', itemToRegister)
@@ -23,11 +23,11 @@ export async function GetAllLocationsMostRecentData() {
 export async function GetLocationById(id) {
     return await axios.get(baseUrl + 'Location/GetLocationById/' + id)
 }
+export async function GetLocationHistoryById(id) {
+    return await axios.get(baseUrl + 'Location/GetLocationHistoryById/' + id)
+}
 export async function GetPutawayLocation() {
     return await axios.get(baseUrl + 'Location/GetPutawayLocation')
-}
-export async function GetLocationHistory(id) {
-    return await axios.get(baseUrl + 'Location/GetLocationHistory/' + id)
 }
 export async function RegisterLocation(locationToRegister) {
     return await axios.post(baseUrl + 'Location/RegisterLocation/', locationToRegister)
@@ -42,6 +42,9 @@ export async function GetAllOrdersMostRecentData() {
 }
 export async function GetOrderById(id) {
     return await axios.get(baseUrl + 'Order/GetOrderById/' + id)
+}
+export async function GetOrderHistoryById(id) {
+    return await axios.get(baseUrl + 'Order/GetOrderHistoryById/' + id)
 }
 export async function GetNextOrderWaitingForPicking() {
     return await axios.get(baseUrl + 'Order/GetNextOrderWaitingForPicking/' + status)
@@ -66,8 +69,8 @@ export async function GetAllContainersMostRecentData() {
 export async function GetContainerById(id) {
     return await axios.get(baseUrl + 'Container/GetContainerById/' + id)
 }
-export async function GetContainerHistory(id) {
-    return await axios.get(baseUrl + 'Container/GetContainerHistory/' + id)
+export async function GetContainerHistoryById(id) {
+    return await axios.get(baseUrl + 'Container/GetContainerHistoryById/' + id)
 }
 export async function RegisterContainer(containerToRegister) {
     return await axios.post(baseUrl + 'Container/RegisterContainer/', containerToRegister)
@@ -82,6 +85,9 @@ export async function GetAllBoxesMostRecentData() {
 }
 export async function GetBoxById(id) {
     return await axios.get(baseUrl + 'Box/GetBoxById/' + id)
+}
+export async function GetBoxHistoryById(id) {
+    return await axios.get(baseUrl + 'Box/GetBoxHistoryById/' + id)
 }
 export async function RegisterBox(boxToRegister) {
     return await axios.post(baseUrl + 'Box/RegisterBox/', boxToRegister)
