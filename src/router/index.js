@@ -1,9 +1,10 @@
+import { createRouter, createWebHistory } from 'vue-router'
 import Items from '@/components/home/Items.vue'
 import Containers from '@/components/home/Locations.vue'
 import Orders from '@/components/home/Orders.vue'
 import Home from '@/components/home/Home.vue'
 import ObjectScanner from '@/components/scanning/ObjectScanner.vue'
-import { createRouter, createWebHistory } from 'vue-router'
+import Login from '@/components/login/Login.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,8 +16,8 @@ const router = createRouter({
     // },
     {
       path: '/',
-      name: 'home',
-      component: Home
+      name: 'login',
+      component: Login
     },
     {
       path: '/items',
