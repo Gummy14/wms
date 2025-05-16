@@ -34,6 +34,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword
 } from 'firebase/auth'
+import router from '@/router';
 
 var username = ref(null)
 var password = ref(null)
@@ -45,12 +46,12 @@ function register() {
   .then(response => {
     console.log('res', response)
     store.commit('updateUser', response.user)
+    router.replace('/home')
   })
   .catch((error) => {
     console.log('error code', error.code);
     console.log('error message', error.message);
   });
-  // router.replace('/home')
 }
 
 function login() {
@@ -58,6 +59,7 @@ function login() {
   .then(response => {
     console.log('res', response)
     store.commit('updateUser', response.user)
+    router.replace('/home')
   })
   .catch((error) => {
     console.log('error code', error.code);

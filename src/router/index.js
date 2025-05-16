@@ -1,9 +1,6 @@
+import { firebaseAuth } from '@/firebase'
 import { createRouter, createWebHistory } from 'vue-router'
-import Items from '@/components/home/Items.vue'
-import Containers from '@/components/home/Locations.vue'
-import Orders from '@/components/home/Orders.vue'
 import Home from '@/components/home/Home.vue'
-import ObjectScanner from '@/components/scanning/ObjectScanner.vue'
 import Login from '@/components/login/Login.vue'
 
 const router = createRouter({
@@ -20,31 +17,23 @@ const router = createRouter({
       component: Login
     },
     {
-      path: '/items',
-      name: 'items',
-      component: Items
-    },
-    {
-      path: '/containers',
-      name: 'containers',
-      component: Containers
-    },
-    {
-      path: '/orders',
-      name: 'orders',
-      component: Orders
-    },
-    {
       path: '/home',
       name: 'home',
-      component: Home
-    },
-    {
-      path: '/objectscanner',
-      name: 'objectscanner',
-      component: ObjectScanner
+      component: Home,
+      meta: { 
+        requiresAuth: true 
+      }
     }
   ]
 })
+
+router.beforeEach((to, from) => {
+  const currentUser = firebaseAuth.currentUser
+  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
+  if (requiresAuth && !currentUser) {
+    return '/'
+  }
+})
+
 
 export default router
