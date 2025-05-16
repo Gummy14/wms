@@ -5,7 +5,8 @@ const store = createStore({
   state () {
     return {
       activeOrder: null,
-      activeShipment: null
+      activeShipment: null,
+      user: null
     }
   },
   mutations: {
@@ -14,6 +15,9 @@ const store = createStore({
     },
     updateActiveShipment (state, value) {
       state.activeShipment = value
+    },
+    updateUser (state, value) {
+      state.user = value
     }
   }
 })

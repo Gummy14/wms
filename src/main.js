@@ -15,16 +15,16 @@ import router from './router'
 import store from './stores/store.js'
 
 const vuetify = createVuetify({
-    components,
-    directives,
-    icons: {
-      defaultSet: 'mdi'
-      // aliases,
-      // sets: {
-      //   mdi
-      // }
-    }
-  })  
+  components,
+  directives,
+  icons: {
+    defaultSet: 'mdi'
+    // aliases,
+    // sets: {
+    //   mdi
+    // }
+  }
+})
 
 const app = createApp(App)
 
@@ -34,4 +34,3 @@ app.use(router)
 app.use(vuetify)
 
 app.mount('#app')
-
