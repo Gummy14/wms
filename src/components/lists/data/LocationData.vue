@@ -2,8 +2,23 @@
   <div>
     <v-content v-for="location in locationData">
       <v-row>
-        <v-col>Name:</v-col>
-        <v-col>{{ location.name }}</v-col>
+        <v-col>Zone:</v-col>
+        <v-col>{{ location.zone }}</v-col>
+      </v-row>
+      <v-divider class="border-opacity-25"></v-divider>
+      <v-row>
+        <v-col>Shelf:</v-col>
+        <v-col>{{ location.zone }}</v-col>
+      </v-row>
+      <v-divider class="border-opacity-25"></v-divider>
+      <v-row>
+        <v-col>Row:</v-col>
+        <v-col>{{ location.zone }}</v-col>
+      </v-row>
+      <v-divider class="border-opacity-25"></v-divider>
+      <v-row>
+        <v-col>Column:</v-col>
+        <v-col>{{ location.zone }}</v-col>
       </v-row>
       <v-divider class="border-opacity-25"></v-divider>
       <v-row>
