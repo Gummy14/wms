@@ -7,7 +7,7 @@
 <script setup>
 import { ref } from 'vue'
 import { QrcodeStream } from 'vue-qrcode-reader'
-import { GetItemById, GetLocationById, GetContainerById, GetBoxById } from '@/functions/functions'
+import { GetItemById, GetLocationById, GetBoxById } from '@/functions/functions'
 const emit = defineEmits(['codeScanned'])
 
 async function onDetect(detectedCodes) {
@@ -25,13 +25,6 @@ async function onDetect(detectedCodes) {
     case 1:
       await GetLocationById(scanDataId)
       .then(response => {
-        responseData.value = response.data
-      })
-      break
-    case 2:
-      await GetContainerById(scanDataId)
-      .then(response => {
-        console.log('response c', response)
         responseData.value = response.data
       })
       break

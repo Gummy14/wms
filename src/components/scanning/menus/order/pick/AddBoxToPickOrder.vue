@@ -1,10 +1,10 @@
 <template>
   <div>
-    Scan Box To Pack Items In:
-    <Scanner @codeScanned="(emittedData) => scannedBoxToPackInto = emittedData" />
-    <div v-if="scannedBoxToPackInto">
-      Box Scanned
-      <v-btn @click="addBoxToOrder()">Confirm Pack Items With Box</v-btn>
+    Scan Box To Add To Order
+    <Scanner @codeScanned="(emittedData) => scannedBox = emittedData" />
+    <div v-if="scannedBox">
+      Box Scanned {{ scannedBox.objectData.id }}
+      <v-btn @click="addBoxToOrder()">Add Box To Order</v-btn>
     </div>
   </div>
 </template>
@@ -15,15 +15,15 @@ import { useStore } from 'vuex'
 import { AddBoxToOrder } from '@/functions/functions'
 import Scanner from '@/components/scanning/Scanner.vue'
 
-var scannedBoxToPackInto = ref(null)
+var scannedBox = ref(null)
 
 const store = useStore()
 const props = defineProps({
-  container: Object
+  order: Object
 })
 
 function addBoxToOrder() {
-  AddBoxToOrder(props.container.containerData[0].orderId, scannedBoxToPackInto.value.objectData.id)
+  AddBoxToOrder(props.order.id, scannedBox.value.objectData.id)
   .then(response => {
     store.commit('updateActiveOrder', response.data)
   })

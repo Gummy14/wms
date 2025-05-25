@@ -35,10 +35,10 @@
 
 <script setup>
 import { ref } from 'vue'
-import { RegisterItem, RegisterLocation, RegisterContainer, RegisterBox } from '@/functions/functions'
+import { RegisterItem, RegisterLocation, RegisterBox } from '@/functions/functions'
 
 var warehouseObjectTypeSelection = ref(null)
-var warehouseObjectTypeList = ref([{id: 0, type: 'Item'}, {id: 1, type: 'Location'}, {id: 2, type: 'Container'}, {id: 4, type: 'Box'}])
+var warehouseObjectTypeList = ref([{id: 0, type: 'Item'}, {id: 1, type: 'Location'}, {id: 4, type: 'Box'}])
 var objectToRegister = ref({
   id: null,
   objectType: 0,
@@ -75,12 +75,6 @@ function printQrCode() {
       break
     case 1:
       RegisterLocation(locationToRegister.value)
-      .then(() => {
-        console.log('Registered')
-      })
-      break
-    case 2:
-      RegisterContainer(objectToRegister.value)
       .then(() => {
         console.log('Registered')
       })

@@ -4,7 +4,7 @@
       :title="order.orderData[0].name"
       :text="order.orderData[0].description"
     >
-      <AddContainerToPickOrder
+      <AddBoxToPickOrder
         v-if="actionSelected = 1"
         :order="order"
       />
@@ -14,7 +14,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import AddContainerToPickOrder from './pick/AddContainerToPickOrder.vue'
+import AddBoxToPickOrder from './pick/AddBoxToPickOrder.vue'
 
 var actionSelected = ref(1)
 

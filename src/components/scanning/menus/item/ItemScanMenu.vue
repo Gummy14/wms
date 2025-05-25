@@ -11,14 +11,9 @@
           Select For Putaway
         </v-btn>
         <v-btn
-          @click="actionSelected = 2"
-        >
-          Select For Picking
-        </v-btn>
-        <v-btn
           @click="actionSelected = 3"
         >
-          Select For Packing
+          Select For Picking
         </v-btn>
         <v-btn
           @click="actionSelected = 4"
@@ -33,12 +28,7 @@
         :locationToPutaway="putawayLocation" 
       />
 
-      <PickItemIntoContainer 
-        v-if="actionSelected == 2"
-        :item="item"
-      />
-
-      <PackItemIntoBox 
+      <PickItemIntoBox 
         v-if="actionSelected == 3"
         :item="item"
       />
@@ -55,8 +45,7 @@
 import { ref } from 'vue'
 import { GetPutawayLocation } from '@/functions/functions'
 import PutawayItemIntoLocation from './putaway/PutawayItemIntoLocation.vue'
-import PickItemIntoContainer from './pick/PickItemIntoContainer.vue'
-import PackItemIntoBox from './pack/PackItemIntoBox.vue'
+import PickItemIntoBox from './pick/PickItemIntoBox.vue'
 import ItemHistory from './history/ItemHistory.vue'
 
 var actionSelected = ref(0)

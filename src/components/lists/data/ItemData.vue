@@ -33,12 +33,6 @@
       </v-row>
       <v-divider class="border-opacity-25"></v-divider>
       <v-row>
-        <v-col>Container:</v-col>
-        <v-col v-if="isEmpty(item.containerId)">Not Currently In Any Container</v-col>
-        <v-col v-else>{{ item.containerName }} ({{ item.containerId }})</v-col>
-      </v-row>
-      <v-divider class="border-opacity-25"></v-divider>
-      <v-row>
         <v-col>Order:</v-col>
         <v-col v-if="isEmpty(item.orderId)">Not Currently Part of Any Order</v-col>
         <v-col v-else>{{ item.orderName }} ({{ item.orderId }})</v-col>

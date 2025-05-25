@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card
-      :title="location.locationData[0].name"
+      :title="locationName(location.locationData[0])"
       :text="location.locationData[0].description"
     >
       <div v-if="actionSelected == 0">
@@ -29,6 +29,10 @@ var actionSelected = ref(0)
 const props = defineProps({
   location: Object
 })
+
+function locationName(location) {
+  return 'Z' + location.zone.toString() + "-S" + location.shelf.toString() + "-R" + location.row.toString() + "-C" + location.column.toString()
+}
 </script>
 
 <style scoped>

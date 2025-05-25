@@ -12,11 +12,6 @@
         :location="scannedObject.objectData" 
       />
 
-      <ContainerScanMenu
-        v-else-if="scannedObject.objectType == 2"
-        :container="scannedObject.objectData"
-      />
-
       <BoxScanMenu 
         v-else-if="scannedObject.objectType == 4"
         :box="scannedObject.objectData"
@@ -30,7 +25,6 @@ import { ref } from 'vue'
 import Scanner from '@/components/scanning/Scanner.vue'
 import ItemScanMenu from '@/components/scanning/menus/item/ItemScanMenu.vue'
 import LocationScanMenu from '@/components/scanning/menus/location/LocationScanMenu.vue'
-import ContainerScanMenu from '@/components/scanning/menus/container/ContainerScanMenu.vue'
 import BoxScanMenu from '@/components/scanning/menus/box/BoxScanMenu.vue'
 
 const props = defineProps({

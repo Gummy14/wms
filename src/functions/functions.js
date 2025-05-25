@@ -58,31 +58,8 @@ export async function GetNextOrderWaitingForPicking() {
 export async function RegisterOrder(order) {
     return await instance.post(url + 'Order/RegisterOrder/', order)
 }
-export async function AddContainerToOrder(orderId, containerId) {
-    return await instance.post(url + 'Order/AddContainerToOrder/' + orderId + '/' + containerId)
-}
 export async function AddBoxToOrder(orderId, boxId) {
     return await instance.post(url + 'Order/AddBoxToOrder/' + orderId + '/' + boxId)
-}
-export async function RemoveContainerFromOrder(containerId) {
-    return await instance.post(url + 'Order/RemoveContainerFromOrder/' + containerId)
-}
-
-//Container
-export async function GetAllContainersMostRecentData() {
-    return await instance.get(url + 'Container/GetAllContainersMostRecentData/')
-}
-export async function GetContainerById(id) {
-    return await instance.get(url + 'Container/GetContainerById/' + id)
-}
-export async function GetContainerHistoryById(id) {
-    return await instance.get(url + 'Container/GetContainerHistoryById/' + id)
-}
-export async function RegisterContainer(containerToRegister) {
-    return await instance.post(url + 'Container/RegisterContainer/', containerToRegister)
-}
-export async function PickItemIntoContainer(itemId, containerId) {
-    return await instance.post(url + 'Container/PickItemIntoContainer/' + itemId + '/' + containerId)
 }
 
 //Box
@@ -98,8 +75,8 @@ export async function GetBoxHistoryById(id) {
 export async function RegisterBox(boxToRegister) {
     return await instance.post(url + 'Box/RegisterBox/', boxToRegister)
 }
-export async function PackItemIntoBox(itemId, boxId) {
-    return await instance.post(url + 'Box/PackItemIntoBox/' + itemId + '/' + boxId)
+export async function PickItemIntoBox(itemId, boxId) {
+    return await instance.post(url + 'Box/PickItemIntoBox/' + itemId + '/' + boxId)
 }
 
 //Shipment

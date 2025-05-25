@@ -40,11 +40,6 @@
             @click="warehouseObjectListSelection = 2"
           ></v-list-item>
           <v-list-item
-            prepend-icon="mdi-cart-outline"
-            title="Containers"
-            @click="warehouseObjectListSelection = 3"
-          ></v-list-item>
-          <v-list-item
             prepend-icon="mdi-package-variant-closed"
             title="Boxes"
             @click="warehouseObjectListSelection = 4"
@@ -71,9 +66,6 @@
     </div>
     <div v-else-if="warehouseObjectListSelection == 2">
       <Orders />
-    </div>
-    <div v-else-if="warehouseObjectListSelection == 3">
-      <Containers />
     </div>
     <div v-else-if="warehouseObjectListSelection == 4">
       <Boxes />
@@ -104,18 +96,9 @@
       color="success"
       icon="$success"
       :title="orderName"
-      text="All Items in Order Picked, Move to Packing"
+      text="All Items in Order Picked, Move to Verification"
     >
     <v-btn @click="completePicking()">Complete Picking</v-btn>
-    </v-alert>
-    <v-alert
-      v-model="isPackingComplete"
-      color="success"
-      icon="$success"
-      :title="orderName"
-      text="All Items in Order Packed. Seal Box and Return Container"
-    >
-    <v-btn @click="returnContainer()">Confirm Box Sealed and Return Container</v-btn>
     </v-alert>
   </div>
 </template>
@@ -125,14 +108,12 @@ import ObjectScanner from '@/components/scanning/ObjectScanner.vue'
 import Registration from '../Registration.vue';
 import Items from '@/components/home/Items.vue'
 import Locations from '@/components/home/Locations.vue'
-import Containers from '@/components/home/Containers.vue'
 import Orders from '@/components/home/Orders.vue'
 import Boxes from '@/components/home/Boxes.vue'
 import Shipments from '@/components/home/Shipments.vue'
 import Trucks from '@/components/home/Trucks.vue'
 import { ref, computed, compile } from 'vue'
 import { useStore } from 'vuex'
-import { RemoveContainerFromOrder } from '@/functions/functions'
 
 
 const store = useStore()
@@ -141,7 +122,6 @@ var warehouseObjectListSelection = ref(null)
 var warehouseObjectList = ref([
 {id: 0, type: 'Items'}, 
 {id: 1, type: 'Locations'}, 
-{id: 2, type: 'Containers'}, 
 {id: 3, type: 'Orders'},
 {id: 4, type: 'Boxes'},
 {id: 5, type: 'Shipments'},
@@ -152,20 +132,13 @@ var openRegistration = ref(false)
 
 const isPickingComplete = computed(() => {
   if(store.state.activeOrder != null) {
-    var itemStatuses = store.state.activeOrder.orderItems.filter(x => x.nextEventId == null && x.containerId == null)
-    return itemStatuses.length > 0 ? false : true
-  } else {
-    return false
-  }
-})
-const isPackingComplete = computed(() => {
-  if(store.state.activeOrder != null) {
     var itemStatuses = store.state.activeOrder.orderItems.filter(x => x.nextEventId == null && x.boxId == null)
     return itemStatuses.length > 0 ? false : true
   } else {
     return false
   }
 })
+
 const orderName = computed(() => {
   if(store.state.activeOrder != null) {
     return "Order #" + store.state.activeOrder.orderDataHistory.filter(x => x.nextEventId == null)[0].name
@@ -174,12 +147,6 @@ const orderName = computed(() => {
 
 function completePicking() {
   store.commit('updateActiveOrder', null)
-}
-function returnContainer() {
-  RemoveContainerFromOrder(store.state.activeOrder.orderContainer.filter(x => x.nextEventId == null)[0].containerId)
-  .then(() => {
-    store.commit('updateActiveOrder', null)
-  })
 }
 
 </script>
