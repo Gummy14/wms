@@ -1,6 +1,6 @@
 <template>
   <div>
-    Putaway In Location: {{ locationToPutaway.name}}
+    Putaway In Location: {{ locationToPutaway.locationData[0].description }}
     Scan Correct Location To Putaway Into:
     <Scanner @codeScanned="(emittedData) => scannedPutawayLocation = emittedData" />
     <div v-if="scannedPutawayLocation">
