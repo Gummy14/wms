@@ -44,7 +44,6 @@ const store = useStore()
 function register() {
   createUserWithEmailAndPassword(firebaseAuth, username.value, password.value)
   .then(response => {
-    console.log('res', response)
     store.commit('updateUser', response.user)
     router.replace('/home')
   })
@@ -57,7 +56,6 @@ function register() {
 function login() {
   signInWithEmailAndPassword(firebaseAuth, username.value, password.value)
   .then(response => {
-    console.log('res', response)
     store.commit('updateUser', response.user)
     router.replace('/home')
   })

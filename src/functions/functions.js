@@ -86,9 +86,6 @@ export async function GetAllShipmentsMostRecentData() {
 export async function AddBoxToShipment(boxId) {
     return await instance.post(url + 'Shipment/AddBoxToShipment/' + boxId)
 }
-export async function AddTruckToShipment(shipmentId, licensePlate) {
-    return await instance.post(url + 'Shipment/AddTruckToShipment/' + shipmentId + '/' + licensePlate)
-}
 
 //Truck
 export async function GetAllTrucks() {
@@ -97,8 +94,8 @@ export async function GetAllTrucks() {
 export async function SetTruckDepartedAsync(truckId) {
     return await instance.post(url + 'Truck/SetTruckDepartedAsync/' + truckId)
 }
-export async function AddBoxToTruck(boxId, truckId) {
-    return await instance.post(url + 'Truck/AddBoxToTruck/' + boxId + '/' + truckId)
+export async function AddShipmentToTruck(shipmentId, truckId) {
+    return await instance.post(url + 'Truck/AddShipmentToTruck/' + shipmentId + '/' + truckId)
 }
 
 

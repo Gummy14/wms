@@ -13,11 +13,6 @@
         <v-btn
           @click="actionSelected = 2"
         >
-          Add Box To Truck
-        </v-btn>
-        <v-btn
-          @click="actionSelected = 3"
-        >
           Get Box History
         </v-btn>
       </div>
@@ -27,13 +22,8 @@
         :box="box"
       />
 
-      <AddBoxToTruck
-        v-if="actionSelected == 2"
-        :box="box"
-      />
-
       <BoxHistory
-        v-if="actionSelected == 3"
+        v-if="actionSelected == 2"
         :box="box"
       />
     </v-card>
@@ -43,7 +33,6 @@
 <script setup>
 import { ref } from 'vue'
 import AddBoxToShipment from './shipment/AddBoxToShipment.vue'
-import AddBoxToTruck from './truck/AddBoxToTruck.vue'
 import BoxHistory from './history/BoxHistory.vue'
 
 var actionSelected = ref(0)
