@@ -1,9 +1,12 @@
 <template>
   <div>
-    <div v-if="!storeUpdatedFlag">
+    <div v-if="statusFlag == 0">
       <v-progress-circular indeterminate></v-progress-circular>
     </div>
-    <div v-else>
+    <div v-if="statusFlag == 1">
+      <v-alert type="error">Not All Items Picked</v-alert>
+    </div>
+    <div v-else-if="statusFlag == 2">
       {{ box.id }}
       Expected Box Weight: {{ parentOrder.orderItems.reduce((sum, item) => sum + item.weightInKilograms, 0) }}
       <v-text-field label="Measure Box Weight" v-model="measuredBoxWeight"></v-text-field>
@@ -23,7 +26,7 @@ const store = useStore()
 
 var measuredBoxWeight = ref(0.0)
 var isWeightVerified = ref(false)
-var storeUpdatedFlag = ref(false)
+var statusFlag = ref(0)
 var hasVerifiedWeightBefore = ref(false)
 var parentOrder = ref(null)
 
@@ -56,7 +59,7 @@ onMounted(() => {
   GetOrderById(props.box.boxData.find(x => x.nextEventId == null).orderId)
   .then(response => {
     parentOrder.value = response.data
-    storeUpdatedFlag.value = true
+    parentOrder.value.orderItems.length == props.box.boxItems.length ? statusFlag.value = 2 : statusFlag.value = 1
   })
 })
 </script>
