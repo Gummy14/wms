@@ -31,6 +31,9 @@
           </v-row>
           <v-row v-else>
             <v-col cols="12">
+              <v-btn @click="openAddShipmentDialog(truck.id)">
+                Add Shipments To Truck
+              </v-btn>
               <v-btn @click="truckDeparture(truck.id)">
                 Truck Has Departed
               </v-btn>
@@ -39,15 +42,53 @@
         </v-expansion-panel-text>
       </v-expansion-panel>
     </v-expansion-panels>
+    <v-dialog v-model="allShipments">
+      <v-card>
+        <v-select
+          v-model="selectedShipment"
+          :items="allShipments"
+          item-title="shipmentData[0].name"
+          item-value="id"
+          attach
+          chips
+        >
+        </v-select>
+        <v-btn @click="addShipmentToTruck()">Add Shipments To Truck</v-btn>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script setup>
-import { SetTruckDepartedAsync } from '@/functions/functions'
+import { ref } from 'vue'
+import { 
+  SetTruckDepartedAsync, 
+  GetAllShipmentsMostRecentData,
+  AddShipmentToTruck
+} from '@/functions/functions'
+
+var allShipments = ref(false)
+var selectedShipment = ref(null)
+var activeTruckId = ref(null)
+
 const props = defineProps({
   trucks: Array
 })
 
+function openAddShipmentDialog(truck) {
+  GetAllShipmentsMostRecentData()
+  .then(response => {
+    allShipments.value = response.data
+    activeTruckId.value = truck
+  })
+}
+function addShipmentToTruck() {
+  AddShipmentToTruck(selectedShipment.value, activeTruckId.value)
+  .then(() => {
+    console.log('Shipment Added')
+    activeTruck.value = null
+  })
+}
 function truckDeparture(truckId) {
   SetTruckDepartedAsync(truckId)
   .then(() => {
