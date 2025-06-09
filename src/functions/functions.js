@@ -91,11 +91,14 @@ export async function AddBoxToShipment(boxId) {
 export async function GetAllTrucks() {
     return await instance.get(url + 'Truck/GetAllTrucks/')
 }
-export async function SetTruckDepartedAsync(truckId) {
-    return await instance.post(url + 'Truck/SetTruckDepartedAsync/' + truckId)
+export async function RegisterTruck(licensePlate) {
+    return await instance.post(url + 'Truck/RegisterTruck/' + licensePlate)
 }
 export async function AddShipmentToTruck(shipmentId, truckId) {
     return await instance.post(url + 'Truck/AddShipmentToTruck/' + shipmentId + '/' + truckId)
+}
+export async function SetTruckDepartedAsync(truckId) {
+    return await instance.post(url + 'Truck/SetTruckDepartedAsync/' + truckId)
 }
 
 

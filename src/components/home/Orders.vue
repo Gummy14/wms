@@ -52,7 +52,6 @@ function getAllOrders() {
   })
 }
 function registerOrder() {
-  console.log('order', orderToRegister.value)
   RegisterOrder(orderToRegister.value)
   .then(() => {
     allItems.value = null
