@@ -17,8 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          submodules: true
-          lfs: false
+          submodules: false
       - name: Cleanup Git config
         run: git config --remove-section "http.https://github.com/.extraheader" || true
       - name: Build And Deploy
