@@ -1,6 +1,7 @@
 import axios from 'axios'
 
-const url = 'https://localhost:7187/'
+const url = 'https://wmsapi20250609204615.azurewebsites.net/'
+// const url = 'https://localhost:7187/'
 const instance = axios.create({
     baseUrl: url,
     headers: {
